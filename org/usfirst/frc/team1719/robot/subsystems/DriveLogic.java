@@ -17,6 +17,7 @@ public class DriveLogic implements IDrive {
     private IEncoder rEncoder;
     private Accelerometer accelerometer;
     private IGyro3D gyro;
+    private double maxSpd = 1.0D;
     
     public DriveLogic(SpeedController l, SpeedController r, ISolenoid shift, IEncoder lEnc,
             IEncoder rEnc, Accelerometer acc, IGyro3D gyr) {
@@ -31,50 +32,65 @@ public class DriveLogic implements IDrive {
     
     @Override
     public void moveArcade(double spd, double dir) {
-        // TODO Auto-generated method stub
-        
+        spd = clip(spd);
+        dir = clip(dir);
+        /* Copied from edu.wpi.first.wpilib.RobotDrive */
+        if (spd > 0.0) {
+            if (dir > 0.0) {
+                left.set(spd - dir);
+                right.set(Math.max(spd,dir));
+            } else {
+                left.set(Math.max(spd, -dir));
+                right.set(spd + dir);
+            }
+        } else {
+            if (dir > 0.0) {
+                left.set(-Math.max(-spd, dir));
+                right.set(spd + dir);
+            } else {
+                left.set(spd - dir);
+                right.set(-Math.max(-spd, -dir));
+            }
+        }
     }
     
     @Override
     public void moveTank(double l, double r) {
-        // TODO Auto-generated method stub
-        
+        left.set(clip(l));
+        right.set(clip(r));
     }
     
     @Override
     public void shift(boolean fast) {
-        // TODO Auto-generated method stub
-        
+        shifter.set(fast);
     }
     
     @Override
     public void setMaxSpeed(double spd) {
-        // TODO Auto-generated method stub
-        
+        maxSpd = spd;
     }
     
     @Override
     public IEncoder getEncoderL() {
-        // TODO Auto-generated method stub
-        return null;
+        return lEncoder;
     }
     
     @Override
     public IEncoder getEncoderR() {
-        // TODO Auto-generated method stub
-        return null;
+        return rEncoder;
     }
     
     @Override
     public Accelerometer getAccelerometer() {
-        // TODO Auto-generated method stub
-        return null;
+        return accelerometer;
     }
     
     @Override
     public IGyro3D getGyro() {
-        // TODO Auto-generated method stub
-        return null;
+        return gyro;
     }
     
+    private double clip(double d) {
+        return Math.min(maxSpd, Math.max(-maxSpd, d));
+    }
 }
