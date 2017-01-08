@@ -1,14 +1,16 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.sensors.NAVX;
+import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
+import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
-import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +26,8 @@ public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
+	
+	DriveSubsys drive;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -35,6 +39,9 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
+		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive,
+		        RobotMap.shifter, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc,
+		        RobotMap.navx, RobotMap.navx);
 	}
 
 	/**
