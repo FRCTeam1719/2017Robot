@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot.interfaces;
 
 import org.usfirst.frc.team1719.robot.sensors.IEncoder;
+import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
 
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
@@ -12,4 +13,5 @@ public interface IDrive {
     public IEncoder getEncoderL();
     public IEncoder getEncoderR();
     public Accelerometer getAccelerometer();
+    public IGyro3D getGyro();
 }
