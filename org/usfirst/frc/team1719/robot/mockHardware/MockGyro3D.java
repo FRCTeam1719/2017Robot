@@ -50,18 +50,18 @@ public class MockGyro3D implements IGyro3D {
 		this.yawRate = newYawRate;
 	}
 	@Override
-	public double getRoll() {
-		return roll;
+	public float getRoll() {
+		return (float) roll;
 	}
 
 	@Override
-	public double getPitch() {
-		return pitch;
+	public float getPitch() {
+		return (float) pitch;
 	}
 
 	@Override
-	public double getYaw() {
-		return yaw;
+	public float getYaw() {
+		return (float) yaw;
 	}
 
 	@Override
