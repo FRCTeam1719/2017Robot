@@ -1,0 +1,15 @@
+package org.usfirst.frc.team1719.robot.interfaces;
+
+import org.usfirst.frc.team1719.robot.sensors.IEncoder;
+
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+
+public interface IDrive {
+    public void moveArcade(double spd, double dir);
+    public void moveTank(double l, double r);
+    public void shift(boolean fast);
+    public void setMaxSpeed(double spd);
+    public IEncoder getEncoderL();
+    public IEncoder getEncoderR();
+    public Accelerometer getAccelerometer();
+}
