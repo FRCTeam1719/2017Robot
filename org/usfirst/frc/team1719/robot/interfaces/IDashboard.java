@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1719.robot.interfaces;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public interface IDashboard {
 	public void putNumber(String key, double num);
 	public double getNumber(String key);

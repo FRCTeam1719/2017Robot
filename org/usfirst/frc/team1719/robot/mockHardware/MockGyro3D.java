@@ -4,11 +4,11 @@ import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
 
 public class MockGyro3D implements IGyro3D {
 	
-	double roll = 0;
+	float roll = 0;
 	double rollRate = 0;
-	double pitch = 0;
+	float pitch = 0;
 	double pitchRate = 0;
-	double yaw = 0;
+	float yaw = 0;
 	double yawRate = 0;
 	
 	@Override
@@ -26,7 +26,7 @@ public class MockGyro3D implements IGyro3D {
 		yaw = 0;
 	}
 
-	public void setRoll(double newRoll) {
+	public void setRoll(float newRoll) {
 		this.roll = newRoll;
 	}
 	
@@ -34,7 +34,7 @@ public class MockGyro3D implements IGyro3D {
 		this.rollRate = newRollRate;
 	}
 	
-	public void setPitch(double newPitch) {
+	public void setPitch(float newPitch) {
 		this.pitch = newPitch;
 	}
 	
@@ -42,7 +42,7 @@ public class MockGyro3D implements IGyro3D {
 		this.pitchRate = newPitchRate;
 	}
 	
-	public void setYaw(double newYaw) {
+	public void setYaw(float newYaw) {
 		this.yaw = newYaw;
 	}
 	
@@ -51,17 +51,17 @@ public class MockGyro3D implements IGyro3D {
 	}
 	@Override
 	public float getRoll() {
-		return (float) roll;
+		return roll;
 	}
 
 	@Override
 	public float getPitch() {
-		return (float) pitch;
+		return pitch;
 	}
 
 	@Override
 	public float getYaw() {
-		return (float) yaw;
+		return yaw;
 	}
 
 	@Override
