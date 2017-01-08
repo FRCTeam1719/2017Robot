@@ -34,6 +34,7 @@ public class LogicalDriveTest {
 		drive = new DriveLogic(leftMotor, rightMotor, shifter, leftEnc, rightEnc, accel, gyro);		
 	}
 	
+	@Test
 	public void testInit() {
 		setup();
 		
@@ -55,9 +56,9 @@ public class LogicalDriveTest {
 	public void testSetMaxSpeed() {
 		setup();
 		
-		for (double ms = -1.1; ms <= 1.1; ms += 1.0) {
+		for (double ms = -1.1; ms <= 1.1; ms += 0.1) {
 			drive.setMaxSpeed(ms);
-			for (double s = -1.1; s <= 1.1; s += 1.0) {
+			for (double s = -1.1; s <= 1.1; s += 0.1) {
 				drive.moveTank(s, s);
 				assertTrue(rightMotor.get() <= ms);
 				assertTrue(leftMotor.get() <= ms);
