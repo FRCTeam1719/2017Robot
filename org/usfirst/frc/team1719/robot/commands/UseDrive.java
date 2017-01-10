@@ -42,7 +42,6 @@ public class UseDrive extends Command {
     protected void execute() {
     	
         double left = oi.getLeftY(), right = oi.getRightY();
-        System.out.println("Left: " + left + "Right: " + right);
         drive.moveTank(left, right);
         if(shifted != oi.getShifter()) {
             drive.shift(shifted = !shifted);
