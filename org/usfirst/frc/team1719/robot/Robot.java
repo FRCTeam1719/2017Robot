@@ -1,7 +1,9 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
-import org.usfirst.frc.team1719.robot.sensors.NAVX;
+import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
+import org.usfirst.frc.team1719.robot.interfaces.IOI;
+import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 
@@ -19,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends IterativeRobot implements IRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
@@ -41,7 +43,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive,
 		        RobotMap.shifter, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc,
-		        RobotMap.navx, RobotMap.navx);
+		        RobotMap.navx, RobotMap.navx, this);
 	}
 
 	/**
@@ -118,5 +120,19 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	
+	public IRobot getInstance() {
+		return (IRobot) this;
+	}
+
+	@Override
+	public IOI getOI() {
+		return oi;
+	}
+
+	@Override
+	public IDashboard getDashboard() {
+		return null;
 	}
 }

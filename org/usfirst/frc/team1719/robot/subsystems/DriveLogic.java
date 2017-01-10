@@ -56,6 +56,7 @@ public class DriveLogic implements IDrive {
     
     @Override
     public void moveTank(double l, double r) {
+    	System.out.println("Left: " + l + "Right: " + r);
         left.set(clip(l));
         right.set(clip(r));
     }

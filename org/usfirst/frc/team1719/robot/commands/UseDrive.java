@@ -40,7 +40,9 @@ public class UseDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
         double left = oi.getLeftY(), right = oi.getRightY();
+        System.out.println("Left: " + left + "Right: " + right);
         drive.moveTank(left, right);
         if(shifted != oi.getShifter()) {
             drive.shift(shifted = !shifted);

@@ -1,7 +1,9 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
 import org.usfirst.frc.team1719.robot.actuators.ISolenoid;
+import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
+import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
 
@@ -12,10 +14,14 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 public class DriveSubsys extends Subsystem implements IDrive {
     
     private DriveLogic drive;
+    private IRobot robot;
     
+
     public DriveSubsys(SpeedController l, SpeedController r, ISolenoid shifter,
-            IEncoder lEnc, IEncoder rEnc, Accelerometer acc, IGyro3D gyr) {
+            IEncoder lEnc, IEncoder rEnc, Accelerometer acc, IGyro3D gyr, IRobot robot) {
         drive = new DriveLogic(l, r, shifter, lEnc, rEnc, acc, gyr);
+        this.robot = robot;
+     
     }
 
     @Override
@@ -60,7 +66,6 @@ public class DriveSubsys extends Subsystem implements IDrive {
 
     @Override
     protected void initDefaultCommand() {
-        // TODO Auto-generated method stub
-        
+        setDefaultCommand(new UseDrive(this, robot));
     }
 }

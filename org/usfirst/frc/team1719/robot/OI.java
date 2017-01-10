@@ -19,6 +19,8 @@ public class OI implements IOI{
 
     @Override
     public double getLeftY() {
+    	System.out.println("OI left: " + driver.getRawAxis(1));
+
         return driver.getRawAxis(1);
     }
 
@@ -29,6 +31,8 @@ public class OI implements IOI{
 
     @Override
     public double getRightY() {
+    	System.out.println("OI right: " + driver.getRawAxis(5));
+
         return driver.getRawAxis(5);
     }
     

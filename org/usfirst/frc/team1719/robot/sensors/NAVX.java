@@ -9,6 +9,7 @@ public class NAVX extends AHRS implements IGyro3D, Accelerometer {
     
     public NAVX(I2C.Port port) {
         super(port);
+        
     }
     
     @Override
