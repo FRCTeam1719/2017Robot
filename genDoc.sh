@@ -3,7 +3,7 @@
 if [ "$TRAVIS_REPO_SLUG" == "FRCTeam1719/2017Robot" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
   echo -e "Building doc... \n"
   mkdir javadoc
-  javadoc -d javadoc org.usfirst.frc.team1719.robot
+  javadoc -d javadoc -sourcepath ./ -subpackages org.usfirst.frc.team1719.robot
   cp -R javadoc $HOME/javadoc-latest
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
