@@ -2,8 +2,21 @@
 
 if [ "$TRAVIS_REPO_SLUG" == "frcteam1719/2017robot" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
   echo -e "Building doc... \n"
+  mkdir javadoc
   javadoc -d javadoc org.usfirst.frc.team1719.robot
+  cp -R javadoc $HOME/javadoc
+  cd $HOME
+  git config --global user.email "travis@travis-ci.org"
+  git config --global user.name "travis-ci"
+  git clone --quit --branch=gh-pages https://${GH_TOKEN}@github.com/frcteam1719/2017Robot gh-pages > /dev/null
+  cd gh-pages
+  git rm -rf ./javadoc
+  cp -Rf $HOME/javadoc ./javadoc
+  git add -f .
+  git commit -m "Latest javadoc on build $TRAVIS_BUILD_NUMBER"
+  git push -fq origin gh-pages > /dev/null
 
+  echo -e "Published to gh-pages \n"
 
   
 fi
