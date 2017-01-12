@@ -11,7 +11,7 @@ if [ "$TRAVIS_REPO_SLUG" == "FRCTeam1719/2017Robot" ] && [ "$TRAVIS_JDK_VERSION"
   git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/frcteam1719/2017Robot gh-pages > /dev/null
   cd gh-pages
   git rm -rf ./javadoc
-  cp -Rf $HOME/javadoc-latest ./javadoc
+  cp -Rf $HOME/javadoc-latest .
   git add -f .
   git commit -m "Latest javadoc on build $TRAVIS_BUILD_NUMBER"
   git push -fq origin gh-pages > /dev/null
