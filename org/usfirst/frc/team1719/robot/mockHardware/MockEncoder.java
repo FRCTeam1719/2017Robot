@@ -2,13 +2,27 @@ package org.usfirst.frc.team1719.robot.mockHardware;
 
 import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 
+/**
+ * Mock encoder sensor
+ * Distance per pulse is 1, distance per revolution is also 1
+ * @author Kyle Coblentz
+ *
+ */
 public class MockEncoder implements IEncoder {
 	
 	double rate = 0;
 	double dist = 0;
 	
 	double distancePerPulse = 1;
+	double distPerRev = 1;
 	boolean direction = true;
+	
+	@Override
+	public void config(double distPerRev){
+		this.distPerRev = distPerRev;
+	}
+	
+	
 	@Override
 	public void reset() {
 		dist = 0;
