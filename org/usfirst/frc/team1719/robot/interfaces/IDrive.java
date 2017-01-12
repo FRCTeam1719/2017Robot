@@ -5,6 +5,11 @@ import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
 
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
+/**
+ * Interface around drive for mockability
+ * @author aaron
+ *
+ */
 public interface IDrive {
     public void moveArcade(double spd, double dir);
     public void moveTank(double l, double r);

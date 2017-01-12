@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
+ * Default command used for controlling the drive
+ * @author aaron
  *
  */
 public class UseDrive extends Command {
@@ -15,9 +17,12 @@ public class UseDrive extends Command {
     private final IRobot robot;
     private final IOI oi;
     private final IDrive drive;
-    private boolean isTest;
     private boolean shifted = false;
     
+    /**
+     * @param _drive Drive interface to control
+     * @param _robot Robot to grab external data from
+     */
     public UseDrive(IDrive _drive, IRobot _robot) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -26,10 +31,8 @@ public class UseDrive extends Command {
         oi = robot.getOI();
         try {
             requires((Subsystem) drive);
-            isTest = false;
         } catch(ClassCastException e) {
             System.out.println("Running unit test on UseDrive command");
-            isTest = true;
         }
         drive.shift(shifted);
     }

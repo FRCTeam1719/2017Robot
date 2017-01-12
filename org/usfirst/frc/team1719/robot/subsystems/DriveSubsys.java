@@ -11,6 +11,11 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
+/**
+ * Wrapper around DriveLogic
+ * @author aaron
+ *
+ */
 public class DriveSubsys extends Subsystem implements IDrive {
     
     private DriveLogic drive;

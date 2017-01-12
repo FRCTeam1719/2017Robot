@@ -8,6 +8,11 @@ import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
+/**
+ * Drive Subsystem class
+ * @author aaron
+ *
+ */
 public class DriveLogic implements IDrive {
     
     private SpeedController left;
@@ -19,6 +24,34 @@ public class DriveLogic implements IDrive {
     private IGyro3D gyro;
     private double maxSpd = 1.0D;
     
+    /**
+     * 
+     * @param l Left Speed Controller
+     * @param r Right Speed Controller
+     * @param shift Solenoid to control shifter
+     * @param lEnc Left encoder
+     * @param rEnc Right encoder
+     * @param acc Accelerometer 
+     * @param gyr Gyroscope
+     * @param wheelSize Circumference of wheel (ft) to config encoders
+     */
+    public DriveLogic(SpeedController l, SpeedController r, ISolenoid shift, IEncoder lEnc,
+            IEncoder rEnc, Accelerometer acc, IGyro3D gyr, double wheelSize) {
+    	this(l,r,shift,lEnc,rEnc,acc,gyr);
+    	lEnc.config(wheelSize);
+    	rEnc.config(wheelSize);
+    }
+
+    /**
+     * 
+     * @param l Left Speed Controller
+     * @param r Right Speed Controller
+     * @param shift Solenoid to control shifter
+     * @param lEnc Left encoder
+     * @param rEnc Right encoder
+     * @param acc Accelerometer 
+     * @param gyr Gyroscope
+     */
     public DriveLogic(SpeedController l, SpeedController r, ISolenoid shift, IEncoder lEnc,
             IEncoder rEnc, Accelerometer acc, IGyro3D gyr) {
         left = l;
@@ -30,41 +63,59 @@ public class DriveLogic implements IDrive {
         gyro = gyr;
     }
     
+    
+    /**
+     *Implements an arcade drive
+     *Typical setup is one joystick for speed, another for direction
+     *@param speed speed to drive, from -1 - 1
+     *@param direction angle to drive in
+     */
     @Override
-    public void moveArcade(double spd, double dir) {
-        spd = clip(spd);
-        dir = clip(dir);
+    public void moveArcade(double speed, double direction) {
+        speed = clip(speed);
+        direction = clip(direction);
         /* Copied from edu.wpi.first.wpilib.RobotDrive */
-        if (spd > 0.0) {
-            if (dir > 0.0) {
-                left.set(spd - dir);
-                right.set(Math.max(spd,dir));
+        if (speed > 0.0) {
+            if (direction > 0.0) {
+                left.set(speed - direction);
+                right.set(Math.max(speed,direction));
             } else {
-                left.set(Math.max(spd, -dir));
-                right.set(spd + dir);
+                left.set(Math.max(speed, -direction));
+                right.set(speed + direction);
             }
         } else {
-            if (dir > 0.0) {
-                left.set(-Math.max(-spd, dir));
-                right.set(spd + dir);
+            if (direction > 0.0) {
+                left.set(-Math.max(-speed, direction));
+                right.set(speed + direction);
             } else {
-                left.set(spd - dir);
-                right.set(-Math.max(-spd, -dir));
+                left.set(speed - direction);
+                right.set(-Math.max(-speed, -direction));
             }
         }
     }
-    
+   
+    /**
+     * Implements a tank drive, speed is capped by {@link #setMaxSpeed(double)}
+     * @param left power on  a -1 - 1 scale  
+     * @param right power on a -1 - 1 scale
+     */
     @Override
-    public void moveTank(double l, double r) {
-        left.set(clip(l));
-        right.set(clip(r));
+    public void moveTank(double left, double right) {
+        this.left.set(clip(left));
+        this.right.set(clip(right));
     }
     
+    /**
+     * Engages or disengages the shifter
+     */
     @Override
     public void shift(boolean fast) {
         shifter.set(fast);
     }
     
+    /**
+     * Set the max speed to clip the tank drive to
+     */
     @Override
     public void setMaxSpeed(double spd) {
         maxSpd = spd;
