@@ -18,5 +18,4 @@ if [ "$TRAVIS_REPO_SLUG" == "FRCTeam1719/2017Robot" ] && [ "$TRAVIS_JDK_VERSION"
 
   echo -e "Published to gh-pages \n"
 
-  
 fi
