@@ -1,5 +1,5 @@
 <project name="travisbuild" default="testbuild" basedir=".">
-  <target name="travisbuild">
+  <target name="testbuild">
     <mkdir dir="../build"/>
     <classpath>
        <fileset dir="../libpackage">
