@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot implements IRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static O oi;
+	public static OI oi;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
