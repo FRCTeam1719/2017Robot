@@ -147,7 +147,7 @@ public class DriveLogic implements IDrive {
 
 	@Override
 	public void disable() {
-		// TODO Auto-generated method stub
+		shifter.set(false);
 		
 	}
 }
