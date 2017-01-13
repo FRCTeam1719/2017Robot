@@ -1,0 +1,11 @@
+<project name="travisbuild" default="testbuild" basedir=".">
+  <target name="travisbuild">
+    <mkdir dir="../build"/>
+    <classpath>
+       <fileset dir="../libpackage">
+          <include name="**/*.jar"/>
+       </fileset>
+    </classpath>
+    <javac srcdir="." destdir="../build"/>
+  </target>
+</project>
