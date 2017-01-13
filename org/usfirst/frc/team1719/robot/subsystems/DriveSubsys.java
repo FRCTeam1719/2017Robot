@@ -73,4 +73,9 @@ public class DriveSubsys extends Subsystem implements IDrive {
     protected void initDefaultCommand() {
         setDefaultCommand(new UseDrive(this, robot));
     }
+
+	@Override
+	public void disable() {
+		drive.disable();
+	}
 }

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -28,9 +29,8 @@ public class Robot extends IterativeRobot implements IRobot {
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
-	
 	DriveSubsys drive;
-
+	GenericSubsystem[] subsystems = {drive};
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -53,7 +53,11 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+	for(int i = 0; i<subsystems.length;i++) {
+			subsystems[i].disable();
+		
+		}
+	
 	}
 
 	@Override

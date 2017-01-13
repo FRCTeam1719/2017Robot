@@ -144,4 +144,10 @@ public class DriveLogic implements IDrive {
     private double clip(double d) {
         return Math.min(maxSpd, Math.max(-maxSpd, d));
     }
+
+	@Override
+	public void disable() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
  * @author aaron
  *
  */
-public interface IDrive {
+public interface IDrive extends GenericSubsystem{
     public void moveArcade(double spd, double dir);
     public void moveTank(double l, double r);
     public void shift(boolean fast);
