@@ -7,6 +7,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -30,7 +31,11 @@ public class Robot extends IterativeRobot implements IRobot {
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	DriveSubsys drive;
+	PhysicalExShooter shooter;
 	GenericSubsystem[] subsystems = {drive};
+	
+	
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -44,6 +49,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive,
 		        RobotMap.shifter, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc,
 		        RobotMap.navx, RobotMap.navx, this);
+		shooter = new PhysicalExShooter(RobotMap.exMotorController);
+		oi.init(this);
 	}
 
 	/**
