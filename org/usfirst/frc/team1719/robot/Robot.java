@@ -30,7 +30,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	DriveSubsys drive;
-	GenericSubsystem[] subsystems = {drive};
+	GenericSubsystem[] subsystems = { drive };
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -41,9 +42,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
-		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive,
-		        RobotMap.shifter, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc,
-		        RobotMap.navx, RobotMap.navx, this);
+		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
+				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
 	}
 
 	/**
@@ -53,12 +53,15 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void disabledInit() {
-	for(int i = 0; i<subsystems.length;i++) {
-			subsystems[i].disable();
-		
+		for (int i = 0; i < subsystems.length; i++) {
+			if (subsystems[i] != null){
+				subsystems[i].disable();
+			}
 		}
-	
+
 	}
+
+	
 
 	@Override
 	public void disabledPeriodic() {
@@ -125,7 +128,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-	
+
 	public IRobot getInstance() {
 		return (IRobot) this;
 	}
