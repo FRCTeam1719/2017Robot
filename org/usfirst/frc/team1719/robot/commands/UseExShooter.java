@@ -10,6 +10,7 @@ public class UseExShooter extends InstantCommand {
 
 	private final IExShooter exshooter;
 	private final IOI oi;
+	private final double DEADZONE_TOLERANCE = 0.05;
 	
 	
 	public UseExShooter(IExShooter exshooter, IRobot robot){
@@ -18,11 +19,15 @@ public class UseExShooter extends InstantCommand {
 	}
 	
 	
-	
-	
 	@Override
 	public void execute(){
-		exshooter.setSpeed(Math.abs(oi.getDeviceX()) * oi.getDeviceX()); 
+		double joystickvalue = Math.abs(oi.getDeviceX()) * oi.getDeviceX(); 
+		
+		if (Math.abs(joystickvalue) < DEADZONE_TOLERANCE){
+			joystickvalue = 0;
+		}
+		
+		exshooter.setSpeed(joystickvalue);
 	}
 
 }
