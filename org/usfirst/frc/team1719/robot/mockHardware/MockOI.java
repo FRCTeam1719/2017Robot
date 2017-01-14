@@ -56,4 +56,10 @@ public class MockOI implements IOI {
 		this.rightY = newRightY;
 	}
 
+	@Override
+	public double getDeviceX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
