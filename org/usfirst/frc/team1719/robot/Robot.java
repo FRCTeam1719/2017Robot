@@ -32,10 +32,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	DriveSubsys drive;
 	PhysicalExShooter shooter;
-	GenericSubsystem[] subsystems = {drive};
-	
-	
-	
+	GenericSubsystem[] subsystems = { drive };
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -47,9 +44,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
-		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive,
-		        RobotMap.shifter, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc,
-		        RobotMap.navx, RobotMap.navx, this);
+		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
+				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController);
 		oi.init(this);
 
@@ -63,14 +59,12 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void disabledInit() {
 		for (int i = 0; i < subsystems.length; i++) {
-			if (subsystems[i] != null){
+			if (subsystems[i] != null) {
 				subsystems[i].disable();
 			}
 		}
 
 	}
-
-	
 
 	@Override
 	public void disabledPeriodic() {
@@ -118,7 +112,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null){
+		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
 	}
