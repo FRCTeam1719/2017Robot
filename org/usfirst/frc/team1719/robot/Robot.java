@@ -36,6 +36,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	
 	
 	
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -51,6 +52,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		        RobotMap.navx, RobotMap.navx, this);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController);
 		oi.init(this);
+
 	}
 
 	/**
@@ -60,12 +62,15 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void disabledInit() {
-	for(int i = 0; i<subsystems.length;i++) {
-			subsystems[i].disable();
-		
+		for (int i = 0; i < subsystems.length; i++) {
+			if (subsystems[i] != null){
+				subsystems[i].disable();
+			}
 		}
-	
+
 	}
+
+	
 
 	@Override
 	public void disabledPeriodic() {
@@ -133,7 +138,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-	
+
 	public IRobot getInstance() {
 		return (IRobot) this;
 	}
