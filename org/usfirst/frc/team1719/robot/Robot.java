@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	PhysicalExShooter shooter;
 	GenericSubsystem[] subsystems = { drive };
 	Display display = new Display();
+	int iter = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -71,7 +72,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+		if((iter++) % 0x10 == 0) {
+		    display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+		}
 	}
 
 	/**
@@ -107,6 +110,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		if((iter++) % 0x10 == 0) {
+            display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+        }
 	}
 
 	@Override
@@ -126,6 +132,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		if((iter++) % 0x10 == 0) {
+            display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+        }
 	}
 
 	/**
