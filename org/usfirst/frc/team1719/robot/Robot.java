@@ -59,6 +59,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		System.out.println("NavX yaw: " + RobotMap.navx.getYaw());
+		System.out.println("Navx pitch: " + RobotMap.navx.getPitch());
+		System.out.println("Navx roll: " + RobotMap.navx.getRoll());
 	}
 
 	/**

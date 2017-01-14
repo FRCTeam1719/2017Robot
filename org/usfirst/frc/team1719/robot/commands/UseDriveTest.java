@@ -52,6 +52,7 @@ public class UseDriveTest {
 		drive = new DriveLogic(leftMotor, rightMotor, shifter, leftEnc, rightEnc, accel, gyro);
 		
 		command = new UseDrive( (IDrive) drive, (IRobot) mockRobot);
+		command.initialize();
 		System.out.println("Instantiated command");
 		
 	}
@@ -69,23 +70,41 @@ public class UseDriveTest {
 	@Test
 	public void testExecute() {
 		setup();
+		
+		dashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 1);
+		dashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 1);
+		dashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 1);
+		dashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 1);
+		dashboard.putNumber(UseDrive.RIGHT_DRIVE_KI, 1);
+		dashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 1);
 		assertTrue(leftMotor.get()==0);
 		assertTrue(rightMotor.get()==0);
-		//Test left joystick
-		for(double i = -1.1; i < 1.2; i += 0.1){
+		//i values become left joystick input
+		//j values become right joystick input
+		for(double i = -1.1; i <= 1.1; i += 0.1){
 			oi.setleftY(i);
-			for (double j = -1.1; j < 1.2; j+= 0.1) {
+			for (double j = -1.1; j <= 1.1; j+= 0.1) {
 				oi.setRightY(j);
+				command.execute();
 				if (i < 0) {
-					
+					assertTrue(leftMotor.get() < 0);
+				}
+				else if (i > 0) {
+					assertTrue(leftMotor.get() > 0);
+				}
+				else {
+					assertTrue(leftMotor.get() == 0);
+				}
+				if (j < 0) {
+					assertTrue(rightMotor.get() < 0);
+				}
+				else if (j > 0) {
+					assertTrue(rightMotor.get() > 0);
+				}
+				else {
+					assertTrue(rightMotor.get() == 0);
 				}
 			}
-		}
-		//Test right joystick
-		for(double i = -1.1; i< 1.2; i += 0.1){
-			oi.setRightY(i);
-			command.execute();
-		
 		}
 		//Test shifting
 		assertFalse(shifter.get());
