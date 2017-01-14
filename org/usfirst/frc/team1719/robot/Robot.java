@@ -8,6 +8,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -31,6 +32,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	DriveSubsys drive;
 	GenericSubsystem[] subsystems = { drive };
+	Display display = new Display();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -66,6 +68,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 	}
 
 	/**
