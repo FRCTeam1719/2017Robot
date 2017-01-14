@@ -3,6 +3,13 @@ import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
+/**
+ * 
+ * @author jess
+ * A simple class for managing the experimental shooter
+ * Manages a single SpeedController
+ */
+
 public class LogicalExShooter implements IExShooter {
 
 	private SpeedController shooterMotor;
