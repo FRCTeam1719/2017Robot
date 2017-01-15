@@ -31,13 +31,13 @@ public class PhysicalPixyMount extends Subsystem implements IPixyMount{
 	}
 
 	@Override
-	public double getAngleX() {
-		return logic.getAngleX();
+	public double getX() {
+		return logic.getX();
 	}
 
 	@Override
-	public double getAngleY() {
-		return logic.getAngleY();
+	public double getY() {
+		return logic.getY();
 	}
 
 	@Override

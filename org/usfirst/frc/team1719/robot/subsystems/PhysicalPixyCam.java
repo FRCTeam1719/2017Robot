@@ -20,7 +20,7 @@ public class PhysicalPixyCam extends Subsystem implements IPixyCam{
 	}
 
 	@Override
-	public String getX() {
+	public int getX() {
 		return logic.getX();
 	}
 

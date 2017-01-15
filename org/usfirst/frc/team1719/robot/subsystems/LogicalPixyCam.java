@@ -16,8 +16,8 @@ public class LogicalPixyCam implements IPixyCam{
 	}
 
 	@Override
-	public String getX() {
-		return comm.readString(4);
+	public int getX() {
+		return 0; // !!! need integer comm.readString(4);
 	}
 	
 	

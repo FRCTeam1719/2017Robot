@@ -20,7 +20,7 @@ public class MonitorPort extends InstantCommand{
 	
 	@Override
 	public void execute(){
-		dash.putString("CurrentReading", cam.getX());
+		dash.putString("CurrentReading", ""+cam.getX());
 	}
 	
 

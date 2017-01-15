@@ -2,21 +2,9 @@ package org.usfirst.frc.team1719.robot.sensors;
 
 import edu.wpi.first.wpilibj.SerialPort;
 
-public class MXPUART implements UART{
-
-	private SerialPort port;
+public class MXPUART extends SerialPort implements UART{
 	
 	public MXPUART(){
-		port = new SerialPort(9600, SerialPort.Port.kMXP);
+		super(9600, Port.kMXP);
 	}
-
-	@Override
-	public String readString(int count) {
-		return port.readString(count);
-		
-	}
-	
-	
-	
-	
 }
