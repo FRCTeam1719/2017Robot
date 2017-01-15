@@ -9,11 +9,12 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class UseDrive extends Command {
+public class UseDrive extends Command implements PIDOutput {
     
 	public static final String LEFT_DRIVE_KP = "Left Drive kP: ";
 	public static final String LEFT_DRIVE_KI = "Left Drive kI: ";
@@ -29,18 +30,19 @@ public class UseDrive extends Command {
     private final IDrive drive;
     private boolean isTest;
     private boolean shifted = false;
-    private double MAX_ENCODER_RATE = 5;
+    private double MAX_DRIVE_SPEED = 5;
     
-    double left_kP = 0;
-    double left_kI = 0;
-    double left_kD = 0;
+    private double kP = 0;
+    private double kI = 0;
+    private double kD = 0;
+    private double kF = 0;
     
-    double right_kP = 0;
-    double right_kI = 0;
-    double right_kD = 0;
+    PIDController velocityController;
     
     double leftMotorOutput = 0;
     double rightMotorOutput = 0;
+    
+    final double DEADZONE_TOLERANCE = 0.1;
     
     private class leftDrivePIDOut implements PIDOutput {
 
@@ -73,51 +75,46 @@ public class UseDrive extends Command {
             System.out.println("Running unit test on UseDrive command");
             isTest = true;
         }
+        velocityController = new PIDController(kP, kI, kD, drive.getNavX(), this);
         drive.shift(shifted);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	drive.getEncoderL().setPIDSourceType(PIDSourceType.kRate);
-    	drive.getEncoderR().setPIDSourceType(PIDSourceType.kRate);
-    	
-    	leftController = new PIDController(left_kP, left_kI, left_kD, drive.getEncoderL(), new leftDrivePIDOut());
-    	rightController = new PIDController(right_kP, right_kI, right_kD, drive.getEncoderR(), new rightDrivePIDOutput());
-    	
-    	leftController.setOutputRange(-1, 1);
-    	rightController.setOutputRange(-1, 1);
-    	
-    	leftController.setInputRange(-(MAX_ENCODER_RATE ), MAX_ENCODER_RATE);
-    	rightController.setInputRange(-(MAX_ENCODER_RATE), MAX_ENCODER_RATE);
-    	
-    	leftController.setContinuous(false);
-    	rightController.setContinuous(false);
-    	
-    	leftController.setToleranceBuffer(20);
-    	rightController.setToleranceBuffer(20);
-    	
-    	leftController.setPercentTolerance(5);
-    	rightController.setAbsoluteTolerance(5);
+    	drive.getNavX().setPIDSourceType(PIDSourceType.kRate);
     	
     	
-    	leftController.enable();
-    	rightController.enable();
+    	velocityController.setOutputRange(-.5, .5);
+    	
+    	velocityController.setToleranceBuffer(5);
+    	
+    	velocityController.enable();
+    	velocityController.setSetpoint(0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-        double leftJoystick = oi.getLeftY(), rightJoystick = oi.getRightY();
-        double desiredleftRate = leftJoystick * MAX_ENCODER_RATE;
-        double desiredRightRate = rightJoystick * MAX_ENCODER_RATE;
+    	setPIDConstantsFromDashboard();
+    	double leftJoystick = oi.getLeftY(), rightJoystick = oi.getRightY();
+    	//System.out.println("Left: " + leftJoystick);
+        if (Math.abs(leftJoystick) < DEADZONE_TOLERANCE) {
+        	leftJoystick = 0;
+        	drive.moveTank(0, 0);
+        	velocityController.setSetpoint(0);
+        	
+        	velocityController.reset();
+        }
+        else {
+        	velocityController.enable();
+        	velocityController.setSetpoint(leftJoystick);
         
-        leftController.setSetpoint(desiredleftRate);
-        rightController.setSetpoint(desiredRightRate);
-        
-        drive.moveTank(leftMotorOutput, rightMotorOutput);
+        	drive.moveTank(leftMotorOutput, rightMotorOutput);
+        }
         
         if(shifted != oi.getShifter()) {
             drive.shift(shifted = !shifted);
+            System.out.println("Shifting");
         }
     }
 
@@ -128,14 +125,27 @@ public class UseDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	drive.moveTank(0, 0);
+    	velocityController.setSetpoint(0);
+    	velocityController.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	drive.moveTank(0, 0);
+    	velocityController.setSetpoint(0);
+    	velocityController.disable();
     }
     
     public void setPIDConstantsFromDashboard() {
-    	
+    	velocityController.setPID(SmartDashboard.getNumber(LEFT_DRIVE_KP, 0), SmartDashboard.getNumber(LEFT_DRIVE_KI, 0), SmartDashboard.getNumber(LEFT_DRIVE_KD, 0));
+
     }
+
+	@Override
+	public void pidWrite(double output) {
+		rightMotorOutput = output;
+		leftMotorOutput = output;
+	}
 }

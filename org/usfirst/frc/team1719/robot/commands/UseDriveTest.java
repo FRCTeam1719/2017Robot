@@ -10,6 +10,7 @@ import org.usfirst.frc.team1719.robot.mockHardware.MockAccelerometer;
 import org.usfirst.frc.team1719.robot.mockHardware.MockDashboard;
 import org.usfirst.frc.team1719.robot.mockHardware.MockEncoder;
 import org.usfirst.frc.team1719.robot.mockHardware.MockGyro3D;
+import org.usfirst.frc.team1719.robot.mockHardware.MockNavX;
 import org.usfirst.frc.team1719.robot.mockHardware.MockOI;
 import org.usfirst.frc.team1719.robot.mockHardware.MockRobot;
 import org.usfirst.frc.team1719.robot.mockHardware.MockSolenoid;
@@ -31,6 +32,7 @@ public class UseDriveTest {
 	MockEncoder rightEnc;
 	MockGyro3D gyro;
 	MockAccelerometer accel;
+	MockNavX navx;
 	
 	DriveLogic drive;
 	
@@ -44,12 +46,13 @@ public class UseDriveTest {
 		rightEnc = new MockEncoder();
 		gyro = new MockGyro3D();
 		accel = new MockAccelerometer();
+		navx = new MockNavX();
 		
 		oi = new MockOI();
 		dashboard = new MockDashboard();
 		mockRobot = new MockRobot(dashboard, oi);
 		
-		drive = new DriveLogic(leftMotor, rightMotor, shifter, leftEnc, rightEnc, accel, gyro);
+		drive = new DriveLogic(leftMotor, rightMotor, shifter, leftEnc, rightEnc, accel, gyro, navx);
 		
 		command = new UseDrive( (IDrive) drive, (IRobot) mockRobot);
 		command.initialize();

@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot.subsystems;
 import org.usfirst.frc.team1719.robot.actuators.ISolenoid;
 import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
+import org.usfirst.frc.team1719.robot.interfaces.INAVX;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
@@ -18,8 +19,8 @@ public class DriveSubsys extends Subsystem implements IDrive {
     
 
     public DriveSubsys(SpeedController l, SpeedController r, ISolenoid shifter,
-            IEncoder lEnc, IEncoder rEnc, Accelerometer acc, IGyro3D gyr, IRobot robot) {
-        drive = new DriveLogic(l, r, shifter, lEnc, rEnc, acc, gyr);
+            IEncoder lEnc, IEncoder rEnc, Accelerometer acc, IGyro3D gyr, IRobot robot, INAVX navx) {
+        drive = new DriveLogic(l, r, shifter, lEnc, rEnc, acc, gyr, navx);
         this.robot = robot;
      
     }
@@ -68,4 +69,9 @@ public class DriveSubsys extends Subsystem implements IDrive {
     protected void initDefaultCommand() {
         setDefaultCommand(new UseDrive(this, robot));
     }
+
+	@Override
+	public INAVX getNavX() {
+		return drive.getNavX();
+	}
 }

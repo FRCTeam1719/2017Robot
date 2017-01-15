@@ -2,6 +2,7 @@ package org.usfirst.frc.team1719.robot.subsystems;
 
 import org.usfirst.frc.team1719.robot.actuators.ISolenoid;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
+import org.usfirst.frc.team1719.robot.interfaces.INAVX;
 import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
 
@@ -18,9 +19,10 @@ public class DriveLogic implements IDrive {
     private Accelerometer accelerometer;
     private IGyro3D gyro;
     private double maxSpd = 1.0D;
+    private INAVX navx;
     
     public DriveLogic(SpeedController l, SpeedController r, ISolenoid shift, IEncoder lEnc,
-            IEncoder rEnc, Accelerometer acc, IGyro3D gyr) {
+            IEncoder rEnc, Accelerometer acc, IGyro3D gyr, INAVX navx) {
         left = l;
         right = r;
         shifter = shift;
@@ -28,6 +30,7 @@ public class DriveLogic implements IDrive {
         rEncoder = rEnc;
         accelerometer = acc;
         gyro = gyr;
+        this.navx = navx;
     }
     
     @Override
@@ -93,4 +96,9 @@ public class DriveLogic implements IDrive {
     private double clip(double d) {
         return Math.min(maxSpd, Math.max(-maxSpd, d));
     }
+
+	@Override
+	public INAVX getNavX() {
+		return navx;
+	}
 }

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.usfirst.frc.team1719.robot.mockHardware.MockAccelerometer;
 import org.usfirst.frc.team1719.robot.mockHardware.MockEncoder;
 import org.usfirst.frc.team1719.robot.mockHardware.MockGyro3D;
+import org.usfirst.frc.team1719.robot.mockHardware.MockNavX;
 import org.usfirst.frc.team1719.robot.mockHardware.MockSolenoid;
 import org.usfirst.frc.team1719.robot.mockHardware.MockSpeedController;
 import org.usfirst.frc.team1719.robot.subsystems.DriveLogic;
@@ -19,6 +20,7 @@ public class LogicalDriveTest {
 	MockEncoder rightEnc;
 	MockGyro3D gyro;
 	MockAccelerometer accel;
+	MockNavX navx;
 	
 	DriveLogic drive;
 	
@@ -30,8 +32,10 @@ public class LogicalDriveTest {
 		rightEnc = new MockEncoder();
 		gyro = new MockGyro3D();
 		accel = new MockAccelerometer();
+		navx = new MockNavX();
 		
-		drive = new DriveLogic(leftMotor, rightMotor, shifter, leftEnc, rightEnc, accel, gyro);		
+		
+		drive = new DriveLogic(leftMotor, rightMotor, shifter, leftEnc, rightEnc, accel, gyro, navx);		
 	}
 	
 	@Test

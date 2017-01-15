@@ -7,6 +7,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IPIDController;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class MockPIDController implements IPIDController {
 
@@ -99,6 +100,10 @@ public class MockPIDController implements IPIDController {
 		}
 		double currError = source.pidGet();
 		double output = 0;
+		
+		if (source.getPIDSourceType() == PIDSourceType.kRate) {
+			
+		}
 		
 		errorBuffer.add(currError);
 		bufferTotal += currError;

@@ -1,11 +1,13 @@
 package org.usfirst.frc.team1719.robot.sensors;
 
+import org.usfirst.frc.team1719.robot.interfaces.INAVX;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class NAVX extends AHRS implements IGyro3D, Accelerometer {
+public class NAVX extends AHRS implements INAVX {
     
     public NAVX(I2C.Port port) {
         super(port);
@@ -40,7 +42,7 @@ public class NAVX extends AHRS implements IGyro3D, Accelerometer {
     
     @Override
     public void resetRoll() {
-        // TODO Auto-generated method stub
+    	
     }
     
     @Override
@@ -63,4 +65,13 @@ public class NAVX extends AHRS implements IGyro3D, Accelerometer {
         return getRate();
     }
     
+    @Override
+    public double pidGet() {
+    	if (this.getPIDSourceType() == PIDSourceType.kRate) {
+    		return getVelocityX();
+    	}
+    	else {
+    		return getYaw();
+    	}
+    }
 }

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -43,7 +44,11 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive,
 		        RobotMap.shifter, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc,
-		        RobotMap.navx, RobotMap.navx, this);
+		        RobotMap.navx, RobotMap.navx, this, RobotMap.navx);
+		
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0);
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
 	}
 
 	/**
@@ -59,9 +64,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println("NavX yaw: " + RobotMap.navx.getYaw());
-		System.out.println("Navx pitch: " + RobotMap.navx.getPitch());
-		System.out.println("Navx roll: " + RobotMap.navx.getRoll());
+		System.out.println("Angle: " + RobotMap.navx.getAngle());
 	}
 
 	/**
@@ -107,6 +110,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		RobotMap.compressor.start();
 	}
 
 	/**
