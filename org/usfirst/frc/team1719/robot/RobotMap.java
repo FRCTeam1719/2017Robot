@@ -1,12 +1,12 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.actuators.Servo;
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.interfaces.IServo;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -35,8 +35,8 @@ public class RobotMap {
     public static final SpeedController leftDrive = new Spark(0);
     public static final SpeedController rightDrive = new Spark(1);
     public static final SpeedController exMotorController = new Spark(4);
-    public static final IServo pan = (IServo) new Servo(2);
-    public static final IServo tilt = (IServo) new Servo(3);
+    public static final IServo pan =  new Servo(2);
+    public static final IServo tilt =  new Servo(3);
     
     /* I2C */
     public static final NAVX navx = new NAVX(I2C.Port.kOnboard);
