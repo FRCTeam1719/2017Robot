@@ -6,4 +6,6 @@ public interface IOI {
     public double getRightX();
     public double getRightY();
     public boolean getShifter();
+    public double getDeviceX();
+    
 }

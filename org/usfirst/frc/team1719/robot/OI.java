@@ -1,8 +1,12 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
+import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -11,6 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OI implements IOI{
 
     Joystick driver = new Joystick(0);
+    Joystick operator = new Joystick(1);
     
     @Override
     public double getLeftX() {
@@ -35,7 +40,15 @@ public class OI implements IOI{
     public boolean getShifter() {
         return driver.getRawButton(0);
     }
+
+	@Override
+	public double getDeviceX() {
+		return operator.getRawAxis(0);
+	}
     
+	
+	
+	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -63,4 +76,10 @@ public class OI implements IOI{
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
+	
+	public void init(Robot robot){
+		Button controlShooter = new JoystickButton(operator, 9);
+		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
+	}
+	
 }

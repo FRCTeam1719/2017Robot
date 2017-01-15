@@ -2,7 +2,14 @@ package org.usfirst.frc.team1719.robot.sensors;
 
 import edu.wpi.first.wpilibj.PIDSource;
 
+/**
+ * Interface around the WPILib Encoder object. Allows for mockability & device specific settings
+ * It's recommended to run config() after creating an object implementing IEncoder
+ * @author Duncan Lowther
+ *
+ */
 public interface IEncoder extends PIDSource {
+
     public void reset();
     public boolean getStopped();
     public boolean getDirection();
@@ -10,4 +17,9 @@ public interface IEncoder extends PIDSource {
     public double getRate();
     public void setDistancePerPulse(double distancePerPulse);
     public void setReverseDirection(boolean reverseDirection);
+    /**
+     * Sets up device specific settings
+     * @param distancePerRev (ft)
+     */
+    public void config(double distancePerRev);
 }

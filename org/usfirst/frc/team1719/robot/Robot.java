@@ -1,12 +1,15 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -28,8 +31,11 @@ public class Robot extends IterativeRobot implements IRobot {
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
-	
 	DriveSubsys drive;
+	PhysicalExShooter shooter;
+	GenericSubsystem[] subsystems = { drive };
+	Display display = new Display();
+	int iter = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -41,9 +47,11 @@ public class Robot extends IterativeRobot implements IRobot {
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
-		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive,
-		        RobotMap.shifter, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc,
-		        RobotMap.navx, RobotMap.navx, this);
+		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
+				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
+		shooter = new PhysicalExShooter(RobotMap.exMotorController);
+		oi.init(this);
+
 	}
 
 	/**
@@ -53,15 +61,21 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		for (int i = 0; i < subsystems.length; i++) {
+			if (subsystems[i] != null) {
+				subsystems[i].disable();
+			}
+		}
 
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println("NavX yaw: " + RobotMap.navx.getYaw());
-		System.out.println("Navx pitch: " + RobotMap.navx.getPitch());
-		System.out.println("Navx roll: " + RobotMap.navx.getRoll());
+		
+		if((iter++) % 0x10 == 0) {
+		    display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+		}
 	}
 
 	/**
@@ -97,6 +111,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		if((iter++) % 0x10 == 0) {
+            display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+        }
 	}
 
 	@Override
@@ -105,8 +122,9 @@ public class Robot extends IterativeRobot implements IRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
+		}
 	}
 
 	/**
@@ -115,6 +133,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		if((iter++) % 0x10 == 0) {
+            display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+        }
 	}
 
 	/**
@@ -124,7 +145,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-	
+
 	public IRobot getInstance() {
 		return (IRobot) this;
 	}

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.tests;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.usfirst.frc.team1719.robot.mockHardware.MockAccelerometer;
@@ -64,5 +64,13 @@ public class LogicalDriveTest {
 				assertTrue(leftMotor.get() <= ms);
 			}
 		}
+	}
+	@Test
+	public void testDisable() {
+		setup();
+		drive.shift(true);
+		assertTrue(shifter.get());
+		drive.disable();
+		assertFalse(shifter.get());
 	}
 }
