@@ -39,11 +39,16 @@ public class OI implements IOI{
     
     public boolean getShifter() {
         return driver.getRawButton(1);
+        
     }
 
 	@Override
 	public double getDeviceX() {
 		return operator.getRawAxis(0);
+	}
+	
+	public double getDeviceY() {
+		return operator.getRawAxis(1);
 	}
     
 	
@@ -79,7 +84,7 @@ public class OI implements IOI{
 	
 	public void init(Robot robot){
 		Button controlShooter = new JoystickButton(operator, 9);
-		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
+		//controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
 	}
 	
 }
