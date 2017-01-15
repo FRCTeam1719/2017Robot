@@ -18,6 +18,7 @@ public class UseExShooter extends InstantCommand {
 	private final IOI oi;
 	private final double DEADZONE_TOLERANCE = 0.05;
 	
+	double desiredOutput = 0;
 	
 	public UseExShooter(IExShooter exshooter, IRobot robot){
 		this.exshooter = exshooter;
@@ -41,9 +42,31 @@ public class UseExShooter extends InstantCommand {
 		if (Math.abs(joystickvalue) < DEADZONE_TOLERANCE){
 			joystickvalue = 0;
 		}
-		System.out.println("joystick: " + joystickvalue);
 		
-		exshooter.setSpeed(joystickvalue);
+		if (oi.getOperatorJoystick().getRawButton(1)) {
+			desiredOutput = 0.1;
+		}
+		else if (oi.getOperatorJoystick().getRawButton(2)) {
+			desiredOutput = 0.2;
+		}
+		else if (oi.getOperatorJoystick().getRawButton(3)) {
+			desiredOutput = 0.3;
+		}
+		else if (oi.getOperatorJoystick().getRawButton(4)) {
+			desiredOutput = 0.4;
+		}
+		else if (oi.getOperatorJoystick().getRawButton(5)) {
+			desiredOutput = 0.5;
+		}
+		else if (oi.getOperatorJoystick().getRawButton(6)) {
+			desiredOutput = 0.6;
+		}
+		else if (oi.getOperatorJoystick().getRawButton(7)) {
+			desiredOutput = 0.7;
+		}
+		
+		System.out.println("Out: " + desiredOutput);
+		exshooter.setSpeed(desiredOutput);
 	}
 
 }

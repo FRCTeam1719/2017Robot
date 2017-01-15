@@ -2,6 +2,8 @@ package org.usfirst.frc.team1719.robot.mockHardware;
 
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 public class MockOI implements IOI {
 
 	double leftX;
@@ -66,6 +68,18 @@ public class MockOI implements IOI {
 	public double getDeviceY() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public Joystick getDriverJoystick() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Joystick getOperatorJoystick() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
