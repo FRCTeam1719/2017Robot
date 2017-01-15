@@ -8,6 +8,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalPixyMount;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -36,6 +37,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	GenericSubsystem[] subsystems = { drive };
 	Display display = new Display();
 	int iter = 0;
+	PhysicalPixyMount pixyMount;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -51,6 +53,7 @@ public class Robot extends IterativeRobot implements IRobot {
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController);
 		oi.init(this);
+		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, this);
 
 	}
 

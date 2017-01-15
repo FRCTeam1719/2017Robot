@@ -15,6 +15,7 @@ public class UseExShooter extends InstantCommand {
 
 	private final IExShooter exshooter;
 	private final IOI oi;
+	
 	private final double DEADZONE_TOLERANCE = 0.05;
 	
 	

@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
+import org.usfirst.frc.team1719.robot.commands.UsePixyMount;
 import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
+import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -8,9 +10,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class PhysicalPixyMount extends Subsystem implements IPixyMount{
 	
 	LogicalPixyMount logic;
+	IRobot robot;
 	
-	public PhysicalPixyMount (Servo pan, Servo tilt){
+	public PhysicalPixyMount (Servo pan, Servo tilt, IRobot robot){
 		logic = new LogicalPixyMount(pan, tilt);
+		this.robot = robot;
 	}
 
 	@Override
@@ -42,8 +46,7 @@ public class PhysicalPixyMount extends Subsystem implements IPixyMount{
 
 	@Override
 	protected void initDefaultCommand() {
-		//No default command
-		
+		setDefaultCommand(new UsePixyMount(this, robot));
 	}
 
 }
