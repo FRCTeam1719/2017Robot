@@ -1,15 +1,14 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
 import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
-
-import edu.wpi.first.wpilibj.Servo;
+import org.usfirst.frc.team1719.robot.interfaces.IServo;
 
 public class LogicalPixyMount implements IPixyMount {
 	
-	private Servo pan;
-	private Servo tilt;
+	private IServo pan;
+	private IServo tilt;
 	
-	public LogicalPixyMount (Servo pan, Servo tilt){
+	public LogicalPixyMount (IServo pan, IServo tilt){
 		this.pan = pan;
 		this.tilt = tilt;
 	}
