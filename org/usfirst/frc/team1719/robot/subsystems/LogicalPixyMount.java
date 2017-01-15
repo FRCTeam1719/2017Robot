@@ -20,22 +20,22 @@ public class LogicalPixyMount implements IPixyMount {
 
 	@Override
 	public void setX(double angleX) {
-		pan.set(angleX);
+		pan.setAngle(angleX);
 	}
 
 	@Override
 	public void setY(double angleY) {
-		tilt.set(angleY);
+		tilt.setAngle(angleY);
 	}
 
 	@Override
 	public double getAngleX() {
-		return pan.get();
+		return pan.getAngle();
 	}
 
 	@Override
 	public double getAngleY() {
-		return tilt.get();
+		return tilt.getAngle();
 	}
 
 }
