@@ -38,7 +38,7 @@ public class OI implements IOI{
     }
     
     public boolean getShifter() {
-        return driver.getRawButton(0);
+        return driver.getRawButton(1);
     }
 
 	@Override

@@ -101,8 +101,8 @@ public class DriveLogic implements IDrive {
      */
     @Override
     public void moveTank(double left, double right) {
-        this.left.set(clip(left));
-        this.right.set(clip(right));
+        this.left.set(left);
+        this.right.set(right);
     }
     
     /**

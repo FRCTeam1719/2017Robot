@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Default command used for controlling the drive
@@ -70,11 +71,15 @@ public class UseDrive extends Command {
      * @param _robot Robot to grab external data from
      */
     public UseDrive(IDrive _drive, IRobot _robot) {
+    	
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         drive = _drive;
         robot = _robot;
         oi = robot.getOI();
+        
+        drive.getEncoderL().setPIDSourceType(PIDSourceType.kRate);
+    	drive.getEncoderR().setPIDSourceType(PIDSourceType.kRate);
         try {
             requires((Subsystem) drive);
         } catch(ClassCastException e) {
@@ -120,30 +125,41 @@ public class UseDrive extends Command {
     	setPIDConstantsFromDashboard();
     	
         double leftJoystick = oi.getLeftY(), rightJoystick = oi.getRightY();
-        double desiredleftRate = leftJoystick * DRIVE_MAX_SPEED;
+        double desiredLeftRate = leftJoystick * DRIVE_MAX_SPEED;
         double desiredRightRate = rightJoystick * DRIVE_MAX_SPEED;
         
         if (Math.abs(leftJoystick) < JOYSTICK_DEADZONE) {
         	leftMotorOutput = 0;
         	leftController.setSetpoint(0);
         	leftController.reset();
+        	desiredLeftRate = 0;
         }
         else {
         	leftController.enable();
-        	leftController.setSetpoint(desiredleftRate);
+        	leftController.setSetpoint(5);
         }
         
         if (Math.abs(rightJoystick) < JOYSTICK_DEADZONE) {
         	rightMotorOutput = 0;
         	rightController.setSetpoint(0);
         	rightController.reset();
+        	desiredRightRate = 0;
         }
         else {
         	rightController.enable();
-        	rightController.setSetpoint(desiredRightRate);
+        	rightController.setSetpoint(5);
+        }
+        //CHECK THE CONTROLLERS
+        if(rightController.get()!=leftController.get()){
+        	System.out.println("Diff in get");
+        	System.out.println("Left: " + leftController.get());
+        	System.out.println("Right: " + rightController.get());
         }
         
         
+        
+        
+        //BUG BEFORE THIS
         drive.moveTank(leftMotorOutput, rightMotorOutput);
         
         if(shifted != oi.getShifter()) {
@@ -166,15 +182,15 @@ public class UseDrive extends Command {
     }
     
     public void setPIDConstantsFromDashboard() {
-    	double newLeftKP = robot.getDashboard().getNumber(LEFT_DRIVE_KP);
-    	double newLeftKI = robot.getDashboard().getNumber(LEFT_DRIVE_KI);
-    	double newLeftKD = robot.getDashboard().getNumber(LEFT_DRIVE_KD);
+    	left_kP = SmartDashboard.getNumber(LEFT_DRIVE_KP);
+    	left_kI = SmartDashboard.getNumber(LEFT_DRIVE_KI);
+    	left_kD = SmartDashboard.getNumber(LEFT_DRIVE_KD);
 
-    	double newRightKP = robot.getDashboard().getNumber(RIGHT_DRIVE_KP);
-    	double newRightKI = robot.getDashboard().getNumber(RIGHT_DRIVE_KI);
-    	double newRightKD = robot.getDashboard().getNumber(RIGHT_DRIVE_KD);
+    	right_kP = SmartDashboard.getNumber(RIGHT_DRIVE_KP);
+    	right_kI = SmartDashboard.getNumber(RIGHT_DRIVE_KI);
+    	right_kD = SmartDashboard.getNumber(RIGHT_DRIVE_KD);
 
-    	leftController.setPID(newLeftKP, newLeftKI, newLeftKD);
-    	rightController.setPID(newRightKP, newRightKI, newRightKD);
+    	leftController.setPID(left_kP, left_kI, left_kD);
+    	rightController.setPID(right_kP, right_kI, right_kD);
     }
 }

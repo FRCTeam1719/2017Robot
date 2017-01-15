@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -28,6 +29,8 @@ public class Robot extends IterativeRobot implements IRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
+	
+	public static double WHEEL_DIAMETER = 6;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -48,10 +51,17 @@ public class Robot extends IterativeRobot implements IRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
-				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
+				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController);
 		oi.init(this);
 
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
+		
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KI, 0);
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
 	}
 
 	/**
@@ -61,11 +71,11 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		for (int i = 0; i < subsystems.length; i++) {
-			if (subsystems[i] != null) {
-				subsystems[i].disable();
-			}
-		}
+//		for (int i = 0; i < subsystems.length; i++) {
+//			if (subsystems[i] != null) {
+//				subsystems[i].disable();
+//			}
+//		}
 
 	}
 
