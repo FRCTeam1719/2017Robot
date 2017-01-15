@@ -2,7 +2,6 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
-import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -12,34 +11,34 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class OI implements IOI {
+public class OI implements IOI{
 
-	Joystick driver = new Joystick(0);
-	Joystick operator = new Joystick(1);
+    Joystick driver = new Joystick(0);
+    Joystick operator = new Joystick(1);
+    
+    @Override
+    public double getLeftX() {
+        return driver.getRawAxis(0);
+    }
 
-	@Override
-	public double getLeftX() {
-		return driver.getRawAxis(0);
-	}
+    @Override
+    public double getLeftY() {
+        return driver.getRawAxis(1);
+    }
 
-	@Override
-	public double getLeftY() {
-		return driver.getRawAxis(1);
-	}
+    @Override
+    public double getRightX() {
+        return driver.getRawAxis(4);
+    }
 
-	@Override
-	public double getRightX() {
-		return driver.getRawAxis(4);
-	}
-
-	@Override
-	public double getRightY() {
-		return driver.getRawAxis(5);
-	}
-
-	public boolean getShifter() {
-		return driver.getRawButton(0);
-	}
+    @Override
+    public double getRightY() {
+        return driver.getRawAxis(5);
+    }
+    
+    public boolean getShifter() {
+        return driver.getRawButton(1);
+    }
 
 	@Override
 	public double getDeviceX() {
