@@ -17,7 +17,7 @@ public class PositionSubsys extends Subsystem implements IPositionTracker{
      * @author Duncan
      */
     private class Update extends Command {
-        private Update() {}
+        private Update(PositionSubsys sup) {requires(sup);}
         @Override
         protected void execute() {
             update();
@@ -37,7 +37,7 @@ public class PositionSubsys extends Subsystem implements IPositionTracker{
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new Update());
+        setDefaultCommand(new Update(this));
     }
 
     @Override

@@ -55,6 +55,9 @@ public class Robot extends IterativeRobot implements IRobot {
 		shooter = new PhysicalExShooter(RobotMap.exMotorController);
 		oi.init(this);
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
+		RobotMap.navx.reset();
+		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 4.0D /* Hack -- i don't know where the 4 came from*/);
+		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 4.0D /* Hack -- i don't know where the 4 came from*/);
 	}
 
 	/**
@@ -127,7 +130,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		System.out.println("(x,y)=(" + tracker.getX() + "," + tracker.getY() + "); heading=" + tracker.getHeading() + "deg");
+		
 	}
 
 	/**
@@ -135,10 +138,12 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+	    System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
 		if((iter++) % 0x10 == 0) {
             display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
         }
+		System.out.println("(x,y)=(" + tracker.getX() + "," + tracker.getY() + "); heading=" + tracker.getHeading() + "deg");
 	}
 
 	/**
