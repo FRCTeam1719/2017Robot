@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
+import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -13,9 +14,11 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class LogicalExShooter implements IExShooter {
 
 	private SpeedController shooterMotor;
+	private IEncoder encoder;
 	
-	public LogicalExShooter (SpeedController shooterMotor) {
+	public LogicalExShooter (SpeedController shooterMotor, IEncoder encoder) {
 		this.shooterMotor = shooterMotor;
+		this.encoder = encoder;
 	}
 	
 	
@@ -32,6 +35,12 @@ public class LogicalExShooter implements IExShooter {
 	@Override
 	public double getSpeed() {
 		return shooterMotor.get();
+	}
+
+
+	@Override
+	public IEncoder getEncoder() {
+		return encoder;
 	}
 
 }

@@ -84,9 +84,6 @@ public class OI implements IOI{
 	// button.whenReleased(new ExampleCommand());
 	
 	public void init(Robot robot){
-		Button controlShooter = new JoystickButton(operator, 9);
-
-		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
 
 	}
 	
