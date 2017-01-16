@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
-		shooter = new PhysicalExShooter(RobotMap.exMotorController);
+		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
 		oi.init(this);
 
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
