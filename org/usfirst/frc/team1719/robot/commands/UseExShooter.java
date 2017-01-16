@@ -64,6 +64,12 @@ public class UseExShooter extends InstantCommand {
 		else if (oi.getOperatorJoystick().getRawButton(7)) {
 			desiredOutput = 0.7;
 		}
+		else if (oi.getOperatorJoystick().getRawButton(8)) {
+			desiredOutput = 0.65;
+		}
+		else if (oi.getOperatorJoystick().getRawButton(9)) {
+			desiredOutput = 0.625;
+		}
 		
 		System.out.println("Out: " + desiredOutput);
 		exshooter.setSpeed(desiredOutput);
