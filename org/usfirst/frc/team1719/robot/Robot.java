@@ -4,10 +4,12 @@ import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
+import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
+import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -35,6 +37,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	PhysicalExShooter shooter;
 	GenericSubsystem[] subsystems = { drive };
 	Display display = new Display();
+	IPositionTracker tracker;
 	int iter = 0;
 
 	/**
@@ -51,7 +54,7 @@ public class Robot extends IterativeRobot implements IRobot {
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController);
 		oi.init(this);
-
+		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 	}
 
 	/**
@@ -124,6 +127,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		System.out.println("(x,y)=(" + tracker.getX() + "," + tracker.getY() + "); heading=" + tracker.getHeading() + "deg");
 	}
 
 	/**
