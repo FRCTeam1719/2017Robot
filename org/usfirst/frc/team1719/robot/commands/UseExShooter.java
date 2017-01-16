@@ -50,10 +50,11 @@ public class UseExShooter extends Command implements PIDOutput {
 	@Override
 	protected void initialize() {
 		exshooter.getEncoder().setPIDSourceType(PIDSourceType.kRate);
-		velocityController.setInputRange(-MAX_SPEED, MAX_SPEED);
+		velocityController.setInputRange(-(MAX_SPEED * 1.5), MAX_SPEED * 1.5);
 		velocityController.setOutputRange(-1, 1);
 		velocityController.setContinuous(false);
 		velocityController.setPercentTolerance(2);
+		velocityController.setToleranceBuffer(3);
 	}
 	
 	
@@ -64,15 +65,19 @@ public class UseExShooter extends Command implements PIDOutput {
 	@Override
 	public void execute(){
 		double joystickvalue = Math.abs(oi.getDeviceY()) * oi.getDeviceY(); 
-		
+		double desiredRate = joystickvalue * MAX_SPEED;
+
 		if (Math.abs(joystickvalue) < DEADZONE_TOLERANCE){
 			joystickvalue = 0;
+			desiredRate = 0;
+			velocityController.setSetpoint(0);
+		}
+		else {
+			velocityController.enable();
+			velocityController.setSetpoint(desiredRate);
 		}
 		
-		
-		System.out.println("joystick: " + joystickvalue);
-		
-		exshooter.setSpeed(joystickvalue);
+		exshooter.setSpeed(motorOutput);
 	}
 
 
