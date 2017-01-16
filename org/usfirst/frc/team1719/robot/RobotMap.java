@@ -27,7 +27,7 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
     
     /* DIO */
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, false, EncodingType.k2X);
+    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true, EncodingType.k2X);
     public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false, EncodingType.k2X);
     
     

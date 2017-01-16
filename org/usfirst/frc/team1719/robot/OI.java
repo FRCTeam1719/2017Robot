@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.RunSetDistance;
 import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -80,6 +81,9 @@ public class OI implements IOI{
 	public void init(Robot robot){
 		Button controlShooter = new JoystickButton(operator, 9);
 		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
+		
+		Button runDrive = new JoystickButton(driver, 2);
+		runDrive.whenPressed(new RunSetDistance(robot.drive, robot));
 	}
 	
 }

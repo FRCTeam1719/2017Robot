@@ -33,7 +33,7 @@ public class UseDrive extends Command {
     private final IDrive drive;
     private boolean shifted = false;
     
-    private double DRIVE_MAX_SPEED = 5;
+    private double DRIVE_MAX_SPEED = 20;
     
     private final double JOYSTICK_DEADZONE = 0.15;
     
@@ -127,6 +127,8 @@ public class UseDrive extends Command {
         double leftJoystick = oi.getLeftY(), rightJoystick = oi.getRightY();
         double desiredLeftRate = leftJoystick * DRIVE_MAX_SPEED;
         double desiredRightRate = rightJoystick * DRIVE_MAX_SPEED;
+        System.out.println("leftd: " + desiredLeftRate);
+        System.out.println("rightd: " + desiredRightRate);
         
         if (Math.abs(leftJoystick) < JOYSTICK_DEADZONE) {
         	leftMotorOutput = 0;
@@ -136,7 +138,7 @@ public class UseDrive extends Command {
         }
         else {
         	leftController.enable();
-        	leftController.setSetpoint(5);
+        	leftController.setSetpoint(desiredLeftRate);
         }
         
         if (Math.abs(rightJoystick) < JOYSTICK_DEADZONE) {
@@ -147,19 +149,42 @@ public class UseDrive extends Command {
         }
         else {
         	rightController.enable();
-        	rightController.setSetpoint(5);
+        	rightController.setSetpoint(desiredRightRate);
         }
         //CHECK THE CONTROLLERS
-        if(rightController.get()!=leftController.get()){
-        	System.out.println("Diff in get");
-        	System.out.println("Left: " + leftController.get());
-        	System.out.println("Right: " + rightController.get());
-        }
-        
+//        System.out.println("Get");
+//        System.out.println("Left: " + leftController.get());
+//        System.out.println("Right: " + rightController.get());
+//        System.out.println("AvgError");
+//        System.out.println("Left: " + leftController.getAvgError());
+//        System.out.println("Right: " + rightController.getAvgError());
+//        System.out.println("D");
+//        System.out.println("Left: " + leftController.getD());
+//        System.out.println("Right: " + rightController.getD());
+//        System.out.println("DeltaSetpoint");
+//        System.out.println("Left: " + leftController.getDeltaSetpoint());
+//        System.out.println("Right: " + rightController.getDeltaSetpoint());
+//        System.out.println("Error");
+//        System.out.println("Left: " + leftController.getError());
+//        System.out.println("Right: " + rightController.getError());
+//        System.out.println("F");
+//        System.out.println("Left: " + leftController.getF());
+//        System.out.println("Right: " + rightController.getF());
+//        System.out.println("I");
+//        System.out.println("Left: " + leftController.getI());
+//        System.out.println("Right: " + rightController.getI());
+//        System.out.println("P");
+//        System.out.println("Left: " + leftController.getP());
+//        System.out.println("Right: " + rightController.getP());
+//        System.out.println("Setpoint");
+//        System.out.println("Left: " + leftController.getSetpoint());
+//        System.out.println("Right: " + rightController.getSetpoint());
         
         
         
         //BUG BEFORE THIS
+        System.out.println("left: " + leftMotorOutput);
+        System.out.println("right: " + rightMotorOutput);
         drive.moveTank(leftMotorOutput, rightMotorOutput);
         
         if(shifted != oi.getShifter()) {
