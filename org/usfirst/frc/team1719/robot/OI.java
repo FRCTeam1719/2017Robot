@@ -51,6 +51,9 @@ public class OI implements IOI{
 		return operator.getRawAxis(1);
 	}
     
+	public boolean getLiftGear() {
+		return operator.getRawButton(11);
+	}
 	
 	
 	

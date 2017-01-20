@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot.commands;
 
+import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -48,6 +49,10 @@ public class UseDrive extends Command {
         drive.moveTank(left, right);
         if(shifted != oi.getShifter()) {
             drive.shift(shifted = !shifted);
+        }
+        
+        if (oi.getShifter()) {
+        	RobotMap.gearLifter.set(!(RobotMap.gearLifter.get()));
         }
     }
 

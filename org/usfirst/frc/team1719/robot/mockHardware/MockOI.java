@@ -82,4 +82,10 @@ public class MockOI implements IOI {
 		return null;
 	}
 
+	@Override
+	public boolean getLiftGear() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
