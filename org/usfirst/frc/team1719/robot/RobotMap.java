@@ -4,6 +4,7 @@ import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -26,8 +27,8 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
     
     /* DIO */
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1);
-    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3);
+    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true, EncodingType.k2X);
+    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false, EncodingType.k2X);
     
     /* PWM */
     public static final SpeedController leftDrive = new Spark(0);

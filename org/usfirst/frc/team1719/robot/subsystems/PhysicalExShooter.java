@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
+import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
+import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -8,9 +10,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class PhysicalExShooter extends Subsystem implements IExShooter{
 
 	LogicalExShooter logic;
-	
-	public PhysicalExShooter (SpeedController motor){
+	IRobot robot;
+	public PhysicalExShooter (SpeedController motor, IRobot robot){
 		logic = new LogicalExShooter(motor);
+		this.robot = robot;
 	}
 	
 	
@@ -34,7 +37,7 @@ public class PhysicalExShooter extends Subsystem implements IExShooter{
 	@Override
 	protected void initDefaultCommand() {
 		//No default command
-		
+		setDefaultCommand(new UseExShooter(this, robot));
 	}
 
 	

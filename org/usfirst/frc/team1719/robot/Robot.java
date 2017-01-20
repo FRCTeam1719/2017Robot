@@ -1,13 +1,16 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
+import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
+import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -28,6 +31,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
+	
+	public static double WHEEL_DIAMETER = 6;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -35,6 +40,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	PhysicalExShooter shooter;
 	GenericSubsystem[] subsystems = { drive };
 	Display display = new Display();
+	IPositionTracker tracker;
 	int iter = 0;
 
 	/**
@@ -51,10 +57,20 @@ public class Robot extends IterativeRobot implements IRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
-				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
-		shooter = new PhysicalExShooter(RobotMap.exMotorController);
+				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
+		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
 		oi.init(this);
-
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
+		
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KI, 0);
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
+		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
+		RobotMap.navx.reset();
+		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
+		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
 	}
 
 	/**
@@ -64,17 +80,18 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		for (int i = 0; i < subsystems.length; i++) {
-			if (subsystems[i] != null) {
-				subsystems[i].disable();
-			}
-		}
+//		for (int i = 0; i < subsystems.length; i++) {
+//			if (subsystems[i] != null) {
+//				subsystems[i].disable();
+//			}
+//		}
 
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
 		if((iter++) % 0x10 == 0) {
 		    display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
@@ -127,6 +144,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		
 	}
 
 	/**
@@ -134,10 +152,12 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+	    System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
 		if((iter++) % 0x10 == 0) {
             display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
         }
+		System.out.println("(x,y)=(" + tracker.getX() + "," + tracker.getY() + "); heading=" + tracker.getHeading() + "deg");
 	}
 
 	/**

@@ -5,6 +5,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Simple command for managing the Experimental Shooter
  * Control Scheme: While held, sets the motor to square of the joystick
@@ -21,6 +22,11 @@ public class UseExShooter extends InstantCommand {
 	public UseExShooter(IExShooter exshooter, IRobot robot){
 		this.exshooter = exshooter;
 		oi = robot.getOI();
+		try {
+            requires((Subsystem) exshooter);
+        } catch(ClassCastException e) {
+            System.out.println("Running unit test on UseDrive command");
+        }
 	}
 	
 	
@@ -30,11 +36,12 @@ public class UseExShooter extends InstantCommand {
 	
 	@Override
 	public void execute(){
-		double joystickvalue = Math.abs(oi.getDeviceX()) * oi.getDeviceX(); 
+		double joystickvalue = Math.abs(oi.getDeviceY()) * oi.getDeviceY(); 
 		
 		if (Math.abs(joystickvalue) < DEADZONE_TOLERANCE){
 			joystickvalue = 0;
 		}
+		System.out.println("joystick: " + joystickvalue);
 		
 		exshooter.setSpeed(joystickvalue);
 	}
