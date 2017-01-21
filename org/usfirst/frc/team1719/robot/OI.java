@@ -40,7 +40,7 @@ public class OI implements IOI {
 	}
 
 	public boolean getShifter() {
-		return driver.getRawButton(0);
+		return driver.getRawButton(1);
 	}
 
 	@Override
@@ -92,11 +92,11 @@ public class OI implements IOI {
 		
 		//TODO Decide what button this should be.
 		Button siloToggle = new JoystickButton(operator, 2);
-		siloToggle.whenPressed(new ToggleSilo(robot.silo, robot));
+		siloToggle.toggleWhenPressed(new ToggleSilo(robot.silo, robot));
 		
 		//TODO Decide what button this should be.
 		Button siloUnclog = new JoystickButton(operator, 3);
-		siloUnclog.whenPressed(new UnclogSilo(3.0, robot.silo, robot));
+		siloUnclog.whenPressed(new UnclogSilo(3.0, robot.silo));
 	}
 
 }
