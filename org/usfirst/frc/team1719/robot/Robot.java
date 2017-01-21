@@ -56,6 +56,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		shooter = new PhysicalExShooter(RobotMap.exMotorController);
 		oi.init(this);
 		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, this);
+		silo = new PhysicalSilo (RobotMap.silo, this);
 
 	}
 
