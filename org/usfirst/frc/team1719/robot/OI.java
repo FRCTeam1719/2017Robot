@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.ToggleSilo;
+import org.usfirst.frc.team1719.robot.commands.UnclogSilo;
 import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -87,6 +89,14 @@ public class OI implements IOI {
 	public void init(Robot robot) {
 		Button controlShooter = new JoystickButton(operator, 9);
 		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
+		
+		//TODO Decide what button this should be.
+		Button siloToggle = new JoystickButton(operator, 2);
+		siloToggle.whenPressed(new ToggleSilo(robot.silo, robot));
+		
+		//TODO Decide what button this should be.
+		Button siloUnclog = new JoystickButton(operator, 3);
+		siloUnclog.whenPressed(new UnclogSilo(3.0, robot.silo, robot));
 	}
 
 }

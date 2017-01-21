@@ -9,6 +9,7 @@ import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalPixyMount;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalSilo;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -38,6 +39,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	Display display = new Display();
 	int iter = 0;
 	PhysicalPixyMount pixyMount;
+	PhysicalSilo silo;
 
 	/**
 	 * This function is run when the robot is first started up and should be
