@@ -3,7 +3,11 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.interfaces.IIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+/**
+ * Toggles the intake on button press
+ * @author bennyrubin
+ *
+ */
 public class ToggleIntake extends Command{
 
 	private IIntake intake;
@@ -12,24 +16,24 @@ public class ToggleIntake extends Command{
 		this.intake = intake;
 	}
 	@Override
-	protected void execute(){
+	public void execute(){
 		intake.set(1);
 	}
 	
 	@Override
-	protected void end(){
+	public void end(){
 		intake.disable();
 	}
 	
 	
 	@Override
-	protected boolean isFinished() {
+	public boolean isFinished() {
 		
 		return false;
 	}
 	
 	@Override
-	protected void interrupted(){
+	public void interrupted(){
 		intake.disable();
 	}
 
