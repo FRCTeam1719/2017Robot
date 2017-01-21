@@ -1,6 +1,10 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.RunSetDistance;
+
+import org.usfirst.frc.team1719.robot.commands.ToggleSilo;
+import org.usfirst.frc.team1719.robot.commands.UnclogSilo;
+
 import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -13,6 +17,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
+
 public class OI implements IOI{
 
     Joystick driver = new Joystick(0);
@@ -47,14 +52,25 @@ public class OI implements IOI{
 	public double getDeviceX() {
 		return operator.getRawAxis(0);
 	}
+
 	
 	public double getDeviceY() {
 		return operator.getRawAxis(1);
 	}
     
 	
+
 	
-	
+	@Override
+	public double getServoX() {
+		return operator.getRawAxis(0);
+	}
+
+	@Override
+	public double getServoY() {
+		return operator.getRawAxis(1);
+	}
+
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -82,12 +98,21 @@ public class OI implements IOI{
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	
-	public void init(Robot robot){
+
+	public void init(Robot robot) {
 		Button controlShooter = new JoystickButton(operator, 9);
 
 		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
 
+		
+		//TODO Decide what button this should be.
+		Button siloToggle = new JoystickButton(operator, 2);
+		siloToggle.toggleWhenPressed(new ToggleSilo(robot.silo, robot));
+		
+		//TODO Decide what button this should be.
+		Button siloUnclog = new JoystickButton(operator, 3);
+		siloUnclog.whenPressed(new UnclogSilo(3.0, robot.silo));
+
 	}
-	
+
 }
