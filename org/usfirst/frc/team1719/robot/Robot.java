@@ -9,6 +9,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -38,7 +39,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	DriveSubsys drive;
 	PhysicalExShooter shooter;
-	GenericSubsystem[] subsystems = { drive };
+	IntakeSubsystem intake;
+	GenericSubsystem[] subsystems = {drive, shooter, intake};
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
@@ -59,6 +61,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
+		intake = new IntakeSubsystem(RobotMap.intakeMotor);
 		oi.init(this);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
