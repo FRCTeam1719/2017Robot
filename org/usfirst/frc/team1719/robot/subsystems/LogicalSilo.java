@@ -20,7 +20,7 @@ public class LogicalSilo implements ISilo {
 	@Override
 	public void setState (Relay.Value state) {
 		relay.set(state);
-	}
+		}
 
 	@Override
 	public Relay.Value getState() {

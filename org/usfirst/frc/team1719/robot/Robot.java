@@ -54,9 +54,11 @@ public class Robot extends IterativeRobot implements IRobot {
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController);
-		oi.init(this);
 		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, this);
 		silo = new PhysicalSilo (RobotMap.silo, this);
+		
+		// be sure to initialize objects above oi.init
+		oi.init(this);
 
 	}
 

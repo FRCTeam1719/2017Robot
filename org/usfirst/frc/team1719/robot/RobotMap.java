@@ -45,6 +45,6 @@ public class RobotMap {
     public static final Solenoid shifter = new Solenoid(0);
     
     /* Relays */
-    public static final Relay silo = new Relay(2);
+    public static final Relay silo = new Relay(0);
 
 }
