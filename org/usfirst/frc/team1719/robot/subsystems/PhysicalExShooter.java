@@ -5,6 +5,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -12,8 +13,8 @@ public class PhysicalExShooter extends Subsystem implements IExShooter{
 
 	LogicalExShooter logic;
 	IRobot robot;
-	public PhysicalExShooter (SpeedController motor, IRobot robot, IEncoder enc){
-		logic = new LogicalExShooter(motor, enc);
+	public PhysicalExShooter (SpeedController motor, IRobot robot, IEncoder enc1, IEncoder enc2){
+		logic = new LogicalExShooter(motor, enc1, enc2);
 		this.robot = robot;
 	}
 	
@@ -43,8 +44,43 @@ public class PhysicalExShooter extends Subsystem implements IExShooter{
 
 
 	@Override
-	public IEncoder getEncoder() {
-		return logic.getEncoder();
+	public IEncoder getEncoder1() {
+		return logic.getEncoder1();
+	}
+	
+	public IEncoder getEncoder2() {
+		return logic.getEncoder2();
+	}
+
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		logic.setPIDSourceType(pidSource);
+	}
+
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return logic.getPIDSourceType();
+	}
+
+
+	@Override
+	public double pidGet() {
+		return logic.pidGet();
+	}
+
+
+
+	@Override
+	public double getAvgEncoderRate() {
+		return logic.getAvgEncoderRate();
+	}
+
+
+	@Override
+	public double getAvgEncoderDistance() {
+		return logic.getAvgEncoderDistance();
 	}
 
 	

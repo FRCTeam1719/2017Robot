@@ -20,11 +20,13 @@ public class UseExShooter extends Command implements PIDOutput {
 	public static final String SHOOTER_KP = "Shooter kP: ";
 	public static final String SHOOTER_KI = "Shooter kI: ";
 	public static final String SHOOTER_KD = "Shooter kD: ";
+	public static final String SHOOTER_KF = "Shooter kF: ";
 
 	
 	private double kP;
 	private double kI;
 	private double kD;
+	private double kF;
 	
 	private final IExShooter exshooter;
 	private final IOI oi;
@@ -43,13 +45,13 @@ public class UseExShooter extends Command implements PIDOutput {
             System.out.println("Running unit test on UseDrive command");
         }
 		
-		velocityController = new PIDController(kP, kI, kD, exshooter.getEncoder(), this);
+		velocityController = new PIDController(kP, kI, kD, kF, exshooter, this);
 		
 	}
 	
 	@Override
 	protected void initialize() {
-		exshooter.getEncoder().setPIDSourceType(PIDSourceType.kRate);
+		exshooter.setPIDSourceType(PIDSourceType.kRate);
 		velocityController.setInputRange(-(MAX_SPEED * 1.5), MAX_SPEED * 1.5);
 		velocityController.setOutputRange(-1, 1);
 		velocityController.setContinuous(false);
@@ -71,6 +73,7 @@ public class UseExShooter extends Command implements PIDOutput {
 			joystickvalue = 0;
 			desiredRate = 0;
 			velocityController.setSetpoint(0);
+			
 		}
 		else {
 			velocityController.enable();

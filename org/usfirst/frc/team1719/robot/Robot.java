@@ -38,6 +38,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	PhysicalExShooter shooter;
 	GenericSubsystem[] subsystems = { drive };
 	Display display = new Display();
+	Dashboard dashboard = new Dashboard();
 	int iter = 0;
 
 	/**
@@ -52,7 +53,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
-		shooter = new PhysicalExShooter(RobotMap.exMotorController, this, RobotMap.shooterEnc);
+		shooter = new PhysicalExShooter(RobotMap.exMotorController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
 		oi.init(this);
 
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
@@ -167,6 +168,6 @@ public class Robot extends IterativeRobot implements IRobot {
 
 	@Override
 	public IDashboard getDashboard() {
-		return null;
+		return dashboard;
 	}
 }

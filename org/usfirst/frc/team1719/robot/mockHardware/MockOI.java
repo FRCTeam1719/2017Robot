@@ -68,4 +68,10 @@ public class MockOI implements IOI {
 		return 0;
 	}
 
+	@Override
+	public boolean getRevUpShooter() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

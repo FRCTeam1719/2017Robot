@@ -38,5 +38,23 @@ public class MockDashboard implements IDashboard {
 	public boolean getBoolean(String key) {
 		return booleans.get(key);
 	}
+
+	@Override
+	public double getNumber(String key, double defaultVal) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getString(String key, String defaultVal) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean getBoolean(String key, boolean defaultVal) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

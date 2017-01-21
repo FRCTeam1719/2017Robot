@@ -24,7 +24,7 @@ public class LogicalExShooterTest {
 	public void setUp() throws Exception {
 		motor = new MockSpeedController();
 		oi = new MockOI();
-		shooter = new LogicalExShooter(motor, new MockEncoder());
+		shooter = new LogicalExShooter(motor, new MockEncoder(), new MockEncoder());
 	}
 
 	@Test

@@ -1,12 +1,9 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.RunSetDistance;
-import org.usfirst.frc.team1719.robot.commands.UseExShooter;
+import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
-import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -17,6 +14,8 @@ public class OI implements IOI{
 
     Joystick driver = new Joystick(0);
     Joystick operator = new Joystick(1);
+    
+    JoystickButton revUpButton = new JoystickButton(operator, 3);
     
     @Override
     public double getLeftX() {
@@ -84,7 +83,12 @@ public class OI implements IOI{
 	// button.whenReleased(new ExampleCommand());
 	
 	public void init(Robot robot){
+		revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 5));
+	}
 
+	@Override
+	public boolean getRevUpShooter() {
+		return operator.getRawButton(3);
 	}
 	
 }
