@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot.sensors;
 
+import edu.wpi.first.wpilibj.PIDSource;
 
 /**
  * Interface around the WPILib Encoder object. Allows for mockability & device specific settings
@@ -7,7 +8,8 @@ package org.usfirst.frc.team1719.robot.sensors;
  * @author Duncan Lowther
  *
  */
-public interface IEncoder {
+public interface IEncoder extends PIDSource {
+
     public void reset();
     public boolean getStopped();
     public boolean getDirection();
