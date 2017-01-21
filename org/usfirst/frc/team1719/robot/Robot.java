@@ -10,7 +10,9 @@ import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
+import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
+import org.usfirst.frc.team1719.robot.subsystems.TestUART;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -42,6 +44,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
+	TestUART testuart;
+	PixySubsys pixy;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -68,6 +72,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		RobotMap.navx.reset();
 		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
 		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
+		pixy = new PixySubsys(RobotMap.pixyI2C);
 	}
 
 	/**
@@ -82,7 +87,6 @@ public class Robot extends IterativeRobot implements IRobot {
 //				subsystems[i].disable();
 //			}
 //		}
-
 	}
 
 	@Override

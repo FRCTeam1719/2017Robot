@@ -2,10 +2,10 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
+import org.usfirst.frc.team1719.robot.sensors.I2C;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -27,17 +27,28 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
     
     /* DIO */
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true, EncodingType.k2X);
-    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false, EncodingType.k2X);
+    public static final E4TOpticalEncoder leftDriveEnc;
+    public static final E4TOpticalEncoder rightDriveEnc;
     
     /* PWM */
-    public static final SpeedController leftDrive = new Spark(0);
-    public static final SpeedController rightDrive = new Spark(1);
-    public static final SpeedController exMotorController = new Spark(4);
+    public static final SpeedController leftDrive;
+    public static final SpeedController rightDrive;
+    public static final SpeedController exMotorController;
     
     /* I2C */
-    public static final NAVX navx = new NAVX(I2C.Port.kOnboard);
+    public static final NAVX navx;
+    public static final I2C pixyI2C;
     
     /* Pneumatics */
-    public static final Solenoid shifter = new Solenoid(0);
+    public static final Solenoid shifter;
+    static {
+        leftDriveEnc = new E4TOpticalEncoder(0, 1, true, EncodingType.k2X);
+        rightDriveEnc = new E4TOpticalEncoder(2, 3, false, EncodingType.k2X);
+        leftDrive = new Spark(0);
+        rightDrive = new Spark(1);
+        exMotorController = new Spark(4);
+        navx = new NAVX(I2C.Port.kOnboard);
+        pixyI2C = new I2C(I2C.Port.kOnboard, 0x54);
+        shifter = new Solenoid(0);
+    }
 }

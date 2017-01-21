@@ -13,6 +13,7 @@ public class PixyLogic implements IPixy {
     private static final short BLOCK_SYNC_C = (short) 0xAA56;
     private static final short BLOCK_SYNC_ERR = 0x55AA;
     private static final int WORDS_PER_BLOCK = 7;
+    private static final int MAX_READ = 127;
     
     private final ISerial serial;
     
@@ -32,7 +33,8 @@ public class PixyLogic implements IPixy {
      */
     public void update() {
         /* Read in the data: 16-bit words, little endian */
-        byte[] bytes = serial.read(serial.available());
+        byte[] bytes = serial.read(MAX_READ);
+        System.out.println("I2C Pixy Says: " + new String(bytes) + " (" + bytes.length + "bytes)");
         short[] words = getWords(bytes);
         
         /* Find the start of the last full frame */
@@ -70,6 +72,7 @@ public class PixyLogic implements IPixy {
                 }
             }
         }
+        if((framesync1 < 0) || (framesync0 < 0)) return;
         
         /* Only bother with the words from the current frame */
         short[] frameWords = new short[framesync1 - framesync0];

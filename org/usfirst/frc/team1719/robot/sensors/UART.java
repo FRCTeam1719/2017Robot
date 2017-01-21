@@ -49,9 +49,4 @@ public class UART extends SerialPort implements ISerial {
         super(baudRate, port, dataBits, parity, stopBits);
         // TODO Auto-generated constructor stub
     }
-    @Override
-    public int available() {
-        return super.getBytesReceived();
-    }
-    
 }
