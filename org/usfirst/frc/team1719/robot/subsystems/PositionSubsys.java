@@ -25,7 +25,7 @@ public class PositionSubsys extends Subsystem implements IPositionTracker{
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new Update(this));
+        //setDefaultCommand(new Update(this));
     }
 
     @Override
