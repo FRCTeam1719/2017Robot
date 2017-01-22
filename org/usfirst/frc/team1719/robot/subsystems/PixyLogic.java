@@ -19,6 +19,7 @@ public class PixyLogic implements IPixy {
     private final ISerial serial;
     
     private Block[] blocks;
+    private boolean trustworthy = false;
     
     /**
      * Instantiates the Pixy connection.
@@ -49,10 +50,12 @@ public class PixyLogic implements IPixy {
         }
         if(words[0] != BLOCK_SYNC) {
             System.out.println("Unrecoverable sync error");
+            trustworthy = false;
             return;
         }
         if(words.length < 8) {
             System.out.println("Not enough bytes");
+            trustworthy = false;
             return;
         }
         /* Discard duplicate sync byte */
@@ -60,6 +63,7 @@ public class PixyLogic implements IPixy {
         System.arraycopy(words, 1, pruned, 0, 7);
         /* Process */
         processFrame(pruned);
+        trustworthy = true;
     }
     
     /**
@@ -124,6 +128,13 @@ public class PixyLogic implements IPixy {
      */
     public synchronized Block[] getBlocks() {
         return blocks;
+    }
+    
+    /**
+     * @return whether the blocks are current. If a transmission error occurs, the blocks may be outdated.
+     */
+    public boolean isTrustworthy() {
+        return trustworthy;
     }
     
     @Override
