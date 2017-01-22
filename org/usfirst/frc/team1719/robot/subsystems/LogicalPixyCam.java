@@ -6,9 +6,11 @@ import org.usfirst.frc.team1719.robot.sensors.UART;
 public class LogicalPixyCam implements IPixyCam{
 	
 	UART comm;
+	
 	public LogicalPixyCam(UART comm){
 		this.comm = comm;
 	}
+	
 	@Override
 	public void disable() {
 		//Nothing to disable
