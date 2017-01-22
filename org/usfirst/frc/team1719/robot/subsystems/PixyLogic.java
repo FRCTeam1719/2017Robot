@@ -31,17 +31,15 @@ public class PixyLogic implements IPixy {
     /**
      * Called each iteration to update the block array with new data.
      * @see <a href="http://www.cmucam.org/projects/cmucam5/wiki/Porting_Guide">The Official Pixy Porting Guide</a>
+     * @see <a href="http://104.131.160.86/index.php/Pixy_Cam#The_Algorithm">The 1719 wiki page on the Pixy</a>
      */
     public void update() {
         /* Read in the data: 16-bit words, little endian */
-       /* byte[] bytes = serial.read(MAX_READ);
-        System.out.println("I2C Pixy Says: " + new String(bytes) + " (" + bytes.length + "bytes)");
-        short[] words = getWords(bytes);*/
         byte[] bytes = new byte[64];
         boolean err = ((I2C) serial).readOnly(bytes, 64);
-        System.out.println("I2C Pixy Says: " + new String(bytes) + " (" + bytes.length + "bytes)");
-        if(err) System.out.println("Not enough bytes");
+        //System.out.println("I2C Pixy Says: " + new String(bytes) + " (" + bytes.length + "bytes)");
         int[] words = getWords(bytes);
+        /* Fix sync errors */
         while(words[0] == BLOCK_SYNC_ERR_0) {
             System.out.println("Fixing sync error");
             byte[] newbytes = new byte[bytes.length -1];
@@ -53,61 +51,21 @@ public class PixyLogic implements IPixy {
             System.out.println("Unrecoverable sync error");
             return;
         }
-        System.out.println("Words:");
-       /* for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 4; j++) {
-                System.out.print(Integer.toHexString(words[(4 * i) + j]) + " ");
-            }
-            System.out.println("");
-        }*/if(words.length < 8) return;
+        if(words.length < 8) {
+            System.out.println("Not enough bytes");
+            return;
+        }
+        /* Discard duplicate sync byte */
         int[] pruned = new int[7];
         System.arraycopy(words, 1, pruned, 0, 7);
+        /* Process */
         processFrame(pruned);
-        if(true) return;
-        /* Find the start of the last full frame */
-        int framesync1 = -1;
-        int framesync0 = -1;
-        boolean syncErr = false;
-        for(int i = (words.length - 1); i >= 1; i--) {
-            if((words[i-1] == BLOCK_SYNC) && ((words[i] == BLOCK_SYNC) || (words[i] == BLOCK_SYNC_C))) {
-                if(framesync1 == -1) {
-                    framesync1 = (i - 1);
-                } else {
-                    framesync0 = i;
-                    break;
-                }
-            }
-            if(words[i] == BLOCK_SYNC_ERR_1) {
-                syncErr = true;
-                break;
-            }
-        }
-        
-        /* Out of sync: try again with opposite parity */
-        if(syncErr) {
-            byte[] newbytes = new byte[bytes.length - 1];
-            System.arraycopy(bytes, 1, newbytes, 0, newbytes.length);
-            words = getWords(newbytes);
-            for(int i = (words.length - 1); i >= 1; i--) {
-                if((words[i-1] == BLOCK_SYNC) && ((words[i] == BLOCK_SYNC) || (words[i] == BLOCK_SYNC_C))) {
-                    if(framesync1 == -1) {
-                        framesync1 = (i - 1);
-                    } else {
-                        framesync0 = i;
-                        break;
-                    }
-                }
-            }
-        }
-        if((framesync1 < 0) || (framesync0 < 0)) return;
-        
-        /* Only bother with the words from the current frame */
-        short[] frameWords = new short[framesync1 - framesync0];
-        System.arraycopy(words, framesync0, frameWords, 0, frameWords.length);
-       // processFrame(frameWords);
     }
     
-    
+    /**
+     * Process an array of words back into the blocks they represent.
+     * @param words the array of words
+     */
     private synchronized void processFrame(int[] words) {
         System.out.println("Processing " + (words.length / 7) + " blocks (" + words.length + "words)");
         blocks = new Block[words.length / WORDS_PER_BLOCK];
@@ -171,6 +129,11 @@ public class PixyLogic implements IPixy {
     @Override
     public void disable() {/* No actuators */}
     
+    /**
+     * Translates a little-endian stream of bytes into an array of unsigned 16-bit words.
+     * @param bytes the raw byte stream
+     * @return the array of words represented by the byte stream
+     */
     private int[] getWords(byte[] bytes) {
         int[] words = new int[bytes.length / 2];
         for(int i = 0; i < words.length; i++) {
