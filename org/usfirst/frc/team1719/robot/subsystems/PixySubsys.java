@@ -13,11 +13,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class PixySubsys extends Subsystem implements IPixy {
     
     private class Updater extends Command {
+        private long iter = 0;
         Updater(PixySubsys subsys) {
             requires(subsys);
         }
         @Override
-        public void execute() {update();}
+        public void execute() {
+            if(iter++ % 10 == 0) {/* Only poll camera at 10Hz = every 10 roboRIO cycles */
+                update();
+            }
+        }
         @Override
         protected boolean isFinished() {return false;}
     }

@@ -41,7 +41,7 @@ public class UseExShooter extends InstantCommand {
 		if (Math.abs(joystickvalue) < DEADZONE_TOLERANCE){
 			joystickvalue = 0;
 		}
-		System.out.println("joystick: " + joystickvalue);
+		//System.out.println("joystick: " + joystickvalue);
 		
 		exshooter.setSpeed(joystickvalue);
 	}

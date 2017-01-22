@@ -12,7 +12,8 @@ import org.usfirst.frc.team1719.robot.sensors.I2C;
 public class PixyLogic implements IPixy {
     private static final int BLOCK_SYNC = 0xAA55;
     private static final int BLOCK_SYNC_C = 0xAA56;
-    private static final int BLOCK_SYNC_ERR = 0x55AA;
+    private static final int BLOCK_SYNC_ERR_0 = 0x5500;
+    private static final int BLOCK_SYNC_ERR_1 = 0x55AA;
     private static final int WORDS_PER_BLOCK = 7;
     
     private final ISerial serial;
@@ -36,11 +37,29 @@ public class PixyLogic implements IPixy {
        /* byte[] bytes = serial.read(MAX_READ);
         System.out.println("I2C Pixy Says: " + new String(bytes) + " (" + bytes.length + "bytes)");
         short[] words = getWords(bytes);*/
-        byte[] bytes = new byte[16];
-        boolean err = ((I2C) serial).readOnly(bytes, 16);
+        byte[] bytes = new byte[64];
+        boolean err = ((I2C) serial).readOnly(bytes, 64);
         System.out.println("I2C Pixy Says: " + new String(bytes) + " (" + bytes.length + "bytes)");
         if(err) System.out.println("Not enough bytes");
         int[] words = getWords(bytes);
+        while(words[0] == BLOCK_SYNC_ERR_0) {
+            System.out.println("Fixing sync error");
+            byte[] newbytes = new byte[bytes.length -1];
+            System.arraycopy(bytes, 1, newbytes, 0, newbytes.length);
+            bytes = newbytes;
+            words = getWords(bytes);
+        }
+        if(words[0] != BLOCK_SYNC) {
+            System.out.println("Unrecoverable sync error");
+            return;
+        }
+        System.out.println("Words:");
+       /* for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 4; j++) {
+                System.out.print(Integer.toHexString(words[(4 * i) + j]) + " ");
+            }
+            System.out.println("");
+        }*/if(words.length < 8) return;
         int[] pruned = new int[7];
         System.arraycopy(words, 1, pruned, 0, 7);
         processFrame(pruned);
@@ -58,7 +77,7 @@ public class PixyLogic implements IPixy {
                     break;
                 }
             }
-            if(words[i] == BLOCK_SYNC_ERR) {
+            if(words[i] == BLOCK_SYNC_ERR_1) {
                 syncErr = true;
                 break;
             }
@@ -136,6 +155,7 @@ public class PixyLogic implements IPixy {
                             + ";calculated_sum=" + sum + ". Discarding block" + blockID + ".");
                     blocks[blockID] = null;
                 }
+                break;
             default:
                 System.err.println("Why is <positive integer> mod 7 not an integer between 0 and 6 inclusive?");
         }
