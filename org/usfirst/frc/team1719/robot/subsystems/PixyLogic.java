@@ -2,6 +2,7 @@ package org.usfirst.frc.team1719.robot.subsystems;
 
 import org.usfirst.frc.team1719.robot.interfaces.IPixy;
 import org.usfirst.frc.team1719.robot.interfaces.ISerial;
+import org.usfirst.frc.team1719.robot.sensors.I2C;
 
 /**
  * Logical implementation of IPixy. Deals with parsing incoming bytes into
@@ -9,11 +10,10 @@ import org.usfirst.frc.team1719.robot.interfaces.ISerial;
  * @author Duncan
  */
 public class PixyLogic implements IPixy {
-    private static final short BLOCK_SYNC = (short) 0xAA55;
-    private static final short BLOCK_SYNC_C = (short) 0xAA56;
-    private static final short BLOCK_SYNC_ERR = 0x55AA;
+    private static final int BLOCK_SYNC = 0xAA55;
+    private static final int BLOCK_SYNC_C = 0xAA56;
+    private static final int BLOCK_SYNC_ERR = 0x55AA;
     private static final int WORDS_PER_BLOCK = 7;
-    private static final int MAX_READ = 127;
     
     private final ISerial serial;
     
@@ -33,10 +33,18 @@ public class PixyLogic implements IPixy {
      */
     public void update() {
         /* Read in the data: 16-bit words, little endian */
-        byte[] bytes = serial.read(MAX_READ);
+       /* byte[] bytes = serial.read(MAX_READ);
         System.out.println("I2C Pixy Says: " + new String(bytes) + " (" + bytes.length + "bytes)");
-        short[] words = getWords(bytes);
-        
+        short[] words = getWords(bytes);*/
+        byte[] bytes = new byte[16];
+        boolean err = ((I2C) serial).readOnly(bytes, 16);
+        System.out.println("I2C Pixy Says: " + new String(bytes) + " (" + bytes.length + "bytes)");
+        if(err) System.out.println("Not enough bytes");
+        int[] words = getWords(bytes);
+        int[] pruned = new int[7];
+        System.arraycopy(words, 1, pruned, 0, 7);
+        processFrame(pruned);
+        if(true) return;
         /* Find the start of the last full frame */
         int framesync1 = -1;
         int framesync0 = -1;
@@ -77,11 +85,12 @@ public class PixyLogic implements IPixy {
         /* Only bother with the words from the current frame */
         short[] frameWords = new short[framesync1 - framesync0];
         System.arraycopy(words, framesync0, frameWords, 0, frameWords.length);
-        processFrame(frameWords);
+       // processFrame(frameWords);
     }
     
     
-    private synchronized void processFrame(short[] words) {
+    private synchronized void processFrame(int[] words) {
+        System.out.println("Processing " + (words.length / 7) + " blocks (" + words.length + "words)");
         blocks = new Block[words.length / WORDS_PER_BLOCK];
         boolean curIsCC = false;
         int cur_checksum = -1;
@@ -98,7 +107,7 @@ public class PixyLogic implements IPixy {
                 } else if (words[i] == BLOCK_SYNC_C) {
                     curIsCC = true;
                 } else {
-                    /* TODO -- handle sync error */
+                    System.out.println("Sync error: expected 0xAA55 or 0xAA56, recieved " + Integer.toHexString(words[i]));
                 }
             case 1: /* Word 1 is the checksum for the block*/
                 cur_checksum = words[i];
@@ -121,8 +130,9 @@ public class PixyLogic implements IPixy {
                 int blockID = i / WORDS_PER_BLOCK;
                 if(sum == cur_checksum) {
                     blocks[blockID] = new Block(curIsCC, cur_sig, cur_x, cur_y, cur_wid, cur_hgt);
+                    System.out.println("" + cur_wid + "x" + cur_hgt + "block detected, centered at (" + cur_x + ", " + cur_y + ")");
                 } else {
-                    System.err.println("Checksum test failed: checksum=" + cur_checksum
+                    System.out.println("Checksum test failed: checksum=" + cur_checksum
                             + ";calculated_sum=" + sum + ". Discarding block" + blockID + ".");
                     blocks[blockID] = null;
                 }
@@ -141,10 +151,10 @@ public class PixyLogic implements IPixy {
     @Override
     public void disable() {/* No actuators */}
     
-    private short[] getWords(byte[] bytes) {
-        short[] words = new short[bytes.length / 2];
+    private int[] getWords(byte[] bytes) {
+        int[] words = new int[bytes.length / 2];
         for(int i = 0; i < words.length; i++) {
-            words[i] = (short) (bytes[2 * i] | (((short)bytes[2 * i + 1]) << 8));
+            words[i] = (bytes[2 * i] & 0xFF) | ((bytes[2 * i + 1] & 0xFF) << 8);
         }
         return words;
     }

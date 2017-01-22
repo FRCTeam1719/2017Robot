@@ -12,7 +12,6 @@ import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
-import org.usfirst.frc.team1719.robot.subsystems.TestUART;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -44,7 +43,6 @@ public class Robot extends IterativeRobot implements IRobot {
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
-	TestUART testuart;
 	PixySubsys pixy;
 
 	/**
