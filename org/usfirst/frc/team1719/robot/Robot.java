@@ -7,14 +7,17 @@ import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
+import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalClimber;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
-import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalPixyMount;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalSilo;
-import edu.wpi.first.wpilibj.DriverStation;
+import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
+
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -46,7 +49,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	int iter = 0;
 	PhysicalPixyMount pixyMount;
 	PhysicalSilo silo;
-
+	MatchTimer timer;
+	PhysicalClimber physClimber;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -56,6 +60,9 @@ public class Robot extends IterativeRobot implements IRobot {
 		Compressor compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		compressor.start();
+		timer = new MatchTimer();
+		//TODO make an encoder
+		physClimber = new PhysicalClimber(RobotMap.climberController,null); 
 		oi = new OI();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());

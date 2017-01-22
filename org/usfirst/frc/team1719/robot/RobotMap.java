@@ -36,6 +36,7 @@ public class RobotMap {
     public static final SpeedController leftDrive = new Spark(0);
     public static final SpeedController rightDrive = new Spark(1);
     public static final SpeedController exMotorController = new Spark(4);
+    public static final SpeedController climberController = new Spark(6);
     public static final Servo pan = new Servo(2);
     public static final Servo tilt = new Servo(3);
     

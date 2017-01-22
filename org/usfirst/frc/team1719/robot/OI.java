@@ -4,7 +4,7 @@ import org.usfirst.frc.team1719.robot.commands.RunSetDistance;
 
 import org.usfirst.frc.team1719.robot.commands.ToggleSilo;
 import org.usfirst.frc.team1719.robot.commands.UnclogSilo;
-
+import org.usfirst.frc.team1719.robot.commands.UseClimber;
 import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -112,6 +112,10 @@ public class OI implements IOI{
 		//TODO Decide what button this should be.
 		Button siloUnclog = new JoystickButton(operator, 3);
 		siloUnclog.whenPressed(new UnclogSilo(3.0, robot.silo));
+		
+		//TODO Decide what button this should be.
+		Button runClimber = new JoystickButton(operator, 4);
+		runClimber.whileHeld(new UseClimber(robot.physClimber,robot.timer));
 
 	}
 
