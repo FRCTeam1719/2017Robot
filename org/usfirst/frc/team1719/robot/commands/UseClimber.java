@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.interfaces.IClimber;
+import org.usfirst.frc.team1719.robot.interfaces.IMatchTimer;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -18,16 +18,18 @@ public class UseClimber extends Command {
 		CLIMBINB, 
 		ATTOP;
 	}
-	IClimber climber;
 	
-	public UseClimber(IClimber climber){
+	IClimber climber;
+	IMatchTimer timer;
+	public UseClimber(IClimber climber, IMatchTimer matchTimer){
 		this.climber = climber;
+		timer = matchTimer;
 	}
 	
 	boolean shouldRun;
 	@Override
 	public void initialize(){
-		double time = DriverStation.getInstance().getMatchTime();
+		double time = timer.getMatchTime();
 		if(time<=40)
 			shouldRun = true;
 	}
