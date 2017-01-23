@@ -41,6 +41,14 @@ public class SafeSpeedController implements SpeedController {
 	public void disable() {
 		loop.disable();
 	}
+	
+	/**
+	 * Re-enables the speedcontroller. NOTE: This does <b>NOT</b> re-enable the controler if it has
+	 * passed the acceptable number of retries
+	 */
+	public void enable(){
+		loop.enable();
+	}
 
 	@Override
 	public void stopMotor() {
@@ -127,6 +135,12 @@ public class SafeSpeedController implements SpeedController {
 		public void disable() {
 			controlled.disable();
 			currentSpeed = 0;
+			shouldTry = false;
+		}
+		
+		public void enable(){
+			controlled.disable();
+			shouldTry = true;
 		}
 
 		@Override

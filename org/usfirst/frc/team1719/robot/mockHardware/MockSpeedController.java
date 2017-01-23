@@ -38,7 +38,7 @@ public class MockSpeedController implements SpeedController {
 	@Override
 	public void disable() {
 		this.speed = 0;
-		this.disabled = true;
+		this.disabled = !disabled;
 	}
 
 	@Override
