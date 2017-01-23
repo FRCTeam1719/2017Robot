@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot implements IRobot {
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
 		intake = new IntakeSubsystem(RobotMap.intakeMotor);
-		oi.init(this);
+		
 		timer = new MatchTimer();
 		//TODO make an encoder if necesarry
 		physClimber = new PhysicalClimber(RobotMap.climberController,null); 
@@ -83,6 +83,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		RobotMap.navx.reset();
 		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
 		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
+		oi.init(this);
 	}
 
 	/**
