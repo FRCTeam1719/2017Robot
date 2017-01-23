@@ -130,6 +130,9 @@ public class PixyLogic implements IPixy {
         return blocks;
     }
     
+    public synchronized boolean hasBlocks() {
+    	return blocks.length > 0;
+    }
     /**
      * @return whether the blocks are current. If a transmission error occurs, the blocks may be outdated.
      */

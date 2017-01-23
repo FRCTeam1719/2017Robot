@@ -11,8 +11,10 @@ import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalPixyMount;
 import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -46,6 +48,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	IPositionTracker tracker;
 	int iter = 0;
 	PixySubsys pixy;
+	PhysicalPixyMount pixyMount;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -77,6 +80,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
 		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
 		pixy = new PixySubsys(RobotMap.pixyI2C);
+		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, this);
+
 	}
 
 	/**

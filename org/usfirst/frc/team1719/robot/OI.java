@@ -45,18 +45,28 @@ public class OI implements IOI{
 
     }
 
+
 	@Override
 	public double getDeviceX() {
 		return operator.getRawAxis(0);
 	}
+
 	
 	public double getDeviceY() {
 		return operator.getRawAxis(1);
 	}
     
 	
-	
-	
+	@Override
+	public double getServoX() {
+		return operator.getRawAxis(0);
+	}
+
+	@Override
+	public double getServoY() {
+		return operator.getRawAxis(1);
+	}
+
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -84,8 +94,8 @@ public class OI implements IOI{
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	
-	public void init(Robot robot){
+
+	public void init(Robot robot) {
 		Button controlShooter = new JoystickButton(operator, 9);
 
 		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
@@ -100,5 +110,5 @@ public class OI implements IOI{
 		
 		
 	}
-	
+
 }

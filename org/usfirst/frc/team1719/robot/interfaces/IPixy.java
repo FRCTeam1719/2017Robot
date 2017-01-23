@@ -12,4 +12,6 @@ public interface IPixy extends GenericSubsystem {
      * @see <a href="http://www.cmucam.org/projects/cmucam5/wiki/Porting_Guide">The Official Pixy Porting Guide</a>
      */
     public void update();
+    
+    public boolean hasBlocks();
 }

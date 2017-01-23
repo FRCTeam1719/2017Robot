@@ -64,6 +64,15 @@ public class MockOI implements IOI {
 
 	@Override
 	public double getDeviceY() {
+		return 0;
+	}
+	public double getServoX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getServoY() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

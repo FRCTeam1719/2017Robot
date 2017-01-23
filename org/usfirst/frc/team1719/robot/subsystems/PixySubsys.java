@@ -52,5 +52,10 @@ public class PixySubsys extends Subsystem implements IPixy {
         /* Update the system every loop */
         setDefaultCommand(new Updater(this));
     }
+
+	@Override
+	public boolean hasBlocks() {
+		return logic.hasBlocks();
+	}
     
 }
