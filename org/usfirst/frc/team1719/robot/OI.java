@@ -1,6 +1,9 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.RunSetDistance;
+import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
+import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
+import org.usfirst.frc.team1719.robot.commands.UseClimber;
 import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -87,7 +90,18 @@ public class OI implements IOI{
 		Button controlShooter = new JoystickButton(operator, 9);
 
 		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
+		
+		//TODO Decide on button
+		Button intakeToggle = new JoystickButton(operator, 8);
+		intakeToggle.toggleWhenPressed(new ToggleIntake(robot.intake));
+		Button unclogIntake = new JoystickButton(operator, 10);
+		unclogIntake.whileHeld(new UnclogIntake(robot.intake));
 
+		//TODO Decide what button this should be.
+		Button runClimber = new JoystickButton(operator, 4);
+		runClimber.whileHeld(new UseClimber(robot.physClimber,robot.timer));
+		
+		
 	}
 	
 }
