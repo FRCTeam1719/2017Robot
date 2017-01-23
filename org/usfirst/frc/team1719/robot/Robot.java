@@ -9,11 +9,12 @@ import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
-
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -29,7 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot implements IRobot {
-
+	
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	
@@ -39,7 +40,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	DriveSubsys drive;
 	PhysicalExShooter shooter;
-	GenericSubsystem[] subsystems = { drive };
+	IntakeSubsystem intake;
+	GenericSubsystem[] subsystems = {drive, shooter, intake};
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
@@ -51,6 +53,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void robotInit() {
+		Compressor compressor = new Compressor(0);
+		compressor.setClosedLoopControl(true);
+		compressor.start();
 		oi = new OI();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -58,6 +63,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
+		intake = new IntakeSubsystem(RobotMap.intakeMotor);
 		oi.init(this);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
