@@ -8,5 +8,6 @@ public interface IOI {
     public boolean getShifter();
     public double getDeviceX();
     public double getDeviceY();
+    public boolean getAbortAutomove();
     
 }

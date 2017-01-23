@@ -1,9 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.RunSetDistance;
 import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
-import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -89,5 +87,10 @@ public class OI implements IOI{
 		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
 
 	}
+
+    @Override
+    public boolean getAbortAutomove() {
+        return driver.getRawButton(2);
+    }
 	
 }

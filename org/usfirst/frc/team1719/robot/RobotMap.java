@@ -36,7 +36,7 @@ public class RobotMap {
     public static final SpeedController exMotorController = new Spark(4);
     
     /* I2C */
-    public static final NAVX navx = new NAVX(I2C.Port.kOnboard);
+    public static final NAVX navx = new NAVX(I2C.Port.kMXP);
     
     /* Pneumatics */
     public static final Solenoid shifter = new Solenoid(0);
