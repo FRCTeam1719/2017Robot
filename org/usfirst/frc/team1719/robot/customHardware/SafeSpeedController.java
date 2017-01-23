@@ -1,15 +1,14 @@
 package org.usfirst.frc.team1719.robot.customHardware;
 
-import org.usfirst.frc.team1719.robot.RobotMap;
+import org.usfirst.frc.team1719.robot.interfaces.IPDP;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class VexPro775Pro implements SpeedController {
+public class SafeSpeedController implements SpeedController {
 	UpdateLoop loop;
 
-	public VexPro775Pro(SpeedController controlled, String motorName) {
-		//Instantiate the update loop
-		loop = new UpdateLoop(controlled, motorName);
+	public SafeSpeedController(SpeedController controlled, int port, String name, IPDP pdp) {
+		loop = new UpdateLoop(controlled,port,pdp,name);
 		loop.run();
 	}
 
@@ -49,24 +48,29 @@ public class VexPro775Pro implements SpeedController {
 	}
 
 	public class UpdateLoop extends Thread implements SpeedController{
-		SpeedController controlled;
-		boolean shouldTry;
-		int fails;
-		final int MAX_ATTEMPTS = 3;
+		private SpeedController controlled;
+		private boolean shouldTry;
+		private int fails;
+		private final int MAX_ATTEMPTS = 3;
+		private final int VOLTAGE_THRESHOLD = 80;
 		private double currentSpeed;
-		private String name;
+		private final String name;
+		private final int PORT;
+		private IPDP pdp;
 
-		public UpdateLoop(SpeedController controlled, String name) {
+		public UpdateLoop(SpeedController controlled, int port, IPDP pdp, String name) {
 			this.controlled = controlled;
+			this.PORT = port;
+			this.pdp = pdp;
+			this.name = name;
 			shouldTry = true;
 			fails = 0;
 			currentSpeed = 0d;
-			this.name = name;
 		}
 
 		public void run() {
-			while (true) {
-				if (shouldTry && safeToDrive()) {
+			while (shouldTry) {
+				if (safeToDrive()) {
 					controlled.set(currentSpeed);
 				} else {
 					// Error Condition Tripped!
@@ -74,12 +78,6 @@ public class VexPro775Pro implements SpeedController {
 					// Report the error
 					System.out.println("Motor: " + name + " stalled! Halting! Will retry!");
 					// Wait for retry
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 					fails++;
 					if (fails > MAX_ATTEMPTS) {
 						// We've failed, and need to stop
@@ -88,11 +86,16 @@ public class VexPro775Pro implements SpeedController {
 						System.out.println("Motor: " + name + " has passed the retry threshold, disabling!");
 					}
 				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
 		public boolean safeToDrive() {
-			return RobotMap.pdp.getCurrent(1) <= 80;
+			return pdp.getCurrent(PORT) <= VOLTAGE_THRESHOLD;
 		}
 
 		@Override

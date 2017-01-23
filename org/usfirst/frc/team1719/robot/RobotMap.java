@@ -1,11 +1,12 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
+import org.usfirst.frc.team1719.robot.customHardware.SafeSpeedController;
+import org.usfirst.frc.team1719.robot.interfaces.IPDP;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -27,7 +28,7 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 	
 	/* PDP */
-	public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
+	public static final IPDP pdp = new PDP();
     
     /* DIO */
     public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1);
@@ -36,7 +37,8 @@ public class RobotMap {
     /* PWM */
     public static final SpeedController leftDrive = new Spark(0);
     public static final SpeedController rightDrive = new Spark(1);
-    public static final SpeedController exMotorController = new Spark(4);
+    public static final SpeedController exMotorController 
+    	= new SafeSpeedController(new Spark(2), 2, "Shooter Motor", pdp);
     
     /* I2C */
     public static final NAVX navx = new NAVX(I2C.Port.kOnboard);
