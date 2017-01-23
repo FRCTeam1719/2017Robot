@@ -7,13 +7,16 @@ import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
+import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalClimber;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
-import edu.wpi.first.wpilibj.DriverStation;
+
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -40,7 +43,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	DriveSubsys drive;
 	PhysicalExShooter shooter;
 	IntakeSubsystem intake;
-	GenericSubsystem[] subsystems = {drive, shooter, intake};
+	MatchTimer timer;
+	PhysicalClimber physClimber;
+	GenericSubsystem[] subsystems = {drive, shooter, intake, physClimber};
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
@@ -63,6 +68,10 @@ public class Robot extends IterativeRobot implements IRobot {
 		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
 		intake = new IntakeSubsystem(RobotMap.intakeMotor);
 		oi.init(this);
+		timer = new MatchTimer();
+		//TODO make an encoder if necesarry
+		physClimber = new PhysicalClimber(RobotMap.climberController,null); 
+
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);

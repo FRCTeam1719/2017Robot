@@ -35,7 +35,8 @@ public class RobotMap {
     public static final SpeedController rightDrive = new Spark(1);
     public static final SpeedController exMotorController = new Spark(4);
     public static final SpeedController intakeMotor = new Spark(5);
-    
+    public static final SpeedController climberController = new Spark(6);
+
     /* I2C */
     public static final NAVX navx = new NAVX(I2C.Port.kOnboard);
     
