@@ -9,7 +9,7 @@ public class SafeSpeedController implements SpeedController {
 
 	public SafeSpeedController(SpeedController controlled, int port, String name, IPDP pdp) {
 		loop = new UpdateLoop(controlled,port,pdp,name);
-		loop.run();
+		loop.start();
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class SafeSpeedController implements SpeedController {
 	}
 	
 	/**
-	 * Re-enables the speedcontroller. NOTE: This does <b>NOT</b> re-enable the controler if it has
+	 * Re-enables the speedcontroller. NOTE: This does <b>NOT</b> re-enable the controller if it has
 	 * passed the acceptable number of retries
 	 */
 	public void enable(){
@@ -60,13 +60,15 @@ public class SafeSpeedController implements SpeedController {
 		private boolean shouldTry;
 		private int fails;
 		private final int MAX_ATTEMPTS = 3;
+		//TODO I don't buy that this is the real threshold. Circuit has a 40A fuse on it...
 		private final int VOLTAGE_THRESHOLD = 80;
-		private double currentSpeed;
+		private volatile double currentSpeed;
 		private final String name;
 		private final int PORT;
 		private IPDP pdp;
 
 		public UpdateLoop(SpeedController controlled, int port, IPDP pdp, String name) {
+			super(name);
 			this.controlled = controlled;
 			this.PORT = port;
 			this.pdp = pdp;
@@ -86,18 +88,19 @@ public class SafeSpeedController implements SpeedController {
 					// Report the error
 					System.out.println("Motor: " + name + " stalled! Halting! Will retry!");
 					// Wait for retry
+					try{
+						Thread.sleep(1000);
+					}catch(InterruptedException e){
+						e.printStackTrace();
+					}
 					fails++;
 					if (fails > MAX_ATTEMPTS) {
 						// We've failed, and need to stop
 						shouldTry = false;
+						controlled.disable();
 						// Log
 						System.out.println("Motor: " + name + " has passed the retry threshold, disabling!");
 					}
-				}
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
 				}
 			}
 		}

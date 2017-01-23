@@ -20,36 +20,39 @@ public class SafeSpeedControllerTest {
 	
 	@Before
 	public void setup(){
+		System.out.println("Setting up!");
 		controller = new MockSpeedController();
 		pdp = new MockPDP();
-		subject = new SafeSpeedController(controller, port, "testMotor", pdp);
 	}
 
 	
 	//Tests basic functionality
 	@Test
-	public void testBasic(){
+	public void testBasic() throws InterruptedException{
 		subject = new SafeSpeedController(controller, port, "testMotor", pdp);
 		pdp.setCurrent(port, 0);
 		for(double i =-1d;i<1;i+=0.1){
-			System.out.println("Testing");
 			subject.set(i);
+			Thread.sleep(10);
 			assertTrue(controller.get()==i);
-			subject.disable();
+			subject.stopMotor();
+			Thread.sleep(10);
 			assertTrue(controller.get()==0);
 		}
-		System.out.println("Disabling");
 		subject.disable();
 	}
 	
 	//Tests safe functionality
 	@Test
 	public void testSafety() throws InterruptedException{
+		subject = new SafeSpeedController(controller, port, "testMotor", pdp);
 		pdp.setCurrent(port, 0);
 		subject.set(1);
+		Thread.sleep(10);
 		assertTrue(controller.get()==1);
 		pdp.setCurrent(port, 80.1);
 		//Controller should stop itself
+		Thread.sleep(10);
 		assertTrue(controller.get()==0);
 		//Wait 1000 ms for retry attempt
 		pdp.setCurrent(port, 0);
