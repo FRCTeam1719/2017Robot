@@ -80,7 +80,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
 		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
 		pixy = new PixySubsys(RobotMap.pixyI2C);
-		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, this);
+		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, pixy);
 
 	}
 
