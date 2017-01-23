@@ -37,7 +37,6 @@ public class UseClimber extends Command {
 	@Override
 	public void execute(){
 		if (shouldRun){
-			System.out.println("it works!");
 			climber.setSpeed(1); 
 			//TODO find out how hanging is going to work
 		}
