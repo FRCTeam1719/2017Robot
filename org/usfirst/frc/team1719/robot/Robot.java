@@ -13,6 +13,7 @@ import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalClimber;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
+import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -49,6 +50,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
+	PixySubsys pixy;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -83,7 +85,10 @@ public class Robot extends IterativeRobot implements IRobot {
 		RobotMap.navx.reset();
 		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
 		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
+
 		oi.init(this);
+		pixy = new PixySubsys(RobotMap.pixyI2C);
+
 	}
 
 	/**
@@ -98,7 +103,6 @@ public class Robot extends IterativeRobot implements IRobot {
 //				subsystems[i].disable();
 //			}
 //		}
-
 	}
 
 	@Override
@@ -165,12 +169,12 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-	    System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
+	    //System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
-		if((iter++) % 0x10 == 0) {
+		/*if((iter++) % 0x10 == 0) {
             display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
         }
-		System.out.println("(x,y)=(" + tracker.getX() + "," + tracker.getY() + "); heading=" + tracker.getHeading() + "deg");
+		System.out.println("(x,y)=(" + tracker.getX() + "," + tracker.getY() + "); heading=" + tracker.getHeading() + "deg");*/
 	}
 
 	/**

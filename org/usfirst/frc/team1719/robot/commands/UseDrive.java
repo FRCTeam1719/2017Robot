@@ -127,9 +127,9 @@ public class UseDrive extends Command {
         double leftJoystick = -oi.getLeftY(), rightJoystick = -oi.getRightY();
         double desiredLeftRate = leftJoystick * DRIVE_MAX_SPEED;
         double desiredRightRate = rightJoystick * DRIVE_MAX_SPEED;
-        System.out.println("leftd: " + desiredLeftRate);
+      /*  System.out.println("leftd: " + desiredLeftRate);
         System.out.println("rightd: " + desiredRightRate);
-        
+        */
         if (Math.abs(leftJoystick) < JOYSTICK_DEADZONE) {
         	leftMotorOutput = 0;
         	leftController.setSetpoint(0);
