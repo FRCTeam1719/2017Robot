@@ -13,5 +13,14 @@ public interface IPixy extends GenericSubsystem {
      */
     public void update();
     
+    /**
+     * 
+     * @return whether or not the pixy's has blocks available to read
+     */
     public boolean hasBlocks();
+    
+    /**
+     * @return whether or not the pixy's blocks are from the last frame pulled.
+     */
+    public boolean isTrustworthy();
 }

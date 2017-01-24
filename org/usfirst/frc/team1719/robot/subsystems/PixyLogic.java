@@ -72,8 +72,10 @@ public class PixyLogic implements IPixy {
      */
     private synchronized void processFrame(int[] words) {
         //System.out.println("Processing " + (words.length / 7) + " blocks (" + words.length + "words)");
-        Block[] tempBuffer = new Block[words.length/WORDS_PER_BLOCK];
+//        Block[] tempBuffer = new Block[words.length/WORDS_PER_BLOCK];
+    	Block[] tempBuffer;
         boolean isGoodFrame = true;
+        boolean emptyFrame;
         boolean curIsCC = false;
         int cur_checksum = -1;
         int cur_sig = -1;
@@ -81,6 +83,16 @@ public class PixyLogic implements IPixy {
         int cur_y = -1;
         int cur_wid = -1;
         int cur_hgt = -1;
+        if(words.length/WORDS_PER_BLOCK > 1){
+        	//We have at least one block, create the buffer
+        	tempBuffer = new Block[words.length/WORDS_PER_BLOCK];
+        	emptyFrame = false;
+        }else{
+        	//Empty frame, move on
+        	tempBuffer = new Block[] {};
+        	isGoodFrame = false;
+        	emptyFrame = true;
+        }
         /* Iterate through the words. Every seven words is a 'block' of data about one object. */
         for(int i = 0; i < words.length; i++) switch(i % WORDS_PER_BLOCK) {
             case 0: /* Word 0 is the sync code and type. Is it a normal or 'color code' block? */
@@ -124,9 +136,11 @@ public class PixyLogic implements IPixy {
                 System.err.println("Why is <positive integer> mod 7 not an integer between 0 and 6 inclusive?");
         }
         if(isGoodFrame){
-        	//Update the blocks with the temp buffer
         	blocks = tempBuffer;
         	trustworthy = true;
+        }else if(emptyFrame){
+        	blocks = tempBuffer;
+        	trustworthy = false;
         }else{
         	trustworthy = false;
         }

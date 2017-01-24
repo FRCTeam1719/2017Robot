@@ -56,5 +56,10 @@ public class PixySubsys extends Subsystem implements IPixy {
 	public boolean hasBlocks() {
 		return logic.hasBlocks();
 	}
+
+	@Override
+	public boolean isTrustworthy() {
+		return logic.isTrustworthy();
+	}
     
 }
