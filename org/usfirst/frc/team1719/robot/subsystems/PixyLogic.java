@@ -42,7 +42,7 @@ public class PixyLogic implements IPixy {
         int[] words = getWords(bytes);
         /* Fix sync errors */
         while(words[0] == BLOCK_SYNC_ERR_0) {
-            System.out.println("Fixing sync error");
+            //System.out.println("Fixing sync error");
             byte[] newbytes = new byte[bytes.length -1];
             System.arraycopy(bytes, 1, newbytes, 0, newbytes.length);
             bytes = newbytes;
@@ -54,7 +54,7 @@ public class PixyLogic implements IPixy {
             return;
         }
         if(words.length < 8) {
-            System.out.println("Not enough bytes");
+            //System.out.println("Not enough bytes");
             trustworthy = false;
             return;
         }
@@ -71,8 +71,9 @@ public class PixyLogic implements IPixy {
      * @param words the array of words
      */
     private synchronized void processFrame(int[] words) {
-        System.out.println("Processing " + (words.length / 7) + " blocks (" + words.length + "words)");
-        blocks = new Block[words.length / WORDS_PER_BLOCK];
+        //System.out.println("Processing " + (words.length / 7) + " blocks (" + words.length + "words)");
+        Block[] tempBuffer = new Block[words.length/WORDS_PER_BLOCK];
+        boolean isGoodFrame = true;
         boolean curIsCC = false;
         int cur_checksum = -1;
         int cur_sig = -1;
@@ -88,7 +89,7 @@ public class PixyLogic implements IPixy {
                 } else if (words[i] == BLOCK_SYNC_C) {
                     curIsCC = true;
                 } else {
-                    System.out.println("Sync error: expected 0xAA55 or 0xAA56, recieved " + Integer.toHexString(words[i]));
+                    //System.out.println("Sync error: expected 0xAA55 or 0xAA56, recieved " + Integer.toHexString(words[i]));
                 }
             case 1: /* Word 1 is the checksum for the block*/
                 cur_checksum = words[i];
@@ -110,16 +111,24 @@ public class PixyLogic implements IPixy {
                 int sum = cur_sig + cur_x + cur_y + cur_wid + cur_hgt;
                 int blockID = i / WORDS_PER_BLOCK;
                 if(sum == cur_checksum) {
-                    blocks[blockID] = new Block(curIsCC, cur_sig, cur_x, cur_y, cur_wid, cur_hgt);
+                    tempBuffer[blockID] = new Block(curIsCC, cur_sig, cur_x, cur_y, cur_wid, cur_hgt);
                     System.out.println("" + cur_wid + "x" + cur_hgt + "block detected, centered at (" + cur_x + ", " + cur_y + ")");
                 } else {
                     System.out.println("Checksum test failed: checksum=" + cur_checksum
                             + ";calculated_sum=" + sum + ". Discarding block" + blockID + ".");
-                    blocks[blockID] = null;
+                    tempBuffer[blockID] = null;
+                    isGoodFrame = false;
                 }
                 break;
             default:
                 System.err.println("Why is <positive integer> mod 7 not an integer between 0 and 6 inclusive?");
+        }
+        if(isGoodFrame){
+        	//Update the blocks with the temp buffer
+        	blocks = tempBuffer;
+        	trustworthy = true;
+        }else{
+        	trustworthy = false;
         }
     }
     
@@ -131,7 +140,7 @@ public class PixyLogic implements IPixy {
     }
     
     public synchronized boolean hasBlocks() {
-    	return blocks.length > 0;
+    	return (blocks!=null)&&( blocks.length > 0);
     }
     /**
      * @return whether the blocks are current. If a transmission error occurs, the blocks may be outdated.

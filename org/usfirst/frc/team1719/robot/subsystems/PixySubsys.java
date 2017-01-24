@@ -43,7 +43,6 @@ public class PixySubsys extends Subsystem implements IPixy {
     
     @Override
     public void update() {
-        System.out.println("Pixy Update");
         logic.update();
     }
     
