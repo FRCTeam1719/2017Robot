@@ -51,6 +51,8 @@ public class PixyLogic implements IPixy {
         if(words[0] != BLOCK_SYNC) {
             System.out.println("Unrecoverable sync error");
             trustworthy = false;
+            //Process the empty frame, for the purpose of signalling to other processes.
+            processFrame(new int[] {});
             return;
         }
         if(words.length < 8) {
@@ -83,7 +85,7 @@ public class PixyLogic implements IPixy {
         int cur_y = -1;
         int cur_wid = -1;
         int cur_hgt = -1;
-        if(words.length/WORDS_PER_BLOCK > 1){
+        if(words.length/WORDS_PER_BLOCK > 0){
         	//We have at least one block, create the buffer
         	tempBuffer = new Block[words.length/WORDS_PER_BLOCK];
         	emptyFrame = false;
@@ -135,12 +137,9 @@ public class PixyLogic implements IPixy {
             default:
                 System.err.println("Why is <positive integer> mod 7 not an integer between 0 and 6 inclusive?");
         }
-        if(isGoodFrame){
+        if(emptyFrame || isGoodFrame){
         	blocks = tempBuffer;
         	trustworthy = true;
-        }else if(emptyFrame){
-        	blocks = tempBuffer;
-        	trustworthy = false;
         }else{
         	trustworthy = false;
         }

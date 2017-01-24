@@ -154,6 +154,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		pixyMount.setX(0.5);
 		
 	}
 
