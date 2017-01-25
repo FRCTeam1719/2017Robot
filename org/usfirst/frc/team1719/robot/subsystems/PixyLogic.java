@@ -61,8 +61,8 @@ public class PixyLogic implements IPixy {
             return;
         }
         /* Discard duplicate sync byte */
-        int[] pruned = new int[7];
-        System.arraycopy(words, 1, pruned, 0, 7);
+        int[] pruned = new int[words.length-1];
+        System.arraycopy(words, 1, pruned, 0, words.length-1);
         /* Process */
         processFrame(pruned);
         trustworthy = true;
@@ -73,8 +73,6 @@ public class PixyLogic implements IPixy {
      * @param words the array of words
      */
     private synchronized void processFrame(int[] words) {
-        //System.out.println("Processing " + (words.length / 7) + " blocks (" + words.length + "words)");
-//        Block[] tempBuffer = new Block[words.length/WORDS_PER_BLOCK];
     	Block[] tempBuffer;
         boolean isGoodFrame = true;
         boolean emptyFrame;
