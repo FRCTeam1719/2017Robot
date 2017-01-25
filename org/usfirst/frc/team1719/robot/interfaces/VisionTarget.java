@@ -14,5 +14,11 @@ public interface VisionTarget {
 	 */
 	public boolean inFrame(Block[] frame);
 	
+	/**
+	 * Return the center of a complicated vision object
+	 * @param frame to analyze
+	 * @return x,y
+	 */
+	public int[] getCenter(Block[] frame);
 	
 }

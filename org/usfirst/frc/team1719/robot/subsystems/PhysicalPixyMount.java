@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
+import org.usfirst.frc.team1719.robot.commands.CloseFuel;
 import org.usfirst.frc.team1719.robot.commands.SimpleUsePixyMount;
 import org.usfirst.frc.team1719.robot.interfaces.IPixy;
 import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
@@ -46,7 +47,7 @@ public class PhysicalPixyMount extends Subsystem implements IPixyMount{
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new SimpleUsePixyMount(camera, this));
+		setDefaultCommand(new SimpleUsePixyMount(camera, this, new CloseFuel()));
 	}
 
 }

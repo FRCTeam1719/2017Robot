@@ -2,6 +2,7 @@ package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.interfaces.IPixy;
 import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
+import org.usfirst.frc.team1719.robot.interfaces.VisionTarget;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,10 +20,12 @@ public class SimpleUsePixyMount extends Command {
 	double lastYDiff = 0;
 	private double y_cur;
 	private int frame;
+	private final VisionTarget toTrack;
 
-	public SimpleUsePixyMount(IPixy pixy, IPixyMount mount) {
+	public SimpleUsePixyMount(IPixy pixy, IPixyMount mount, VisionTarget toTrack) {
 		this.pixy = pixy;
 		this.mount = mount;
+		this.toTrack = toTrack;
 		requires((Subsystem) mount);
 		x_cur = 0.5;
 		y_cur = 0.5;
@@ -42,10 +45,11 @@ public class SimpleUsePixyMount extends Command {
 			int targetX = -1;
 			int targetY = -1;
 			synchronized (pixy) {
-				if (pixy.hasBlocks()) {
+				if (pixy.hasBlocks() && toTrack.inFrame(pixy.getBlocks())) {
 					hasVal = true;
-					targetX = pixy.getBlocks()[0].x;
-					targetY = pixy.getBlocks()[0].y;
+					int[] center = toTrack.getCenter(pixy.getBlocks());
+					targetX = center[0];
+					targetY = center[1];
 				} else {
 					hasVal = false;
 				}
