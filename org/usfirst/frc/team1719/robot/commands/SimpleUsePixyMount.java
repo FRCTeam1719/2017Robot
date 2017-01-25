@@ -24,8 +24,8 @@ public class SimpleUsePixyMount extends Command {
 		this.pixy = pixy;
 		this.mount = mount;
 		requires((Subsystem) mount);
-		x_cur = X_CENTER;
-		y_cur = Y_CENTER;
+		x_cur = 0.5;
+		y_cur = 0.5;
 		frame = 0;
 	}
 
@@ -61,12 +61,7 @@ public class SimpleUsePixyMount extends Command {
 				lastYDiff = y_diff;
 				x_cur += xstep;
 				y_cur -= ystep;
-			}else{
-				x_cur = 0.5;
-				y_cur = 0.5;
-
-			}
-			
+			}			
 			if (x_cur > 1) {
 				x_cur = 1;
 			}
