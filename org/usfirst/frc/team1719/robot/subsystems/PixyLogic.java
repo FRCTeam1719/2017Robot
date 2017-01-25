@@ -126,7 +126,7 @@ public class PixyLogic implements IPixy {
                 int blockID = i / WORDS_PER_BLOCK;
                 if(sum == cur_checksum) {
                     tempBuffer[blockID] = new Block(curIsCC, cur_sig, cur_x, cur_y, cur_wid, cur_hgt);
-                    System.out.println("" + cur_wid + "x" + cur_hgt + "block detected, centered at (" + cur_x + ", " + cur_y + ")");
+//                    System.out.println("" + cur_wid + "x" + cur_hgt + "block detected, centered at (" + cur_x + ", " + cur_y + ")");
                 } else {
                     System.out.println("Checksum test failed: checksum=" + cur_checksum
                             + ";calculated_sum=" + sum + ". Discarding block" + blockID + ".");
