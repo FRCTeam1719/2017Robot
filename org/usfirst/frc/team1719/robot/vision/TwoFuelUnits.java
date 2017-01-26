@@ -1,7 +1,7 @@
-package org.usfirst.frc.team1719.robot.commands;
+package org.usfirst.frc.team1719.robot.vision;
 import org.usfirst.frc.team1719.robot.interfaces.VisionTarget;
 import org.usfirst.frc.team1719.robot.subsystems.Block;
-public class CloseFuel implements VisionTarget{
+public class TwoFuelUnits implements VisionTarget{
 
 	@Override
 	public boolean inFrame(Block[] frame) {
