@@ -4,6 +4,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IPixy;
 import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
 import org.usfirst.frc.team1719.robot.interfaces.VisionTarget;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -11,6 +12,7 @@ public class SimpleUsePixyMount extends Command {
 
 	private IPixy pixy;
 	private IPixyMount mount;
+	private Timer searchTimer;
 	private final int Y_CENTER = 200 / 2;
 	private final int X_CENTER = 320 / 2;
 	private final double kP = 0.0002;
@@ -65,7 +67,7 @@ public class SimpleUsePixyMount extends Command {
 				lastYDiff = y_diff;
 				x_cur += xstep;
 				y_cur -= ystep;
-			}			
+			}
 			if (x_cur > 1) {
 				x_cur = 1;
 			}

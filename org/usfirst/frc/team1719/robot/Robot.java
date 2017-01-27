@@ -59,7 +59,6 @@ public class Robot extends IterativeRobot implements IRobot {
 		Compressor compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		compressor.start();
-		oi = new OI();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
@@ -67,7 +66,6 @@ public class Robot extends IterativeRobot implements IRobot {
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
 		intake = new IntakeSubsystem(RobotMap.intakeMotor);
-		oi.init(this);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
@@ -81,6 +79,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
 		pixy = new PixySubsys(RobotMap.pixyI2C);
 		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, pixy);
+		oi = new OI();
+		oi.init(this);
 
 	}
 

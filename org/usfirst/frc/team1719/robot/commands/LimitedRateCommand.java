@@ -17,12 +17,12 @@ public abstract class LimitedRateCommand extends Command{
 	 * @param executesPerSecond Desired number of executions per second
 	 */
 	public LimitedRateCommand(int executesPerSecond){
-		rate = executesPerSecond/RIO_POLLING_RATE;
+		rate = executesPerSecond;
 	}
 	
 	@Override
 	public void initialize(){
-		frame = 0;
+		frame = 1;
 	}
 	
 	@Override
