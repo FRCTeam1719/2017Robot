@@ -8,8 +8,8 @@ public class LogicalPixyMount implements IPixyMount {
 	
 	private Servo pan;
 	private Servo tilt;
-	private final double MAX = 1;
-	private final double MIN = 0;
+	private final double MAX = 0.81;
+	private final double MIN = 0.1;
 	
 	public LogicalPixyMount (Servo pan, Servo tilt){
 		this.pan = pan;
