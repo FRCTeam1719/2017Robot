@@ -61,8 +61,8 @@ public class PixyLogic implements IPixy {
             return;
         }
         /* Discard duplicate sync byte */
-        int[] pruned = new int[7];
-        System.arraycopy(words, 1, pruned, 0, 7);
+        int[] pruned = new int[words.length-1];
+        System.arraycopy(words, 1, pruned, 0, words.length-1);
         /* Process */
         processFrame(pruned);
         trustworthy = true;
@@ -73,8 +73,6 @@ public class PixyLogic implements IPixy {
      * @param words the array of words
      */
     private synchronized void processFrame(int[] words) {
-        //System.out.println("Processing " + (words.length / 7) + " blocks (" + words.length + "words)");
-//        Block[] tempBuffer = new Block[words.length/WORDS_PER_BLOCK];
     	Block[] tempBuffer;
         boolean isGoodFrame = true;
         boolean emptyFrame;
@@ -126,7 +124,7 @@ public class PixyLogic implements IPixy {
                 int blockID = i / WORDS_PER_BLOCK;
                 if(sum == cur_checksum) {
                     tempBuffer[blockID] = new Block(curIsCC, cur_sig, cur_x, cur_y, cur_wid, cur_hgt);
-                    System.out.println("" + cur_wid + "x" + cur_hgt + "block detected, centered at (" + cur_x + ", " + cur_y + ")");
+//                    System.out.println("" + cur_wid + "x" + cur_hgt + "block detected, centered at (" + cur_x + ", " + cur_y + ")");
                 } else {
                     System.out.println("Checksum test failed: checksum=" + cur_checksum
                             + ";calculated_sum=" + sum + ". Discarding block" + blockID + ".");

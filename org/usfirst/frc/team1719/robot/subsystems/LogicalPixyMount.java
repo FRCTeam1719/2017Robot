@@ -8,8 +8,8 @@ public class LogicalPixyMount implements IPixyMount {
 	
 	private Servo pan;
 	private Servo tilt;
-	private final double MAX = 1;
-	private final double MIN = -1;
+	private final double MAX = 0.81;
+	private final double MIN = 0.1;
 	
 	public LogicalPixyMount (Servo pan, Servo tilt){
 		this.pan = pan;
@@ -33,12 +33,12 @@ public class LogicalPixyMount implements IPixyMount {
 
 	@Override
 	public double getAngleX() {
-		return pan.get();
+		return pan.getAngle();
 	}
 
 	@Override
 	public double getAngleY() {
-		return tilt.get();
+		return tilt.getAngle();
 	}
 	
     private double clip(double d) {

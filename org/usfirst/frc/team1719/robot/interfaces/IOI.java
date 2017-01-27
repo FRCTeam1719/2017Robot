@@ -10,5 +10,6 @@ public interface IOI {
     public double getDeviceY();
     public double getServoX();
     public double getServoY();
+    public boolean getCancelScan();
     
 }

@@ -20,4 +20,10 @@ public class Block {
         wid = _wid;
         hgt = _hgt;
     }
+    
+    @Override
+    public String toString(){
+    	return "Block @"+x+","+y;
+    }
+    
 }

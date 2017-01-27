@@ -77,4 +77,10 @@ public class MockOI implements IOI {
 		return 0;
 	}
 
+	@Override
+	public boolean getCancelScan() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
