@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Simple command for managing the Experimental Shooter
  * Control Scheme: While held, sets the motor to square of the joystick
@@ -22,7 +23,7 @@ public class UseExShooter extends Command implements PIDOutput {
 	public static final String SHOOTER_KD = "Shooter kD: ";
 	public static final String SHOOTER_KF = "Shooter kF: ";
 
-	
+
 	private double kP;
 	private double kI;
 	private double kD;
@@ -37,6 +38,12 @@ public class UseExShooter extends Command implements PIDOutput {
 	private PIDController velocityController;
 	
 	public UseExShooter(IExShooter exshooter, IRobot robot) {
+		
+		SmartDashboard.putNumber(SHOOTER_KP, 0);
+		SmartDashboard.putNumber(SHOOTER_KI, 0);
+		SmartDashboard.putNumber(SHOOTER_KD, 0);
+		SmartDashboard.putNumber(SHOOTER_KF, 0);
+		
 		this.exshooter = exshooter;
 		oi = robot.getOI();
 		try {

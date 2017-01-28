@@ -83,7 +83,7 @@ public class OI implements IOI{
 	// button.whenReleased(new ExampleCommand());
 	
 	public void init(Robot robot){
-		revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 5));
+		revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 100));
 	}
 
 	@Override

@@ -38,7 +38,6 @@ public class Robot extends IterativeRobot implements IRobot {
 	PhysicalExShooter shooter;
 	GenericSubsystem[] subsystems = { drive };
 	Display display = new Display();
-	Dashboard dashboard = new Dashboard();
 	int iter = 0;
 
 	/**
@@ -47,6 +46,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void robotInit() {
+		System.out.println("MEEEEM");
 		oi = new OI();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -133,9 +133,12 @@ public class Robot extends IterativeRobot implements IRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		
+		RobotMap.shooterEnc1.reset();
 	}
 
 	/**
@@ -147,6 +150,9 @@ public class Robot extends IterativeRobot implements IRobot {
 		if((iter++) % 0x10 == 0) {
             display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
         }
+		
+		//System.out.println("Enc dist: " + RobotMap.shooterEnc1.getDistance());
+		//System.out.println("Pulses: " + RobotMap.shooterEnc1.getRaw());
 	}
 
 	/**
@@ -168,6 +174,6 @@ public class Robot extends IterativeRobot implements IRobot {
 
 	@Override
 	public IDashboard getDashboard() {
-		return dashboard;
+		return null;
 	}
 }

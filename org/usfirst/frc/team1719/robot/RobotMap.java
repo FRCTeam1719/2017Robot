@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
+import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.I2C;
@@ -29,8 +30,8 @@ public class RobotMap {
     /* DIO */
     public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true, EncodingType.k2X);
     public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false, EncodingType.k2X);
-    public static final E4TOpticalEncoder shooterEnc1 = new E4TOpticalEncoder(4, 5, false, EncodingType.k1X);
-    public static final E4TOpticalEncoder shooterEnc2 = new E4TOpticalEncoder(6, 7, false, EncodingType.k1X);
+    public static final RS7Encoder shooterEnc1 = new RS7Encoder(4, 5, true, EncodingType.k4X);
+    public static final E4TOpticalEncoder shooterEnc2 = new E4TOpticalEncoder(6, 7, false, EncodingType.k4X);
     
     
     /* PWM */

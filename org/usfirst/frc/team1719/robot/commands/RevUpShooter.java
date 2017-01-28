@@ -1,13 +1,16 @@
 package org.usfirst.frc.team1719.robot.commands;
 
+import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -36,6 +39,8 @@ public class RevUpShooter extends Command implements PIDOutput {
 	private final int TOLERANCE_BUFFER_SIZE = 3; // Increase to reduce measurement noise, decrease to increase reactivity
 	private final double PERCENT_TOLERANCE = 1.25; // percent of MAX_SPEED * MAX_SPEED_LIMIT_SCALING
 	double motorOutput;
+	
+	Timer timer = new Timer();
 	
 	private PIDController velocityController;
 	
@@ -71,18 +76,27 @@ public class RevUpShooter extends Command implements PIDOutput {
     	velocityController.setContinuous(false);
     	
     	velocityController.setSetpoint(desiredRate);
+    	
+    	velocityController.enable();
+    	timer.start();
+    	RobotMap.shooterEnc1.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	setPIDConstantsFromDashboard();
-    	
+    	//System.out.println("Error: " + velocityController.getError());
+    	//System.out.println("motor output: " + motorOutput);
     	exShooter.setSpeed(motorOutput);
+    	
+    	if (timer.get() % 10 < 0.05) {
+    		System.out.println("Encoder dist: " + RobotMap.shooterEnc1.getDistance());
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return oi.getRevUpShooter();
+        return false;
     }
 
     // Called once after isFinished returns true
@@ -100,10 +114,10 @@ public class RevUpShooter extends Command implements PIDOutput {
 	}
 	
 	public void setPIDConstantsFromDashboard() {
-		kP = robot.getDashboard().getNumber(SHOOTER_KP, 0);
-		kI = robot.getDashboard().getNumber(SHOOTER_KI, 0);
-		kD = robot.getDashboard().getNumber(SHOOTER_KD, 0);
-		kF = robot.getDashboard().getNumber(SHOOTER_KF, 0);
+		kP = SmartDashboard.getNumber(SHOOTER_KP, 0);
+		kI = SmartDashboard.getNumber(SHOOTER_KI, 0);
+		kD = SmartDashboard.getNumber(SHOOTER_KD, 0);
+		kF = SmartDashboard.getNumber(SHOOTER_KF, 0);
 		
 		velocityController.setPID(kP, kI, kD, kF);
 	}

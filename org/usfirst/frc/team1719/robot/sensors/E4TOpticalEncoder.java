@@ -29,6 +29,7 @@ public class E4TOpticalEncoder extends edu.wpi.first.wpilibj.Encoder implements 
     
     public E4TOpticalEncoder(DigitalSource sourceA, DigitalSource sourceB) {
         super(sourceA, sourceB);
+        
     }
     
     public E4TOpticalEncoder(int channelA, int channelB, boolean reverseDirection) {
