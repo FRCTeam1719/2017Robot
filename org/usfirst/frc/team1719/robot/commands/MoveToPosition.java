@@ -157,11 +157,18 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
         errX = desiredX - posTracker.getX();
         errY = desiredY - posTracker.getY();
         double atanXY = Math.toDegrees(Math.atan2(errX, errY));
-        if(Math.abs(atanXY - posTracker.getHeading()) > MAX_ANGLE_TOLERANCE) {
+        double head_m_atxy = (atanXY - posTracker.getHeading()) % 360.0D;
+        if(head_m_atxy > 180.0D) {
+            head_m_atxy -= 360.0D;
+        }
+        if(head_m_atxy <  -180.0D) {
+            head_m_atxy += 360.0D;
+        }
+        if(Math.abs(head_m_atxy) > MAX_ANGLE_TOLERANCE) {
             turning = true;
             desiredHeadingController.disable();
             pidhelper.pidWrite(0.0D);
-        } else if(Math.abs(atanXY - posTracker.getHeading()) < MIN_ANGLE_TOLERANCE) {
+        } else if(Math.abs(head_m_atxy) < MIN_ANGLE_TOLERANCE) {
             turning = false;
             desiredHeadingController.enable();
         }
