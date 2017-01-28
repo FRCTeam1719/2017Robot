@@ -22,7 +22,6 @@ public class MockEncoder implements IEncoder {
 	double distPerRev = 1;
 	boolean direction = true;
 	
-	@Override
 	public void config(double distPerRev){
 		this.distPerRev = distPerRev;
 	}

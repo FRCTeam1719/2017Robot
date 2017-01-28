@@ -38,8 +38,6 @@ public class DriveLogic implements IDrive {
     public DriveLogic(SpeedController l, SpeedController r, ISolenoid shift, IEncoder lEnc,
             IEncoder rEnc, Accelerometer acc, IGyro3D gyr, double wheelSize) {
     	this(l,r,shift,lEnc,rEnc,acc,gyr);
-    	lEnc.config(wheelSize);
-    	rEnc.config(wheelSize);
     }
 
     /**
