@@ -28,8 +28,9 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
     
     /* DIO */
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0,1,true,EncodingType.k2X);
-    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2,3,false,EncodingType.k2X);
+	// hack -- where does the 2 come from?
+    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0,1,true,6.0D * Math.PI * 2.0D);
+    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2,3,false,6.0D * Math.PI * 2.0D);
     
     /* PWM */
     public static final SpeedController leftDrive = new Spark(0);

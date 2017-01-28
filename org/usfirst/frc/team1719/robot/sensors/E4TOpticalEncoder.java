@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.sensors;
 
-import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.CounterBase;
 
 /**
  * Driver class for the E4T Optical Encoder
@@ -13,53 +13,21 @@ import edu.wpi.first.wpilibj.DigitalSource;
 public class E4TOpticalEncoder extends edu.wpi.first.wpilibj.Encoder implements IEncoder {
 
 	private final double TICKS_PER_REV = 1440.0;
+	private final static CounterBase.EncodingType TYPE = CounterBase.EncodingType.k2X;
 	
+    
+    
 	/**
-	 * Calculates distance per tick and passes that to the internal Encoder object.
-	 * Uses TICKS_PER_REV which is supplied by documentation
-	 * @param distancePerRev (distance in ft)
+	 * This constructor takes care of setting up the encoding type; as it's unique to this brand
+	 * of encoder.
+	 * @param channelA
+	 * @param channelB
+	 * @param reverseDirection
+	 * @param distancePerRev Distance per revolution, so that the object can track distance travelled.
 	 */
-	public void config(double distancePerRev){
-		this.setDistancePerPulse(distancePerRev/TICKS_PER_REV);
-	}
-    
-    public E4TOpticalEncoder(int channelA, int channelB) {
-        super(channelA, channelB);
+    public E4TOpticalEncoder(int channelA, int channelB, boolean reverseDirection, double distancePerRev){
+        super(channelA, channelB, reverseDirection, TYPE);
+        this.setDistancePerPulse(distancePerRev/TICKS_PER_REV);
     }
     
-    public E4TOpticalEncoder(DigitalSource sourceA, DigitalSource sourceB) {
-        super(sourceA, sourceB);
-    }
-    
-    public E4TOpticalEncoder(int channelA, int channelB, boolean reverseDirection) {
-        super(channelA, channelB, reverseDirection);
-    }
-    
-    public E4TOpticalEncoder(int channelA, int channelB, int indexChannel) {
-        super(channelA, channelB, indexChannel);
-    }
-    
-    public E4TOpticalEncoder(DigitalSource sourceA, DigitalSource sourceB, boolean reverseDirection) {
-        super(sourceA, sourceB, reverseDirection);
-    }
-    
-    public E4TOpticalEncoder(DigitalSource sourceA, DigitalSource sourceB, DigitalSource indexSource) {
-        super(sourceA, sourceB, indexSource);
-    }
-    
-    public E4TOpticalEncoder(int channelA, int channelB, boolean reverseDirection, EncodingType encodingType) {
-        super(channelA, channelB, reverseDirection, encodingType);
-    }
-    
-    public E4TOpticalEncoder(int channelA, int channelB, int indexChannel, boolean reverseDirection) {
-        super(channelA, channelB, indexChannel, reverseDirection);
-    }
-    
-    public E4TOpticalEncoder(DigitalSource sourceA, DigitalSource sourceB, boolean reverseDirection, EncodingType encodingType) {
-        super(sourceA, sourceB, reverseDirection, encodingType);
-    }
-    
-    public E4TOpticalEncoder(DigitalSource sourceA, DigitalSource sourceB, DigitalSource indexSource, boolean reverseDirection) {
-        super(sourceA, sourceB, indexSource, reverseDirection);
-    }
 }

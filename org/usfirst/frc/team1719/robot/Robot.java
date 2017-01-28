@@ -83,8 +83,6 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();
-		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
-		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
 
 		oi.init(this);
 		pixy = new PixySubsys(RobotMap.pixyI2C);
