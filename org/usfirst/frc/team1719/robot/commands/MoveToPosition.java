@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1719.robot.commands;
 
-import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
@@ -16,9 +15,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Move to an absolute position specified by (x,y)
+ * @author Duncan
  */
 public class MoveToPosition extends Command implements PIDSource, PIDOutput {
 
+    /**
+     * Class used to store a PID output and apply it as a setpoint for a PID input
+     * @author Duncan
+     */
     private class PIDHelper implements PIDSource, PIDOutput {
         private double val = 0;
         @Override
@@ -37,24 +41,7 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
             return posTracker.getHeading() - pathAngle - val;
         }
     }
-    
-    /*private class AuxPID {
-        double p;
-        double i;
-        double d;
-        double lasterr = 0;
-        double sumerr = 0;
-        AuxPID() {}
-        void setPID(double _p, double _i, double _d) {
-            p = _p; i = _i; d = _d;
-        }
-        double output(double cur_err) {
-            double de = cur_err - lasterr;
-            lasterr = cur_err;
-            return p * cur_err + i * (sumerr += cur_err) + d * (de);
-        }
-    }*/
-    
+  
     private static final double SQ_TOLERANCE = 25.0D;
     private static final double SPD = 0.5D;
     private static final double MAX_ANGLE_TOLERANCE = 45.0D;
@@ -78,10 +65,6 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
 	private PIDHelper pidhelper;
 	private PIDController desiredHeadingController;
 	private PIDController rotateController;
-	/*private AuxPID auxPID0;
-	private AuxPID auxPIDCtrl;*/
-
-    private IDashboard dash;
     private boolean init = false;
     private boolean turning = false;
     private final boolean absolute;
@@ -96,7 +79,6 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     	robot = _robot;
     	drive = _drive;
     	oi = robot.getOI();
-    	dash = robot.getDashboard();
     	try {
     		requires( (Subsystem) drive);
     	}
@@ -106,8 +88,6 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     	pidhelper = new PIDHelper();
     	desiredHeadingController = new PIDController(0, 0, 0, this, pidhelper);
     	rotateController = new PIDController(0, 0, 0, pidhelper, this);
-    	/*auxPID0 = new AuxPID();
-    	auxPIDCtrl = new AuxPID();*/
     }
 
     // Called just before this Command runs the first time
@@ -119,13 +99,6 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     	    desiredY = parY + initY;
     	}
     	pathAngle = Math.toDegrees(Math.atan2(desiredX - initX, desiredY - initY));
-    	desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 1), SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
-    	        SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
-    	rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 1), SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
-    	        SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
-    	/*auxPIDCtrl.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 1), SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
-    	        SmartDashboard.getNumber("MoveToPos K[1][D]", 0));*/
-    	        
     	desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1), SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
     	        SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
         rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1), SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
@@ -143,10 +116,8 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if(oi.getResetPIDConstants()) {
-          desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1), SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
+            desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1), SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
                     SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
-            /*auxPIDCtrl.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 1), SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
-                    SmartDashboard.getNumber("MoveToPos K[1][D]", 0));*/
             rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1), SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
                     SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
         }
@@ -157,6 +128,7 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
         errX = desiredX - posTracker.getX();
         errY = desiredY - posTracker.getY();
         double atanXY = Math.toDegrees(Math.atan2(errX, errY));
+        /* Hack -- check the angular heading compared to where the target is */
         double head_m_atxy = (atanXY - posTracker.getHeading()) % 360.0D;
         if(head_m_atxy > 180.0D) {
             head_m_atxy -= 360.0D;
@@ -164,18 +136,18 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
         if(head_m_atxy <  -180.0D) {
             head_m_atxy += 360.0D;
         }
-        if(Math.abs(head_m_atxy) > MAX_ANGLE_TOLERANCE) {
+        if(Math.abs(head_m_atxy) > MAX_ANGLE_TOLERANCE) { /* Are we so far off target that the 1094 algorithm won't work well? */
             turning = true;
             desiredHeadingController.disable();
             pidhelper.pidWrite(0.0D);
-        } else if(Math.abs(head_m_atxy) < MIN_ANGLE_TOLERANCE) {
+        } else if(Math.abs(head_m_atxy) < MIN_ANGLE_TOLERANCE) { /* Have we gotten to almost directly the direction we wish to go? */
             turning = false;
             desiredHeadingController.enable();
         }
-        if(turning) {
+        if(turning) { /* Just use one PID loop to turn in place*/
            pathAngle = atanXY;System.out.println("Turning to heading " + pathAngle + "; power " + rotSpd + " ctrl " + rotateController.get() + "FROM" + rotateController.getError() + "K[P]=" + rotateController.getP() + "enabled=" + rotateController.isEnabled());
            drive.moveTank(rotSpd, -rotSpd);
-        } else {
+        } else { /* Use 1094 algorithm */
             double offPathAngle = Math.atan2(errX, errY) - Math.toRadians(pathAngle);
             distOffPath = Math.sin(offPathAngle) * Math.sqrt(errX * errX + errY * errY);System.out.println("Following path : power " + rotSpd + "Rotator " + rotateController.get());
             drive.moveArcade(SPD, rotSpd);
