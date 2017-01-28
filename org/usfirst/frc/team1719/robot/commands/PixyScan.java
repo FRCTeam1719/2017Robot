@@ -16,10 +16,12 @@ public class PixyScan extends LimitedRateCommand{
 	private IOI oi;
 	private Timer cancelTimer;
 	private boolean found;
-	private double step;
 	private double curX;
 	private final double CANCELABLE = 0.5;
 	private final double TIMEOUT = 30;
+	private double curY;
+	private double stepX;
+	private double stepY;
 	
 	
 	public PixyScan(IPixyMount mount, VisionTarget target, IPixy pixy, IOI oi){
@@ -30,7 +32,8 @@ public class PixyScan extends LimitedRateCommand{
 		this.pixy = pixy;
 		this.oi = oi;
 		found = false;
-		step = 0.01;
+		stepX = 0.01;
+		stepY = 0.01;
 		requires((Subsystem) mount);
 		cancelTimer = new Timer();
 	}
@@ -40,9 +43,9 @@ public class PixyScan extends LimitedRateCommand{
 		found = false;
 		//Move to starting pos
 		curX = 0.5;
-		mount.setY(0.5);
+		curY = 0.5;
+		mount.setY(curY);
 		mount.setX(curX);
-		step = 0.01;
 		cancelTimer.start();
 	}
 	
@@ -60,10 +63,32 @@ public class PixyScan extends LimitedRateCommand{
 			found = true;
 		}else{
 			//Move on
-			curX = curX + step;
+			curX = curX + stepX;
 			mount.setX(curX);
 			if(curX <= 0 || curX >= 1){
-				step = step * -1;
+				stepX = stepX * -1;
+			}
+			
+			if(curX == 0.0 || curX == 0.3 || curX == 0.6 || curX == 1) { 
+				boolean goAgain = false;
+				int curYCounter = 0;
+				while(goAgain) {
+					curY = curY + stepY;
+					mount.setY(curY);
+					if(curY <= 0 || curY >=1){
+						stepY = stepY*-1;
+					}
+					if(curY == 0.5) {
+						curYCounter += 1;
+					}
+					//once the pixy goes up to 1, back to 0, then back to normal .5 
+					if(curYCounter == 2) { 
+						goAgain = false;
+					}
+				}
+				
+					
+				
 			}
 		}
 		
