@@ -86,7 +86,7 @@ public class OI implements IOI{
 		Button controlShooter = new JoystickButton(operator, 9);
 
 		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
-		(new JoystickButton(driver, 3)).whenPressed(new MoveToPosition(0, 36, robot.tracker, robot.drive, robot));
+		(new JoystickButton(driver, 3)).whenPressed(new MoveToPosition(36, 36, robot.tracker, robot.drive, robot, false));
 	}
 
     @Override

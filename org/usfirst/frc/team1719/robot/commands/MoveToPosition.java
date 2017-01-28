@@ -68,8 +68,8 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
 	private IRobot robot;
 	private IOI oi;
 	
-	private double desiredX = 0;
-	private double desiredY = 0;
+	private double desiredX = 0; private final double parX;
+	private double desiredY = 0; private final double parY;
 	private double errX = 0;
 	private double errY = 0;
 	private double pathAngle = 0;
@@ -84,12 +84,13 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     private IDashboard dash;
     private boolean init = false;
     private boolean turning = false;
+    private final boolean absolute;
 	
     public MoveToPosition(double _desiredX, double _desiredY, IPositionTracker _posTracker,
-            IDrive _drive, IRobot _robot) {
-        
-    	desiredX = _desiredX;
-    	desiredY = _desiredY;
+            IDrive _drive, IRobot _robot, boolean _absolute) {
+        absolute = _absolute;
+    	parX = desiredX = _desiredX;
+    	parY = desiredY = _desiredY;
     	
     	posTracker = _posTracker;
     	robot = _robot;
@@ -113,6 +114,10 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     protected void initialize() {
     	initX = posTracker.getX();
     	initY = posTracker.getY();
+    	if(!absolute) {
+    	    desiredX = parX + initX;
+    	    desiredY = parY + initY;
+    	}
     	pathAngle = Math.toDegrees(Math.atan2(desiredX - initX, desiredY - initY));
     	desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 1), SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
     	        SmartDashboard.getNumber("MoveToPos K[0][D]", 0));

@@ -69,12 +69,12 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();
-		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
-		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
-		SmartDashboard.putNumber("MoveToPos K[0][P]", 1.0D);
+		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 4.0D /* Hack -- i don't know where the 2 came from*/);
+		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 4.0D /* Hack -- i don't know where the 2 came from*/);
+		SmartDashboard.putNumber("MoveToPos K[0][P]", 0.1D);
 		SmartDashboard.putNumber("MoveToPos K[0][I]", 0.0D);
         SmartDashboard.putNumber("MoveToPos K[0][D]", 0.0D);
-        SmartDashboard.putNumber("MoveToPos K[1][P]", 1.0D);
+        SmartDashboard.putNumber("MoveToPos K[1][P]", 0.01D);
         SmartDashboard.putNumber("MoveToPos K[1][I]", 0.0D);
         SmartDashboard.putNumber("MoveToPos K[1][D]", 0.0D);
         oi.init(this);
