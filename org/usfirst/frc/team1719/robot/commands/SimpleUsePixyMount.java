@@ -4,7 +4,6 @@ import org.usfirst.frc.team1719.robot.interfaces.IPixy;
 import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
 import org.usfirst.frc.team1719.robot.interfaces.VisionTarget;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -12,7 +11,6 @@ public class SimpleUsePixyMount extends Command {
 
 	private IPixy pixy;
 	private IPixyMount mount;
-	private Timer searchTimer;
 	private final int Y_CENTER = 200 / 2;
 	private final int X_CENTER = 320 / 2;
 	private final double xKP = 0.00018;
@@ -25,6 +23,7 @@ public class SimpleUsePixyMount extends Command {
 	private double y_cur;
 	private int frame;
 	private final VisionTarget toTrack;
+	private boolean needsInit;
 
 	public SimpleUsePixyMount(IPixy pixy, IPixyMount mount, VisionTarget toTrack) {
 		this.pixy = pixy;
@@ -39,10 +38,20 @@ public class SimpleUsePixyMount extends Command {
 	@Override
 	public void initialize() {
 		frame = 0;
+		needsInit = true;
+		mount.setX(x_cur);
+		mount.setX(y_cur);
 	}
 
 	@Override
 	public void execute() {
+		if(!needsInit){
+			//Startup grab the current positions
+			System.out.println("Init");
+			x_cur = mount.getX();
+			y_cur = mount.getY();
+			needsInit = false;
+		}
 		if (frame % 1 == 0) {
 			// Check for update
 			boolean hasVal;
@@ -101,6 +110,11 @@ public class SimpleUsePixyMount extends Command {
 	@Override
 	protected boolean isFinished() {
 		return false;
+	}
+	
+	@Override
+	public void interrupted(){
+		needsInit = true;
 	}
 
 }

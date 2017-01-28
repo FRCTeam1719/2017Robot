@@ -19,7 +19,7 @@ public class PixyScan extends LimitedRateCommand{
 	private double step;
 	private double curX;
 	private final double CANCELABLE = 0.5;
-	private final double TIMEOUT = 40;
+	private final double TIMEOUT = 30;
 	
 	
 	public PixyScan(IPixyMount mount, VisionTarget target, IPixy pixy, IOI oi){
@@ -62,8 +62,6 @@ public class PixyScan extends LimitedRateCommand{
 			//Move on
 			curX = curX + step;
 			mount.setX(curX);
-			System.out.println(curX);
-			System.out.println(mount.getAngleX());
 			if(curX <= 0 || curX >= 1){
 				step = step * -1;
 			}

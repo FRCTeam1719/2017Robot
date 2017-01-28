@@ -45,5 +45,15 @@ public class LogicalPixyMount implements IPixyMount {
         return Math.min(MAX, Math.max(MIN, d));
     }
 
+	@Override
+	public double getX() {
+		return pan.get();
+	}
+
+	@Override
+	public double getY() {
+		return tilt.get();
+	}
+
 
 }

@@ -50,4 +50,14 @@ public class PhysicalPixyMount extends Subsystem implements IPixyMount{
 		setDefaultCommand(new SimpleUsePixyMount(camera, this, new SingleTarget()));
 	}
 
+	@Override
+	public double getX() {
+		return logic.getX();
+	}
+
+	@Override
+	public double getY() {
+		return logic.getY();
+	}
+
 }
