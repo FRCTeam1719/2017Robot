@@ -1,22 +1,22 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
 import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
+import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalClimber;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalPixyMount;
 import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
-
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -43,7 +43,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	DriveSubsys drive;
 	PhysicalExShooter shooter;
 	IntakeSubsystem intake;
-	GenericSubsystem[] subsystems = {drive, shooter, intake};
+	MatchTimer timer;
+	PhysicalClimber physClimber;
+	GenericSubsystem[] subsystems = {drive, shooter, intake, physClimber};
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
@@ -56,16 +58,21 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void robotInit() {
+		//Compressor Init
 		Compressor compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		compressor.start();
-		chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		//Drive
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
+		//Shooter
 		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
+		//Intake
 		intake = new IntakeSubsystem(RobotMap.intakeMotor);
+		timer = new MatchTimer();
+		//Climber
+		//TODO make an encoder if necesarry
+		physClimber = new PhysicalClimber(RobotMap.climberController,null); 
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
@@ -73,12 +80,17 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
+		//Position tracker Init
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();
+		//Encoder Init
 		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
 		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
+
+		//Pixy
 		pixy = new PixySubsys(RobotMap.pixyI2C);
 		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, pixy);
+		//Setup OI
 		oi = new OI();
 		oi.init(this);
 
