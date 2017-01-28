@@ -73,13 +73,6 @@ public class Robot extends IterativeRobot implements IRobot {
 		//Climber
 		//TODO make an encoder if necesarry
 		physClimber = new PhysicalClimber(RobotMap.climberController,null); 
-		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
-		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
-		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
-		
-		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
-		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KI, 0);
-		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
 		//Position tracker Init
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();
@@ -93,7 +86,19 @@ public class Robot extends IterativeRobot implements IRobot {
 		//Setup OI
 		oi = new OI();
 		oi.init(this);
-
+		//Setup dashboard
+		smartdashboardInit();
+	}
+	
+	
+	public void smartdashboardInit(){
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
+		
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KI, 0);
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
 	}
 
 	/**
