@@ -9,5 +9,6 @@ public interface IOI {
     public double getDeviceX();
     public double getDeviceY();
     public boolean getAbortAutomove();
+    public boolean getResetPIDConstants();
     
 }

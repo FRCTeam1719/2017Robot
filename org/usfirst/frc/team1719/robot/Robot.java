@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
-		oi.init(this);
+		
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
@@ -70,7 +70,14 @@ public class Robot extends IterativeRobot implements IRobot {
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();
 		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
-		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
+		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
+		SmartDashboard.putNumber("MoveToPos K[0][P]", 1.0D);
+		SmartDashboard.putNumber("MoveToPos K[0][I]", 0.0D);
+        SmartDashboard.putNumber("MoveToPos K[0][D]", 0.0D);
+        SmartDashboard.putNumber("MoveToPos K[1][P]", 1.0D);
+        SmartDashboard.putNumber("MoveToPos K[1][I]", 0.0D);
+        SmartDashboard.putNumber("MoveToPos K[1][D]", 0.0D);
+        oi.init(this);
 	}
 
 	/**

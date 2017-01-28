@@ -74,4 +74,10 @@ public class MockOI implements IOI {
         return false;
     }
 
+    @Override
+    public boolean getResetPIDConstants() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

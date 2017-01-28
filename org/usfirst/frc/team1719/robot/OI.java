@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.MoveToPosition;
 import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 
@@ -85,12 +86,17 @@ public class OI implements IOI{
 		Button controlShooter = new JoystickButton(operator, 9);
 
 		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
-
+		(new JoystickButton(driver, 3)).whenPressed(new MoveToPosition(0, 36, robot.tracker, robot.drive, robot));
 	}
 
     @Override
     public boolean getAbortAutomove() {
         return driver.getRawButton(2);
+    }
+
+    @Override
+    public boolean getResetPIDConstants() {
+        return driver.getRawButton(4);
     }
 	
 }
