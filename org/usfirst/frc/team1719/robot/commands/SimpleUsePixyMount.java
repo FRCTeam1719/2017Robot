@@ -4,7 +4,6 @@ import org.usfirst.frc.team1719.robot.interfaces.IPixy;
 import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
 import org.usfirst.frc.team1719.robot.interfaces.VisionTarget;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -12,17 +11,19 @@ public class SimpleUsePixyMount extends Command {
 
 	private IPixy pixy;
 	private IPixyMount mount;
-	private Timer searchTimer;
 	private final int Y_CENTER = 200 / 2;
 	private final int X_CENTER = 320 / 2;
-	private final double kP = 0.0002;
-	private final double kD = 0.0005;
+	private final double xKP = 0.00018;
+	private final double yKP = 0.00016;
+	private final double xKD = 0.0006;
+	private final double yKD = 0.0005;
 	private double x_cur;
 	double lastXDiff = 0;
 	double lastYDiff = 0;
 	private double y_cur;
 	private int frame;
 	private final VisionTarget toTrack;
+	private boolean needsInit;
 
 	public SimpleUsePixyMount(IPixy pixy, IPixyMount mount, VisionTarget toTrack) {
 		this.pixy = pixy;
@@ -37,10 +38,20 @@ public class SimpleUsePixyMount extends Command {
 	@Override
 	public void initialize() {
 		frame = 0;
+		needsInit = true;
+		mount.setX(x_cur);
+		mount.setX(y_cur);
 	}
 
 	@Override
 	public void execute() {
+		if(!needsInit){
+			//Startup grab the current positions
+			System.out.println("Init");
+			x_cur = mount.getX();
+			y_cur = mount.getY();
+			needsInit = false;
+		}
 		if (frame % 1 == 0) {
 			// Check for update
 			boolean hasVal;
@@ -60,8 +71,15 @@ public class SimpleUsePixyMount extends Command {
 			if (hasVal) {
 				int x_diff = targetX - X_CENTER;
 				int y_diff = targetY - Y_CENTER;
-				double ystep = y_diff * kP + (y_diff - lastYDiff) * kD;
-				double xstep = x_diff * kP + (x_diff - lastXDiff) * kD;
+				if (Math.abs(x_diff) < 5) {
+					x_diff = 0;
+				}
+				if (Math.abs(y_diff) < 5) {
+					y_diff = 0;
+				}
+				
+				double ystep = y_diff * yKP + (y_diff - lastYDiff) * yKD;
+				double xstep = x_diff * xKP + (x_diff - lastXDiff) * xKD;
 				
 				lastXDiff = x_diff;
 				lastYDiff = y_diff;
@@ -92,6 +110,11 @@ public class SimpleUsePixyMount extends Command {
 	@Override
 	protected boolean isFinished() {
 		return false;
+	}
+	
+	@Override
+	public void interrupted(){
+		needsInit = true;
 	}
 
 }

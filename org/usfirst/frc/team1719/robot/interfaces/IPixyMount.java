@@ -5,6 +5,8 @@ public interface IPixyMount extends GenericSubsystem{
 	void setX(double angleX);
 	void setY(double angleY);
 	
+	double getX();
+	double getY();
 	double getAngleX();
 	double getAngleY();
 }
