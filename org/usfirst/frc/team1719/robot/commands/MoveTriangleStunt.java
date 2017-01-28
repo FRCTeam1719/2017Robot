@@ -29,7 +29,9 @@ public class MoveTriangleStunt extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
         addSequential(new MoveToPosition(60.0D, 30.0D, _posTracker, _drive, _robot, true));
+        addSequential(new Delay(100));
         addSequential(new MoveToPosition(0.0D, 60.0D, _posTracker, _drive, _robot, true));
+        addSequential(new Delay(100));
         addSequential(new MoveToPosition(0.0D, 0.0D, _posTracker, _drive, _robot, true));
     }
 }
