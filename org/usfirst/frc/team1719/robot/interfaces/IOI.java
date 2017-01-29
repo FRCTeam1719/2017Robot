@@ -8,6 +8,9 @@ public interface IOI {
     public boolean getShifter();
     public double getDeviceX();
     public double getDeviceY();
+    public double getServoX();
+    public double getServoY();
+    public boolean getCancelScan();
     
     public boolean getRevUpShooter();
 }

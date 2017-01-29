@@ -7,7 +7,7 @@ import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -38,13 +38,17 @@ public class RobotMap {
     /* PWM */
     public static final SpeedController leftDrive = new Spark(0);
     public static final SpeedController rightDrive = new Spark(1);
+    public static final Servo pan = new Servo(2);
+    public static final Servo tilt = new Servo(3);
     public static final SpeedController exMotorController = new Spark(4);
     public static final SpeedController intakeMotor = new Spark(5);
     public static final SpeedController climberController = new Spark(6);
 
     /* I2C */
-    public static final NAVX navx = new NAVX(I2C.Port.kMXP);
     public static final I2C pixyI2C = new I2C(I2C.Port.kOnboard, 0x54);
+    
+    /* MXP */
+    public static final NAVX navx = new NAVX(I2C.Port.kMXP);
     
     /* Pneumatics */
     public static final Solenoid shifter = new Solenoid(0);

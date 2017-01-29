@@ -43,7 +43,6 @@ public class PixySubsys extends Subsystem implements IPixy {
     
     @Override
     public void update() {
-        System.out.println("Pixy Update");
         logic.update();
     }
     
@@ -52,5 +51,15 @@ public class PixySubsys extends Subsystem implements IPixy {
         /* Update the system every loop */
         setDefaultCommand(new Updater(this));
     }
+
+	@Override
+	public boolean hasBlocks() {
+		return logic.hasBlocks();
+	}
+
+	@Override
+	public boolean isTrustworthy() {
+		return logic.isTrustworthy();
+	}
     
 }

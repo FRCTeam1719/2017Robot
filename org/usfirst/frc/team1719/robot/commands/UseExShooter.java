@@ -31,6 +31,7 @@ public class UseExShooter extends Command implements PIDOutput {
 	
 	private final IExShooter exshooter;
 	private final IOI oi;
+	
 	private final double DEADZONE_TOLERANCE = 0.05;
 	private final double MAX_SPEED = 50;
 	double motorOutput;

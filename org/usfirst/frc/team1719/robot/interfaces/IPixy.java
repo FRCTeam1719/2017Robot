@@ -12,4 +12,15 @@ public interface IPixy extends GenericSubsystem {
      * @see <a href="http://www.cmucam.org/projects/cmucam5/wiki/Porting_Guide">The Official Pixy Porting Guide</a>
      */
     public void update();
+    
+    /**
+     * 
+     * @return whether or not the pixy's has blocks available to read
+     */
+    public boolean hasBlocks();
+    
+    /**
+     * @return whether or not the pixy's blocks are from the last frame pulled.
+     */
+    public boolean isTrustworthy();
 }

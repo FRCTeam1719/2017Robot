@@ -1,12 +1,13 @@
 package org.usfirst.frc.team1719.robot;
 
-
+import org.usfirst.frc.team1719.robot.commands.PixyScan;
 import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
 import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
+import org.usfirst.frc.team1719.robot.vision.SingleTarget;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -48,18 +49,33 @@ public class OI implements IOI{
 
     }
 
+
 	@Override
 	public double getDeviceX() {
 		return operator.getRawAxis(0);
 	}
+
 	
 	public double getDeviceY() {
 		return operator.getRawAxis(1);
 	}
     
 	
+	@Override
+	public double getServoX() {
+		return operator.getRawAxis(0);
+	}
+
+	@Override
+	public double getServoY() {
+		return operator.getRawAxis(1);
+	}
 	
-	
+	@Override
+	public boolean getCancelScan(){
+		return driver.getRawButton(2);
+	}
+
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -91,6 +107,7 @@ public class OI implements IOI{
 	public void init(Robot robot){
 		revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 100));
 		
+
 		Button controlShooter = new JoystickButton(operator, 9);
 
 		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
@@ -100,6 +117,8 @@ public class OI implements IOI{
 		intakeToggle.toggleWhenPressed(new ToggleIntake(robot.intake));
 		Button unclogIntake = new JoystickButton(operator, 10);
 		unclogIntake.whileHeld(new UnclogIntake(robot.intake));
+		Button scanButton = new JoystickButton(driver, 2);
+		scanButton.whenPressed(new PixyScan(robot.pixyMount, new SingleTarget(), robot.pixy, robot.getOI()));
 
 		//TODO Decide what button this should be.
 		Button runClimber = new JoystickButton(operator, 4);
@@ -109,7 +128,8 @@ public class OI implements IOI{
 	@Override
 	public boolean getRevUpShooter() {
 		return operator.getRawButton(3);
-		
 	}
+		
 	
+
 }
