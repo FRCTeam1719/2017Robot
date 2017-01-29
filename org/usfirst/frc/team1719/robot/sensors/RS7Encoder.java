@@ -5,11 +5,13 @@ import edu.wpi.first.wpilibj.Encoder;
 
 public class RS7Encoder extends Encoder implements IEncoder {
 
+
 	public RS7Encoder(DigitalSource sourceA, DigitalSource sourceB, boolean reverseDirection,
 			EncodingType encodingType) {
 		super(sourceA, sourceB, reverseDirection, encodingType);
 		// TODO Auto-generated constructor stub
 	}
+
 
 	public RS7Encoder(DigitalSource sourceA, DigitalSource sourceB, boolean reverseDirection) {
 		super(sourceA, sourceB, reverseDirection);
@@ -22,15 +24,18 @@ public class RS7Encoder extends Encoder implements IEncoder {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	public RS7Encoder(DigitalSource sourceA, DigitalSource sourceB, DigitalSource indexSource) {
 		super(sourceA, sourceB, indexSource);
 		// TODO Auto-generated constructor stub
 	}
 
+
 	public RS7Encoder(DigitalSource sourceA, DigitalSource sourceB) {
 		super(sourceA, sourceB);
 		// TODO Auto-generated constructor stub
 	}
+
 
 	public RS7Encoder(int channelA, int channelB, boolean reverseDirection, EncodingType encodingType) {
 		super(channelA, channelB, reverseDirection, encodingType);
@@ -57,10 +62,13 @@ public class RS7Encoder extends Encoder implements IEncoder {
 		// TODO Auto-generated constructor stub
 	}
 
+
+	static public final double TICKS_PER_REV = 12;
+	
+	
 	@Override
 	public void config(double distancePerRev) {
-		// TODO Auto-generated method stub
-		
+		this.setDistancePerPulse(distancePerRev / TICKS_PER_REV);
 	}
 
 }
