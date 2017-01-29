@@ -6,3 +6,4 @@ org.usfirst.frc.team1719.robot.mockHardware
 org.usfirst.frc.team1719.robot.sensors
 org.usfirst.frc.team1719.robot.subsystems
 org.usfirst.frc.team1719.robot.tests
+org.usfirst.frc.team1719.robot.vision
