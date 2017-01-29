@@ -86,6 +86,7 @@ public class UseExShooter extends Command implements PIDOutput {
 			velocityController.enable();
 			velocityController.setSetpoint(desiredRate);
 		}
+
 		
 		exshooter.setSpeed(motorOutput);
 	}

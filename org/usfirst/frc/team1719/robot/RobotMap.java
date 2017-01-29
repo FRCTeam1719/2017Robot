@@ -2,11 +2,12 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
+import org.usfirst.frc.team1719.robot.sensors.I2C;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -32,15 +33,18 @@ public class RobotMap {
     public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false, EncodingType.k2X);
     public static final RS7Encoder shooterEnc1 = new RS7Encoder(4, 5, true, EncodingType.k4X);
     public static final E4TOpticalEncoder shooterEnc2 = new E4TOpticalEncoder(6, 7, false, EncodingType.k4X);
-    
+
     
     /* PWM */
     public static final SpeedController leftDrive = new Spark(0);
     public static final SpeedController rightDrive = new Spark(1);
     public static final SpeedController exMotorController = new Spark(4);
-    
+    public static final SpeedController intakeMotor = new Spark(5);
+    public static final SpeedController climberController = new Spark(6);
+
     /* I2C */
-    public static final NAVX navx = new NAVX(I2C.Port.kOnboard);
+    public static final NAVX navx = new NAVX(I2C.Port.kMXP);
+    public static final I2C pixyI2C = new I2C(I2C.Port.kOnboard, 0x54);
     
     /* Pneumatics */
     public static final Solenoid shifter = new Solenoid(0);

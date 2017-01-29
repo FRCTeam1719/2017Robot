@@ -5,11 +5,18 @@ import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
+import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
+import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalClimber;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
+import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
+import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,7 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot implements IRobot {
-
+	
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	
@@ -36,9 +43,14 @@ public class Robot extends IterativeRobot implements IRobot {
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	DriveSubsys drive;
 	PhysicalExShooter shooter;
-	GenericSubsystem[] subsystems = { drive };
+	IntakeSubsystem intake;
+	MatchTimer timer;
+	PhysicalClimber physClimber;
+	GenericSubsystem[] subsystems = {drive, shooter, intake, physClimber};
 	Display display = new Display();
+	IPositionTracker tracker;
 	int iter = 0;
+	PixySubsys pixy;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -46,7 +58,10 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void robotInit() {
-		System.out.println("MEEEEM");
+
+		Compressor compressor = new Compressor(0);
+		compressor.setClosedLoopControl(true);
+		compressor.start();
 		oi = new OI();
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -54,7 +69,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
-		oi.init(this);
+
 
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
@@ -63,6 +78,14 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
+		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
+		RobotMap.navx.reset();
+		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
+		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
+
+		oi.init(this);
+		pixy = new PixySubsys(RobotMap.pixyI2C);
+
 	}
 
 	/**
@@ -77,7 +100,6 @@ public class Robot extends IterativeRobot implements IRobot {
 //				subsystems[i].disable();
 //			}
 //		}
-
 	}
 
 	@Override
@@ -138,7 +160,6 @@ public class Robot extends IterativeRobot implements IRobot {
 			autonomousCommand.cancel();
 		}
 		
-		RobotMap.shooterEnc1.reset();
 	}
 
 	/**
@@ -146,13 +167,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+	    //System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
-		if((iter++) % 0x10 == 0) {
-            display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
-        }
-		
-		//System.out.println("Enc dist: " + RobotMap.shooterEnc1.getDistance());
-		//System.out.println("Pulses: " + RobotMap.shooterEnc1.getRaw());
+
 	}
 
 	/**

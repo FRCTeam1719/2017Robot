@@ -1,9 +1,15 @@
 package org.usfirst.frc.team1719.robot;
 
+
 import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
+import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
+import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
+import org.usfirst.frc.team1719.robot.commands.UseClimber;
+import org.usfirst.frc.team1719.robot.commands.UseExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -84,11 +90,26 @@ public class OI implements IOI{
 	
 	public void init(Robot robot){
 		revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 100));
+		
+		Button controlShooter = new JoystickButton(operator, 9);
+
+		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
+		
+		//TODO Decide on button
+		Button intakeToggle = new JoystickButton(operator, 8);
+		intakeToggle.toggleWhenPressed(new ToggleIntake(robot.intake));
+		Button unclogIntake = new JoystickButton(operator, 10);
+		unclogIntake.whileHeld(new UnclogIntake(robot.intake));
+
+		//TODO Decide what button this should be.
+		Button runClimber = new JoystickButton(operator, 4);
+		runClimber.whileHeld(new UseClimber(robot.physClimber,robot.timer));
 	}
 
 	@Override
 	public boolean getRevUpShooter() {
 		return operator.getRawButton(3);
+		
 	}
 	
 }
