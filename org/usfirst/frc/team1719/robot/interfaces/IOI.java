@@ -10,5 +10,9 @@ public interface IOI {
     public double getDeviceY();
     public boolean getAbortAutomove();
     public boolean getResetPIDConstants();
+    public double getServoX();
+    public double getServoY();
+    public boolean getCancelScan();
     
+    public boolean getRevUpShooter();
 }

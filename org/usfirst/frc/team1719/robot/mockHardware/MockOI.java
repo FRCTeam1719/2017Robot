@@ -64,6 +64,18 @@ public class MockOI implements IOI {
 
 	@Override
 	public double getDeviceY() {
+		return 0;
+	}
+	public double getServoX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean getRevUpShooter() {
+		return false;
+	}
+	public double getServoY() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -79,5 +91,10 @@ public class MockOI implements IOI {
         // TODO Auto-generated method stub
         return false;
     }
+	@Override
+	public boolean getCancelScan() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

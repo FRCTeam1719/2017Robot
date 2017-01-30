@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DigitalSource;
  */
 public class E4TOpticalEncoder extends edu.wpi.first.wpilibj.Encoder implements IEncoder {
 
-	private final double TICKS_PER_REV = 1440.0;
+	public final double TICKS_PER_REV = 1440.0;
 	
 	/**
 	 * Calculates distance per tick and passes that to the internal Encoder object.
@@ -29,6 +29,7 @@ public class E4TOpticalEncoder extends edu.wpi.first.wpilibj.Encoder implements 
     
     public E4TOpticalEncoder(DigitalSource sourceA, DigitalSource sourceB) {
         super(sourceA, sourceB);
+        
     }
     
     public E4TOpticalEncoder(int channelA, int channelB, boolean reverseDirection) {

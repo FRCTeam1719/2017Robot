@@ -1,16 +1,20 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.MoveToPosAndHead;
-import org.usfirst.frc.team1719.robot.commands.MoveToPosition;
 import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
+import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalClimber;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalPixyMount;
+import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -40,10 +44,15 @@ public class Robot extends IterativeRobot implements IRobot {
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	DriveSubsys drive;
 	PhysicalExShooter shooter;
-	GenericSubsystem[] subsystems = { drive };
+	IntakeSubsystem intake;
+	MatchTimer timer;
+	PhysicalClimber physClimber;
+	GenericSubsystem[] subsystems = {drive, shooter, intake, physClimber};
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
+	PixySubsys pixy;
+	PhysicalPixyMount pixyMount;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -51,14 +60,42 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void robotInit() {
+
 		Compressor compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		compressor.start();
-		oi = new OI();
+
+		//Drive
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
-		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
-		
+		shooter = new PhysicalExShooter(RobotMap.exMotorController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
+		//Shooter
+		//Intake
+		intake = new IntakeSubsystem(RobotMap.intakeMotor);
+		timer = new MatchTimer();
+		//Climber
+		//TODO make an encoder if necesarry
+		physClimber = new PhysicalClimber(RobotMap.climberController,null); 
+		//Position tracker Init
+		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
+		RobotMap.navx.reset();
+		//Encoder Init
+		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
+		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
+
+		//Pixy
+		pixy = new PixySubsys(RobotMap.pixyI2C);
+		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, pixy);
+		//Setup OI
+		oi = new OI();
+		oi.init(this);
+		//Setup dashboard
+		smartdashboardInit();
+	}
+	
+	
+	public void smartdashboardInit(){
+
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
@@ -66,6 +103,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
+		
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();
 		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 4.0D /* Hack -- i don't know where the 2 came from*/);
@@ -98,7 +136,6 @@ public class Robot extends IterativeRobot implements IRobot {
 //				subsystems[i].disable();
 //			}
 //		}
-
 	}
 
 	@Override
@@ -154,9 +191,12 @@ public class Robot extends IterativeRobot implements IRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		pixyMount.setX(0.5);
+		pixyMount.setY(0.5);
 		
 	}
 
@@ -165,12 +205,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-	    System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
+	    //System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
-		if((iter++) % 0x10 == 0) {
-            display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
-        }
-		System.out.println("(x,y)=(" + tracker.getX() + "," + tracker.getY() + "); heading=" + tracker.getHeading() + "deg");
+
 	}
 
 	/**
