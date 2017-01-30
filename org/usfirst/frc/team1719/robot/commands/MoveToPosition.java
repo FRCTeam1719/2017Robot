@@ -42,7 +42,7 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
         }
     }
   
-    private static final double SQ_TOLERANCE = 25.0D;
+    private static final double SQ_TOLERANCE = 8.0D;
     private static final double SPD = 0.5D;
     private static final double MAX_ANGLE_TOLERANCE = 45.0D;
     private static final double MIN_ANGLE_TOLERANCE = 18.0D;
@@ -68,13 +68,14 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     private boolean init = false;
     private boolean turning = false;
     private final boolean absolute;
+    private final boolean doHardTurns;
 	
     public MoveToPosition(double _desiredX, double _desiredY, IPositionTracker _posTracker,
-            IDrive _drive, IRobot _robot, boolean _absolute) {
+            IDrive _drive, IRobot _robot, boolean _absolute, boolean _doHardTurns) {
         absolute = _absolute;
     	parX = desiredX = _desiredX;
     	parY = desiredY = _desiredY;
-    	
+    	doHardTurns = _doHardTurns;
     	posTracker = _posTracker;
     	robot = _robot;
     	drive = _drive;
@@ -88,6 +89,11 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     	pidhelper = new PIDHelper();
     	desiredHeadingController = new PIDController(0, 0, 0, this, pidhelper);
     	rotateController = new PIDController(0, 0, 0, pidhelper, this);
+    }
+
+    public MoveToPosition(double _desiredX, double _desiredY, IPositionTracker _posTracker, IDrive _drive,
+            IRobot _robot, boolean _absolute) {
+        this(_desiredX, _desiredY, _posTracker, _drive, _robot, _absolute, true);
     }
 
     // Called just before this Command runs the first time
@@ -129,22 +135,24 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
         errY = desiredY - posTracker.getY();
         double atanXY = Math.toDegrees(Math.atan2(errX, errY));
         /* Hack -- check the angular heading compared to where the target is */
-        double head_m_atxy = (atanXY - posTracker.getHeading()) % 360.0D;
-        if(head_m_atxy > 180.0D) {
-            head_m_atxy -= 360.0D;
+        if(doHardTurns) {
+            double head_m_atxy = (atanXY - posTracker.getHeading()) % 360.0D;
+            if(head_m_atxy > 180.0D) {
+                head_m_atxy -= 360.0D;
+            }
+            if(head_m_atxy <  -180.0D) {
+                head_m_atxy += 360.0D;
+            }
+            if(Math.abs(head_m_atxy) > MAX_ANGLE_TOLERANCE) { /* Are we so far off target that the 1094 algorithm won't work well? */
+                turning = true;
+                desiredHeadingController.disable();
+                pidhelper.pidWrite(0.0D);
+            } else if(Math.abs(head_m_atxy) < MIN_ANGLE_TOLERANCE) { /* Have we gotten to almost directly the direction we wish to go? */
+                turning = false;
+                desiredHeadingController.enable();
+            }
         }
-        if(head_m_atxy <  -180.0D) {
-            head_m_atxy += 360.0D;
-        }
-        if(Math.abs(head_m_atxy) > MAX_ANGLE_TOLERANCE) { /* Are we so far off target that the 1094 algorithm won't work well? */
-            turning = true;
-            desiredHeadingController.disable();
-            pidhelper.pidWrite(0.0D);
-        } else if(Math.abs(head_m_atxy) < MIN_ANGLE_TOLERANCE) { /* Have we gotten to almost directly the direction we wish to go? */
-            turning = false;
-            desiredHeadingController.enable();
-        }
-        if(turning) { /* Just use one PID loop to turn in place*/
+        if(doHardTurns && turning) { /* Just use one PID loop to turn in place*/
            pathAngle = atanXY;System.out.println("Turning to heading " + pathAngle + "; power " + rotSpd + " ctrl " + rotateController.get() + "FROM" + rotateController.getError() + "K[P]=" + rotateController.getP() + "enabled=" + rotateController.isEnabled());
            drive.moveTank(rotSpd, -rotSpd);
         } else { /* Use 1094 algorithm */
@@ -157,7 +165,7 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         /* Finished if the Euclidean distance from target is less than tolerance or if the driver aborts */
-        return ((errX * errX + errY * errY) < SQ_TOLERANCE) || oi.getAbortAutomove();
+        return oi.getAbortAutomove() || (doHardTurns ? ((errX * errX + errY * errY) < SQ_TOLERANCE) : (Math.abs(Math.atan2(errX, errY) - Math.toRadians(pathAngle)) > 90)) ;
     }
 
     // Called once after isFinished returns true

@@ -53,8 +53,8 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        pid = new PIDController(SmartDashboard.getNumber("TurnToHeading K[P]", 0.1),
-                SmartDashboard.getNumber("TurnToHeading K[I]", 0),
+        pid = new PIDController(SmartDashboard.getNumber("TurnToHeading K[P]", 0.007),
+                SmartDashboard.getNumber("TurnToHeading K[I]", 0.0005),
                 SmartDashboard.getNumber("TurnToHeading K[D]", 0), this, this) {
             /* Hack -- use RMSE for onTarget */
             @Override

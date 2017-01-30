@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.DriveStraightNoPID;
 import org.usfirst.frc.team1719.robot.commands.MoveToPosAndHead;
 import org.usfirst.frc.team1719.robot.commands.MoveToPosition;
 import org.usfirst.frc.team1719.robot.commands.MoveTriangleStunt;
@@ -89,6 +90,7 @@ public class OI implements IOI{
 		Button controlShooter = new JoystickButton(operator, 9);
 
 		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
+		(new JoystickButton(driver, 6)).whenPressed(new DriveStraightNoPID(robot.drive, robot, 0.4));
 		(new JoystickButton(driver, 3)).whenPressed(new MoveToPosAndHead(60, 60, 0, 12, robot.tracker, robot.drive, robot));//new MoveToPosition(36, 36, robot.tracker, robot.drive, robot, false));
 		(new JoystickButton(driver, 5)).whenPressed(new TurnToHeading(0.0D, robot.tracker, robot.drive, robot));//new MoveToPosition(36, 36, robot.tracker, robot.drive, robot, false));
 	}

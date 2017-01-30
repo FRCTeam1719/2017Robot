@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.commands.MoveToPosAndHead;
+import org.usfirst.frc.team1719.robot.commands.MoveToPosition;
 import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
@@ -11,8 +12,9 @@ import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
-import edu.wpi.first.wpilibj.DriverStation;
+
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -53,9 +55,6 @@ public class Robot extends IterativeRobot implements IRobot {
 		compressor.setClosedLoopControl(true);
 		compressor.start();
 		oi = new OI();
-		chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController, this);
@@ -77,10 +76,14 @@ public class Robot extends IterativeRobot implements IRobot {
         SmartDashboard.putNumber("MoveToPos K[1][P]", 0.01D);
         SmartDashboard.putNumber("MoveToPos K[1][I]", 0.0D);
         SmartDashboard.putNumber("MoveToPos K[1][D]", 0.0D);
-        SmartDashboard.putNumber("TurnToHeading K[P]", 0.1);
-        SmartDashboard.putNumber("TurnToHeading K[I]", 0);
+        SmartDashboard.putNumber("TurnToHeading K[P]", 0.007);
+        SmartDashboard.putNumber("TurnToHeading K[I]", 0.0004);
         SmartDashboard.putNumber("TurnToHeading K[D]", 0);
         oi.init(this);
+
+        chooser.addDefault("Place Gear", new MoveToPosAndHead(0, 65, 0, 12, tracker, drive, this));
+        // chooser.addObject("My Auto", new MyAutoCommand());
+        SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**

@@ -33,6 +33,6 @@ public class MoveToPosAndHead extends CommandGroup {
         double waypointY = targetY - straightDist * Math.cos(Math.toRadians(targetHeading));
         addSequential(new MoveToPosition(waypointX, waypointY, posTracker, drive, robot, true));
         addSequential(new TurnToHeading(targetHeading, posTracker, drive, robot));
-        addSequential(new MoveToPosition(targetX, targetY, posTracker, drive, robot, true));
+        addSequential(new MoveToPosition(targetX, targetY, posTracker, drive, robot, true, false));
     }
 }
