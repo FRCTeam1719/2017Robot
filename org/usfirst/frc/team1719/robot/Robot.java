@@ -7,6 +7,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
+import org.usfirst.frc.team1719.robot.sensors.RangeFinder;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
@@ -15,6 +16,7 @@ import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalPixyMount;
 import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -83,6 +85,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		//Pixy
 		pixy = new PixySubsys(RobotMap.pixyI2C);
 		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, pixy);
+		//SpaceRanger
 		//Setup OI
 		oi = new OI();
 		oi.init(this);
@@ -184,7 +187,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 	    //System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
-
+		System.out.println(RobotMap.rangeFinder.getCurrentDistance());
 	}
 
 	/**
