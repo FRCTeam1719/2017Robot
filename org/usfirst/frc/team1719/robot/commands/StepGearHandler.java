@@ -10,9 +10,6 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
  */
 public class StepGearHandler extends InstantCommand{
 	
-	private static IGearHandler.gearStates[] order = 
-		{IGearHandler.gearStates.RECIEVE,IGearHandler.gearStates.GRAB,IGearHandler.gearStates.TRANSPORT,
-				IGearHandler.gearStates.POSITION, IGearHandler.gearStates.DELIVER};
 	private IGearHandler handler;
 	
 	public StepGearHandler(IGearHandler handler){
@@ -21,13 +18,13 @@ public class StepGearHandler extends InstantCommand{
 	
 	@Override
 	public void execute(){
-		for(int i=0;i<order.length;i++){
-			if(order[i]==handler.getState()){
+		for(int i=0;i<IGearHandler.order.length;i++){
+			if(IGearHandler.order[i]==handler.getState()){
 				try{
-					handler.setState(order[i+1]);
+					handler.setState(IGearHandler.order[i+1]);
 				}catch(ArrayIndexOutOfBoundsException e){
 					//Wrap around
-					handler.setState(order[0]);
+					handler.setState(IGearHandler.order[0]);
 				}
 				break;
 			}

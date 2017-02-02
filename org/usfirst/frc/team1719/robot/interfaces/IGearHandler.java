@@ -10,6 +10,11 @@ public interface IGearHandler extends GenericSubsystem{
 			DELIVER;
 	}
 	
+	static IGearHandler.gearStates[] order = 
+		{IGearHandler.gearStates.RECIEVE,IGearHandler.gearStates.GRAB,IGearHandler.gearStates.TRANSPORT,
+				IGearHandler.gearStates.POSITION, IGearHandler.gearStates.DELIVER};
+
+	
 	void setState(gearStates state);
 	
 	gearStates getState();
