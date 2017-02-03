@@ -63,13 +63,13 @@ public class DriveConstV extends Command {
             System.out.println("Running unit test on UseDrive command");
         }
         
-        leftController = new PIDController(SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KP, 0.1),
-                SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KI, 0),
-                SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KD, 0), drive.getEncoderL(),
+        leftController = new PIDController(SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KP, 0.1), 0,
+                SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KD, 0),
+                SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KF, 0), drive.getEncoderL(),
                 new leftDrivePIDOut());
-        rightController = new PIDController(SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KP, 0.1),
-                SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KI, 0),
-                SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KD, 0), drive.getEncoderR(),
+        rightController = new PIDController(SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KP, 0.1), 0,
+                SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KD, 0),
+                SmartDashboard.getNumber(UseDrive.LEFT_DRIVE_KF, 0), drive.getEncoderR(),
                 new rightDrivePIDOutput());
         
     }
