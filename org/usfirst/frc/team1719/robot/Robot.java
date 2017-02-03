@@ -97,11 +97,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void smartdashboardInit(){
 
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
-		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
 		
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
-		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();

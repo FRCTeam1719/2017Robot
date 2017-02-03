@@ -19,11 +19,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class UseDrive extends Command {
     
 	public static final String LEFT_DRIVE_KP = "Left Drive kP: ";
-	public static final String LEFT_DRIVE_KI = "Left Drive kI: ";
+	public static final String LEFT_DRIVE_KF = "Left Drive kF: ";
 	public static final String LEFT_DRIVE_KD = "Left Drive kD: ";
 	
 	public static final String RIGHT_DRIVE_KP = "Right Drive kP: ";
-	public static final String RIGHT_DRIVE_KI = "Right Drive kI: ";
+	public static final String RIGHT_DRIVE_KF = "Right Drive kF: ";
 	public static final String RIGHT_DRIVE_KD = "Right Drive kD: ";
 	
 	PIDController leftController;
@@ -33,16 +33,17 @@ public class UseDrive extends Command {
     private final IDrive drive;
     private boolean shifted = false;
     
-    private double DRIVE_MAX_SPEED = 20;
+    private double DRIVE_MAX_SPEED = 70;
+    double SYNCH_TOLERANCE = 0.2;
     
     private final double JOYSTICK_DEADZONE = 0.15;
     
     double left_kP = 0;
-    double left_kI = 0;
+    double left_kF = 1 / DRIVE_MAX_SPEED;
     double left_kD = 0;
     
     double right_kP = 0;
-    double right_kI = 0;
+    double right_kF = 1 / DRIVE_MAX_SPEED;
     double right_kD = 0;
     
     double leftMotorOutput = 0;
@@ -86,8 +87,8 @@ public class UseDrive extends Command {
             System.out.println("Running unit test on UseDrive command");
         }
         
-        leftController = new PIDController(left_kP, left_kI, left_kD, drive.getEncoderL(), new leftDrivePIDOut());
-    	rightController = new PIDController(right_kP, right_kI, right_kD, drive.getEncoderR(), new rightDrivePIDOutput());
+        leftController = new PIDController(left_kP, 0, left_kD, left_kF, drive.getEncoderL(), new leftDrivePIDOut());
+    	rightController = new PIDController(right_kP, 0, right_kD, left_kF, drive.getEncoderR(), new rightDrivePIDOutput());
     	
     	
         drive.shift(shifted);
@@ -124,7 +125,16 @@ public class UseDrive extends Command {
     	
     	setPIDConstantsFromDashboard();
     	
-        double leftJoystick = -oi.getLeftY(), rightJoystick = -oi.getRightY();
+        double leftJoystick = (-oi.getLeftY()) * Math.abs(oi.getLeftY());
+        double rightJoystick = (-oi.getRightY()) * Math.abs(oi.getRightY());
+        
+        if (Math.abs(leftJoystick - rightJoystick) < SYNCH_TOLERANCE) {
+        	double avg = (leftJoystick + rightJoystick) / 2;
+        	leftJoystick = avg;
+        	rightJoystick = avg;
+        }
+        
+        
         double desiredLeftRate = leftJoystick * DRIVE_MAX_SPEED;
         double desiredRightRate = rightJoystick * DRIVE_MAX_SPEED;
 
@@ -150,11 +160,14 @@ public class UseDrive extends Command {
         	rightController.enable();
         	rightController.setSetpoint(desiredRightRate);
         }
+        
+        
         drive.moveTank(leftMotorOutput, rightMotorOutput);
         
         if(shifted != oi.getShifter()) {
             drive.shift(shifted = !shifted);
         }
+        System.out.println("Left: " + drive.getEncoderL().getRate() + " | Right: " + drive.getEncoderR().getRate());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -172,15 +185,13 @@ public class UseDrive extends Command {
     }
     
     public void setPIDConstantsFromDashboard() {
-    	left_kP = SmartDashboard.getNumber(LEFT_DRIVE_KP);
-    	left_kI = SmartDashboard.getNumber(LEFT_DRIVE_KI);
-    	left_kD = SmartDashboard.getNumber(LEFT_DRIVE_KD);
+    	left_kP = SmartDashboard.getNumber(LEFT_DRIVE_KP, 0);
+    	left_kD = SmartDashboard.getNumber(LEFT_DRIVE_KD, 0);
 
-    	right_kP = SmartDashboard.getNumber(RIGHT_DRIVE_KP);
-    	right_kI = SmartDashboard.getNumber(RIGHT_DRIVE_KI);
-    	right_kD = SmartDashboard.getNumber(RIGHT_DRIVE_KD);
+    	right_kP = SmartDashboard.getNumber(RIGHT_DRIVE_KP, 0);
+    	right_kD = SmartDashboard.getNumber(RIGHT_DRIVE_KD, 0);
 
-    	leftController.setPID(left_kP, left_kI, left_kD);
-    	rightController.setPID(right_kP, right_kI, right_kD);
+    	leftController.setPID(left_kP, 0, left_kD);
+    	rightController.setPID(right_kP, 0, right_kD);
     }
 }
