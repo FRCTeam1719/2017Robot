@@ -103,7 +103,6 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KI, 0);
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
-		
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();
 		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 4.0D /* Hack -- i don't know where the 2 came from*/);
@@ -119,7 +118,7 @@ public class Robot extends IterativeRobot implements IRobot {
         SmartDashboard.putNumber("TurnToHeading K[D]", 0);
         oi.init(this);
 
-        chooser.addDefault("Place Gear", new MoveToPosAndHead(0, 65, 0, 12, tracker, drive, this));
+        chooser.addDefault("Place Gear", new MoveToPosAndHead(0, 65, 0, 12, 100, tracker, drive, this));
         // chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
 	}

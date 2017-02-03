@@ -11,8 +11,17 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class MoveToPosAndHead extends CommandGroup {
 
+    private static final double SPD = 0.5D;
+    
+    private final IPositionTracker positionTracker;
+    private final double tX;
+    private final double tY;
+    private final double tHead;
+    private final int fstimeout;
+    private int fsloops = 0;
+
     public MoveToPosAndHead(double targetX, double targetY, double targetHeading, double straightDist,
-            IPositionTracker posTracker, IDrive drive, IRobot robot) {
+            int _fstimeout, IPositionTracker posTracker, IDrive drive, IRobot robot) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -29,10 +38,22 @@ public class MoveToPosAndHead extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+        positionTracker = posTracker;
+        tX = targetX;
+        tY = targetY;
+        tHead = targetHeading;
+        fstimeout = _fstimeout;
         double waypointX = targetX - straightDist * Math.sin(Math.toRadians(targetHeading));
         double waypointY = targetY - straightDist * Math.cos(Math.toRadians(targetHeading));
         addSequential(new MoveToPosition(waypointX, waypointY, posTracker, drive, robot, true));
         addSequential(new TurnToHeading(targetHeading, posTracker, drive, robot));
-        addSequential(new MoveToPosition(targetX, targetY, posTracker, drive, robot, true, false));
+        addSequential(new DriveConstV(SPD, SPD, robot, drive, this::done));
+    }
+    
+    private boolean done() {
+        if(fsloops++ > fstimeout) return true; /* End if taking too long */
+        /* Hack -- am I at or past the line normal to the heading.*/
+        return Math.abs(Math.toDegrees(Math.atan2(tX - positionTracker.getX(),
+                tY - positionTracker.getY())) - tHead) % 360 >= 0; 
     }
 }
