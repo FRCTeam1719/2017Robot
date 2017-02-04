@@ -29,9 +29,8 @@ public class UseClimber extends Command {
 	boolean shouldRun;
 	@Override
 	public void initialize(){
-		double time = timer.getMatchTime();
-		if(time<=40)
-			shouldRun = true;
+		
+		
 	}
 	
 	@Override
@@ -40,7 +39,10 @@ public class UseClimber extends Command {
 			climber.setSpeed(1); 
 			//TODO find out how hanging is going to work
 		}
-		
+		double time = timer.getMatchTime();
+		if(time<=40) {
+			shouldRun = true;
+		}
 	}
 	
 	@Override
