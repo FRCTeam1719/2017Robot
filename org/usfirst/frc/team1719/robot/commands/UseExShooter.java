@@ -47,7 +47,7 @@ public class UseExShooter extends InstantCommand {
 			desiredOutput = 0.1;
 		}
 		else if (oi.getOperatorJoystick().getRawButton(2)) {
-			desiredOutput = 0.45;
+			desiredOutput = 0.525;
 		}
 		else if (oi.getOperatorJoystick().getRawButton(3)) {
 			desiredOutput = 0.3;
@@ -68,7 +68,7 @@ public class UseExShooter extends InstantCommand {
 			desiredOutput = 0.65;
 		}
 		else if (oi.getOperatorJoystick().getRawButton(9)) {
-			desiredOutput = 0.625;
+			desiredOutput = 0.55;
 		}
 		
 		System.out.println("Out: " + desiredOutput);
