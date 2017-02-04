@@ -7,6 +7,18 @@ public class LogicalGearHandler implements IGearHandler{
 	
 	private gearStates currentState = gearStates.DELIVER;
 	private ISolenoid[] pistons;
+	static{
+		ISolenoid.states[] recieveState = new ISolenoid.states[] 
+				{ISolenoid.states.EXTENDED,ISolenoid.states.RETRACTED,ISolenoid.states.EXTENDED};
+		ISolenoid.states[] grabState = new ISolenoid.states[]
+				{ISolenoid.states.EXTENDED,ISolenoid.states.EXTENDED,ISolenoid.states.EXTENDED};
+		ISolenoid.states[] transportState = new ISolenoid.states[]
+				{ISolenoid.states.RETRACTED,ISolenoid.states.EXTENDED,ISolenoid.states.EXTENDED};
+		ISolenoid.states[] positionState = new ISolenoid.states[]
+				{ISolenoid.states.RETRACTED,ISolenoid.states.RETRACTED,ISolenoid.states.EXTENDED};
+		ISolenoid.states[] deliverState = new ISolenoid.states[]
+				{ISolenoid.states.RETRACTED,ISolenoid.states.RETRACTED,ISolenoid.states.RETRACTED};
+	}
 	
 	public LogicalGearHandler(ISolenoid elevator, ISolenoid clawTop, ISolenoid clawBottom){
 		pistons = new ISolenoid[] {elevator, clawTop, clawBottom};
