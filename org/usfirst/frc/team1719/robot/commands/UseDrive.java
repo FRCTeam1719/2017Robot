@@ -35,6 +35,7 @@ public class UseDrive extends Command {
     
     private double DRIVE_MAX_SPEED = 70;
     double SYNCH_TOLERANCE = 0.2;
+    double synch_kP = 0.01;
     
     private final double JOYSTICK_DEADZONE = 0.15;
     
@@ -132,6 +133,14 @@ public class UseDrive extends Command {
         	double avg = (leftJoystick + rightJoystick) / 2;
         	leftJoystick = avg;
         	rightJoystick = avg;
+        }
+        else {
+        	double joystickErr = leftJoystick - rightJoystick;
+        	
+        	double change = synch_kP / (joystickErr * Math.abs(Math.pow(joystickErr, 3)));
+        	
+        	leftJoystick += change;
+        	rightJoystick -= change;
         }
         
         
