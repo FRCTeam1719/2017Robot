@@ -54,4 +54,9 @@ public class PositionLogic implements IPositionTracker {
         return heading;
     }
     
+    @Override
+    public String toString() {
+    	return "Position Logic";
+    }
+    
 }

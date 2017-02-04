@@ -62,5 +62,9 @@ public class PositionPhysical extends Subsystem implements IPositionTracker{
     public double getHeading() {
         return logic.getHeading();
     }
+    
+    public String toString() {
+    	return "Position Subsystem";
+    }
 }
 

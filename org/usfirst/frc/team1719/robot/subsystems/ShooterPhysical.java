@@ -83,6 +83,8 @@ public class ShooterPhysical extends Subsystem implements IExShooter{
 		return logic.getAvgEncoderDistance();
 	}
 
-	
-
+	@Override
+	public String toString() {
+		return "Shooter Subsystem";
+	}
 }

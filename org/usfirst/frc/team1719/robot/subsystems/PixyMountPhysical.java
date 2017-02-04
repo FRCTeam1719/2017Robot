@@ -59,5 +59,10 @@ public class PixyMountPhysical extends Subsystem implements IPixyMount{
 	public double getY() {
 		return logic.getY();
 	}
+	
+	@Override
+	public String toString() {
+		return "Pixy Mount Subsys";
+	}
 
 }

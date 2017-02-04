@@ -55,5 +55,7 @@ public class PixyMountLogic implements IPixyMount {
 		return tilt.get();
 	}
 
-
+	public String toString() {
+		return "Pixy Mount Logic";
+	}
 }

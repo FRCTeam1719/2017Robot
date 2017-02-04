@@ -31,6 +31,9 @@ public class IntakePhysical extends Subsystem implements IIntake{
 		logic.set(speed);
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Intake Subsystem";
+	}
 	
 }

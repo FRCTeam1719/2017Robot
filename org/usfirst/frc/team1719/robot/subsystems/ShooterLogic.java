@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
-import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
 
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -24,8 +23,8 @@ public class ShooterLogic implements IExShooter {
 		this.encoder1 = encoder1;
 		this.encoder2 = encoder2;
 		
-		encoder1.setDistancePerPulse((4.0 / 30.0));
-		//encoder2.config(1 / 60);
+		encoder1.config(1);
+		encoder2.config(1);
 	}
 	
 	
@@ -82,13 +81,17 @@ public class ShooterLogic implements IExShooter {
 
 	@Override
 	public double getAvgEncoderRate() {
-		return getEncoder1().getRate();
+		return (getEncoder1().getRate() + getEncoder2().getRate()) / 2;
 	}
 
 
 	@Override
 	public double getAvgEncoderDistance() {
-		return getEncoder1().getDistance();
+		return (getEncoder1().getDistance() + getEncoder2().getDistance()) / 2;
 	}
 
+	@Override
+	public String toString() {
+		return "Shooter Logic";
+	}
 }

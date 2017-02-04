@@ -61,5 +61,10 @@ public class PixyPhysical extends Subsystem implements IPixy {
 	public boolean isTrustworthy() {
 		return logic.isTrustworthy();
 	}
+	
+	@Override
+	public String toString() {
+		return "Pixy Subsystem";
+	}
     
 }
