@@ -35,14 +35,15 @@ public class UseClimber extends Command {
 	
 	@Override
 	public void execute(){
-		if (shouldRun){
-			climber.setSpeed(1); 
-			//TODO find out how hanging is going to work
-		}
 		double time = timer.getMatchTime();
 		if(time<=40) {
 			shouldRun = true;
 		}
+		if (shouldRun){
+			climber.setSpeed(1); 
+			//TODO find out how hanging is going to work
+		}
+		
 	}
 	
 	@Override
