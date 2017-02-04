@@ -86,6 +86,7 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
         if(!pid.isEnabled()) {
             pid.enable();
         }
+        System.out.println("Turn to heading power: " + pidout);
         drive.moveTank(pidout, -pidout);
     }
 

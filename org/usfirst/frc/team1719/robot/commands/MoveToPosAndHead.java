@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class MoveToPosAndHead extends CommandGroup {
 
-    private static final double SPD = 0.5D;
+    private static final double SPD = 35.0D;
     
     private final IPositionTracker positionTracker;
     private final double tX;
@@ -47,13 +47,18 @@ public class MoveToPosAndHead extends CommandGroup {
         double waypointY = targetY - straightDist * Math.cos(Math.toRadians(targetHeading));
         addSequential(new MoveToPosition(waypointX, waypointY, posTracker, drive, robot, true));
         addSequential(new TurnToHeading(targetHeading, posTracker, drive, robot));
-        addSequential(new DriveConstV(SPD, SPD, robot, drive, this::done));
+        addSequential(new DriveConstV(SPD, SPD, robot, drive, this::fsdone));
     }
     
-    private boolean done() {
-        if(fsloops++ > fstimeout) return true; /* End if taking too long */
+    
+    private boolean fsdone() {
+        if(fsloops++ > fstimeout) { /* End if taking too long */
+            System.out.println("MTPAH Final state (DCV) timed out.");
+            return true;
+        }
         /* Hack -- am I at or past the line normal to the heading.*/
-        return Math.abs(Math.toDegrees(Math.atan2(tX - positionTracker.getX(),
-                tY - positionTracker.getY())) - tHead) % 360 >= 0; 
+        double atanXY = Math.toDegrees(Math.atan2(tX - positionTracker.getX(), tY - positionTracker.getY()));
+        System.out.println("MTPAH Final state (DCV): " + atanXY);
+        return Math.abs(atanXY - tHead) % 360 >= 90; 
     }
 }

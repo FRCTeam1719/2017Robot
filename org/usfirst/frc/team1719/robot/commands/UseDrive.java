@@ -167,7 +167,7 @@ public class UseDrive extends Command {
         if(shifted != oi.getShifter()) {
             drive.shift(shifted = !shifted);
         }
-        System.out.println("Left: " + drive.getEncoderL().getRate() + " | Right: " + drive.getEncoderR().getRate());
+        //System.out.println("Left: " + drive.getEncoderL().getRate() + " | Right: " + drive.getEncoderR().getRate());
     }
 
     // Make this return true when this Command no longer needs to run execute()
