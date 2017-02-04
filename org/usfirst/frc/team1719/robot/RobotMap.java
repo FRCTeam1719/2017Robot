@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.actuators.ISolenoid;
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.I2C;

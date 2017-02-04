@@ -15,4 +15,10 @@ public class MockSolenoid implements ISolenoid {
 		return state;
 	}
 
+	@Override
+	public void set(states state) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
