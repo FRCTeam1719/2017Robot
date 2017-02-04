@@ -11,6 +11,8 @@ public class Dashboard implements IDashboard {
 		SmartDashboard.putNumber(key, num);
 	}
 
+	//For compatibility
+	@SuppressWarnings("deprecation")
 	@Override
 	public double getNumber(String key) {
 		return SmartDashboard.getNumber(key);
@@ -21,6 +23,8 @@ public class Dashboard implements IDashboard {
 		SmartDashboard.putString(key, val);
 	}
 
+	//For compatibility
+	@SuppressWarnings("deprecation")
 	@Override
 	public String getString(String key) {
 		return SmartDashboard.getString(key);
@@ -31,6 +35,8 @@ public class Dashboard implements IDashboard {
 		SmartDashboard.putBoolean(key, val);
 	}
 
+	//For compatibility
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean getBoolean(String key) {
 		return SmartDashboard.getBoolean(key);

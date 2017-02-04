@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
 import org.usfirst.frc.team1719.robot.interfaces.IClimber;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -33,6 +33,11 @@ public class ClimberLogic implements IClimber{
 	@Override
 	public double getRate() {
 		return encoder.getRate();
+	}
+	
+	@Override
+	public String toString(){
+		return "ClimberLogic";
 	}
 
 }

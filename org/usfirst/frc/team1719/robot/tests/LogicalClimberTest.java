@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.mockHardware.MockEncoder;
 import org.usfirst.frc.team1719.robot.mockHardware.MockSpeedController;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 import org.usfirst.frc.team1719.robot.subsystems.ClimberLogic;
 
 import edu.wpi.first.wpilibj.SpeedController;

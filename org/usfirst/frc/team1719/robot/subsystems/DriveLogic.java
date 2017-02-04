@@ -1,9 +1,9 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-import org.usfirst.frc.team1719.robot.actuators.ISolenoid;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
-import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
+import org.usfirst.frc.team1719.robot.interfaces.IGyro3D;
+import org.usfirst.frc.team1719.robot.interfaces.ISolenoid;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
@@ -135,6 +135,12 @@ public class DriveLogic implements IDrive {
 	@Override
 	public void disable() {
 		shifter.set(false);
-		
+		left.set(0);
+		right.set(0);
+	}
+	
+	@Override
+	public String toString(){
+		return "DriveLogic";
 	}
 }

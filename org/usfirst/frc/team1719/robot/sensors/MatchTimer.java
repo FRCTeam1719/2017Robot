@@ -12,8 +12,7 @@ public class MatchTimer implements IMatchTimer{
 
 	@Override
 	public double getMatchTime() {
-		//TODO change to DriverStation.getInstance().getMatchTime();
-		return 0;
+		return DriverStation.getInstance().getMatchTime();
 	}
 
 }

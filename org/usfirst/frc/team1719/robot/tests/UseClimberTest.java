@@ -6,9 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
 import org.usfirst.frc.team1719.robot.interfaces.IClimber;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IMatchTimer;
 import org.usfirst.frc.team1719.robot.mockHardware.MockMatchTimer;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 import org.usfirst.frc.team1719.robot.subsystems.ClimberLogic;
 
 import edu.wpi.first.wpilibj.SpeedController;

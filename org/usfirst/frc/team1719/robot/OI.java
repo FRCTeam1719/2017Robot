@@ -5,7 +5,7 @@ import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
-import org.usfirst.frc.team1719.robot.commands.UseExShooter;
+import org.usfirst.frc.team1719.robot.commands.UseShooter;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.vision.SingleTarget;
@@ -110,7 +110,7 @@ public class OI implements IOI{
 			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 100)); 
 			Button controlShooter = new JoystickButton(operator, 9);
 			
-			controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
+			controlShooter.whileHeld(new UseShooter(robot.shooter, robot));
 			
 			//TODO Decide on button
 			Button intakeToggle = new JoystickButton(operator, 8);

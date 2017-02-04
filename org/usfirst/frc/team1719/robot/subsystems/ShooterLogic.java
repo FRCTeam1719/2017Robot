@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
 
 import edu.wpi.first.wpilibj.PIDSourceType;

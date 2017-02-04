@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.mockHardware.MockEncoder;
 import org.usfirst.frc.team1719.robot.mockHardware.MockOI;
 import org.usfirst.frc.team1719.robot.mockHardware.MockSpeedController;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 import org.usfirst.frc.team1719.robot.subsystems.ShooterLogic;
 
 import edu.wpi.first.wpilibj.SpeedController;

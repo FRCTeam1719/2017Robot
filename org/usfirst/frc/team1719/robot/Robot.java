@@ -29,11 +29,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot implements IRobot {
-	
-	public static OI oi;
-	
 
-	//Subsystems
+	public static OI oi;
+
+	// Subsystems
 	DrivePhysical drive;
 	ShooterPhysical shooter;
 	IntakePhysical intake;
@@ -41,16 +40,15 @@ public class Robot extends IterativeRobot implements IRobot {
 	IPositionTracker tracker;
 	PixyPhysical pixy;
 	PixyMountPhysical pixyMount;
-	//Array to hold all of the subsystems; so that we can disable them easily
-	GenericSubsystem[] subsystems = {drive, shooter, intake, climber, pixy, pixyMount, tracker};
-	//Other global references
+	// Array to hold all of the subsystems; so that we can disable them easily
+	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker };
+	// Other global references
 	Compressor compressor;
 	Display display = new Display();
 	MatchTimer timer;
 	Command autonomousCommand;
 	int displayIter = 0;
 	Dashboard dashboard;
-	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -58,44 +56,40 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void robotInit() {
-		//General Initialization
-		//Setup Compressor
+		// General Initialization
+		// Setup Compressor
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		compressor.start();
-		//Init the NavX
+		// Init the NavX
 		RobotMap.navx.reset();
 		timer = new MatchTimer();
 		dashboard = new Dashboard();
-		
-		
-		//Subsystem Init
-		
-		//Drive
+
+		// Subsystem Init
+
+		// Drive
 		drive = new DrivePhysical(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
-		//Shooter
-		shooter = new ShooterPhysical(RobotMap.exMotorController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
-		//Intake
+		// Shooter
+		shooter = new ShooterPhysical(RobotMap.shooterController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
+		// Intake
 		intake = new IntakePhysical(RobotMap.intakeMotor);
-		//Climber
-		//TODO make an encoder if necesarry
-		climber = new ClimberPhysical(RobotMap.climberController,null); 
-		//Position tracker Init
+		// Climber
+		// TODO make an encoder if necesarry
+		climber = new ClimberPhysical(RobotMap.climberController, null);
+		// Position tracker Init
 		tracker = new PositionPhysical(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
-		//Pixy
+		// Pixy
 		pixy = new PixyPhysical(RobotMap.pixyI2C);
-		//Pixy Mount
-		pixyMount = new PixyMountPhysical (RobotMap.pan, RobotMap.tilt, pixy);
-		
-		
-		//Setup OI
-		//NOTE: This function _must_ be called after subsystem are initialized.
+		// Pixy Mount
+		pixyMount = new PixyMountPhysical(RobotMap.pan, RobotMap.tilt, pixy);
+
+		// Setup OI
+		// NOTE: This function _must_ be called after subsystem are initialized.
 		oi = new OI();
 		oi.init(this);
 	}
-	
-	
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -104,7 +98,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		//Loop through all the subsystems and make sure their state is updated
+		// Loop through all the subsystems and make sure their state is updated
 		for (int i = 0; i < subsystems.length; i++) {
 			if (subsystems[i] != null) {
 				subsystems[i].disable();
@@ -115,9 +109,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		
-		if((displayIter++) % 0x10 == 0) {
-		    display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+
+		if ((displayIter++) % 0x10 == 0) {
+			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
 	}
 
@@ -153,9 +147,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		if((displayIter++) % 0x10 == 0) {
-            display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
-        }
+		if ((displayIter++) % 0x10 == 0) {
+			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+		}
 	}
 
 	@Override
@@ -164,13 +158,13 @@ public class Robot extends IterativeRobot implements IRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		
+
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
 		pixyMount.setX(0.5);
 		pixyMount.setY(0.5);
-		
+
 	}
 
 	/**
@@ -178,7 +172,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-	    //System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
+		// System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" +
+		// RobotMap.leftDriveEnc.getDistance() + "renc" +
+		// RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
 
 	}
