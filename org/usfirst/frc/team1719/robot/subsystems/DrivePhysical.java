@@ -7,7 +7,6 @@ import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
 
-import edu.wpi.cscore.VideoCamera.WhiteBalance;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
@@ -24,8 +23,8 @@ public class DrivePhysical extends Subsystem implements IDrive {
     
 
     public DrivePhysical(SpeedController l, SpeedController r, ISolenoid shifter,
-            IEncoder lEnc, IEncoder rEnc, Accelerometer acc, IGyro3D gyr, IRobot robot, double wheelSize) {
-        drive = new DriveLogic(l, r, shifter, lEnc, rEnc, acc, gyr, wheelSize);
+            IEncoder lEnc, IEncoder rEnc, Accelerometer acc, IGyro3D gyr, IRobot robot) {
+        drive = new DriveLogic(l, r, shifter, lEnc, rEnc, acc, gyr);
         this.robot = robot;
      
     }

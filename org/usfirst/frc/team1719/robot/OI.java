@@ -6,6 +6,7 @@ import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
 import org.usfirst.frc.team1719.robot.commands.UseExShooter;
+import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.vision.SingleTarget;
 
@@ -105,24 +106,36 @@ public class OI implements IOI{
 	// button.whenReleased(new ExampleCommand());
 	
 	public void init(Robot robot){
-		revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 100));
-		
+		try {
+			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 100)); 
+			Button controlShooter = new JoystickButton(operator, 9);
+			
+			controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
+			
+			//TODO Decide on button
+			Button intakeToggle = new JoystickButton(operator, 8);
+			intakeToggle.toggleWhenPressed(new ToggleIntake(robot.intake));
+			Button unclogIntake = new JoystickButton(operator, 10);
+			unclogIntake.whileHeld(new UnclogIntake(robot.intake));
+			Button scanButton = new JoystickButton(driver, 2);
+			scanButton.whenPressed(new PixyScan(robot.pixyMount, new SingleTarget(), robot.pixy, robot.getOI()));
 
-		Button controlShooter = new JoystickButton(operator, 9);
-
-		controlShooter.whileHeld(new UseExShooter(robot.shooter, robot));
-		
-		//TODO Decide on button
-		Button intakeToggle = new JoystickButton(operator, 8);
-		intakeToggle.toggleWhenPressed(new ToggleIntake(robot.intake));
-		Button unclogIntake = new JoystickButton(operator, 10);
-		unclogIntake.whileHeld(new UnclogIntake(robot.intake));
-		Button scanButton = new JoystickButton(driver, 2);
-		scanButton.whenPressed(new PixyScan(robot.pixyMount, new SingleTarget(), robot.pixy, robot.getOI()));
-
-		//TODO Decide what button this should be.
-		Button runClimber = new JoystickButton(operator, 4);
-		runClimber.whileHeld(new UseClimber(robot.physClimber,robot.timer));
+			//TODO Decide what button this should be.
+			Button runClimber = new JoystickButton(operator, 4);
+			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
+		}
+		catch (NullPointerException e) {
+			System.out.println("Subsystem null in OI.init()");
+			System.out.println("Likely due to init() being called before all Subsystems in Robot.robotInit() are instantiated.");
+			System.out.println("List of all instantiated Subsystems: ");
+			for (GenericSubsystem subsys : robot.subsystems) {
+				if (subsys != null) {
+					System.err.println(subsys.toString());
+				}
+			}
+			System.out.println("Stacktrace follows");
+			e.printStackTrace();
+		}
 	}
 
 	@Override

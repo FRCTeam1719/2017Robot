@@ -1,19 +1,18 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
+import org.usfirst.frc.team1719.robot.subsystems.ClimberPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.DrivePhysical;
 import org.usfirst.frc.team1719.robot.subsystems.IntakePhysical;
-import org.usfirst.frc.team1719.robot.subsystems.ClimberPhysical;
-import org.usfirst.frc.team1719.robot.subsystems.ShooterPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyMountPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PositionPhysical;
+import org.usfirst.frc.team1719.robot.subsystems.ShooterPhysical;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -21,8 +20,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,21 +32,25 @@ public class Robot extends IterativeRobot implements IRobot {
 	
 	public static OI oi;
 	
-	public static double WHEEL_DIAMETER = 6;
 
-	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	//Subsystems
 	DrivePhysical drive;
 	ShooterPhysical shooter;
 	IntakePhysical intake;
-	MatchTimer timer;
-	ClimberPhysical physClimber;
-	GenericSubsystem[] subsystems = {drive, shooter, intake, physClimber};
-	Display display = new Display();
+	ClimberPhysical climber;
 	IPositionTracker tracker;
-	int iter = 0;
 	PixyPhysical pixy;
 	PixyMountPhysical pixyMount;
+	//Array to hold all of the subsystems; so that we can disable them easily
+	GenericSubsystem[] subsystems = {drive, shooter, intake, climber, pixy, pixyMount, tracker};
+	//Other global references
+	Compressor compressor;
+	Display display = new Display();
+	MatchTimer timer;
+	Command autonomousCommand;
+	int displayIter = 0;
+	Dashboard dashboard;
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -57,46 +58,44 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void robotInit() {
-
-		Compressor compressor = new Compressor(0);
+		//General Initialization
+		//Setup Compressor
+		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		compressor.start();
+		//Init the NavX
+		RobotMap.navx.reset();
+		timer = new MatchTimer();
+		dashboard = new Dashboard();
+		
+		
+		//Subsystem Init
+		
 		//Drive
 		drive = new DrivePhysical(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
-				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
-		shooter = new ShooterPhysical(RobotMap.exMotorController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
+				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
 		//Shooter
+		shooter = new ShooterPhysical(RobotMap.exMotorController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
 		//Intake
 		intake = new IntakePhysical(RobotMap.intakeMotor);
-		timer = new MatchTimer();
 		//Climber
 		//TODO make an encoder if necesarry
-		physClimber = new ClimberPhysical(RobotMap.climberController,null); 
+		climber = new ClimberPhysical(RobotMap.climberController,null); 
 		//Position tracker Init
 		tracker = new PositionPhysical(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
-		RobotMap.navx.reset();
-		//Encoder Init
-		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
-		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
-
 		//Pixy
 		pixy = new PixyPhysical(RobotMap.pixyI2C);
+		//Pixy Mount
 		pixyMount = new PixyMountPhysical (RobotMap.pan, RobotMap.tilt, pixy);
+		
+		
 		//Setup OI
+		//NOTE: This function _must_ be called after subsystem are initialized.
 		oi = new OI();
 		oi.init(this);
-		//Setup dashboard
-		smartdashboardInit();
 	}
 	
 	
-	public void smartdashboardInit(){
-		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
-		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
-		
-		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
-		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
-	}
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -105,18 +104,19 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void disabledInit() {
-//		for (int i = 0; i < subsystems.length; i++) {
-//			if (subsystems[i] != null) {
-//				subsystems[i].disable();
-//			}
-//		}
+		//Loop through all the subsystems and make sure their state is updated
+		for (int i = 0; i < subsystems.length; i++) {
+			if (subsystems[i] != null) {
+				subsystems[i].disable();
+			}
+		}
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		
-		if((iter++) % 0x10 == 0) {
+		if((displayIter++) % 0x10 == 0) {
 		    display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
 	}
@@ -134,7 +134,6 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -154,7 +153,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		if((iter++) % 0x10 == 0) {
+		if((displayIter++) % 0x10 == 0) {
             display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
         }
 	}
@@ -203,6 +202,6 @@ public class Robot extends IterativeRobot implements IRobot {
 
 	@Override
 	public IDashboard getDashboard() {
-		return null;
+		return dashboard;
 	}
 }

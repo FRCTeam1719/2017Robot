@@ -118,6 +118,12 @@ public class UseDrive extends Command {
     	
     	leftController.enable();
     	rightController.enable();
+    	//Setup dashboard constants
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
+		
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
     }
 
     // Called repeatedly when this Command is scheduled to run

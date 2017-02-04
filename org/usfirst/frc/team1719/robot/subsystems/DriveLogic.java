@@ -23,24 +23,8 @@ public class DriveLogic implements IDrive {
     private Accelerometer accelerometer;
     private IGyro3D gyro;
     private double maxSpd = 1.0D;
+	private static double WHEEL_DIAMETER = 6;
     
-    /**
-     * 
-     * @param l Left Speed Controller
-     * @param r Right Speed Controller
-     * @param shift Solenoid to control shifter
-     * @param lEnc Left encoder
-     * @param rEnc Right encoder
-     * @param acc Accelerometer 
-     * @param gyr Gyroscope
-     * @param wheelSize Circumference of wheel (ft) to config encoders
-     */
-    public DriveLogic(SpeedController l, SpeedController r, ISolenoid shift, IEncoder lEnc,
-            IEncoder rEnc, Accelerometer acc, IGyro3D gyr, double wheelSize) {
-    	this(l,r,shift,lEnc,rEnc,acc,gyr);
-    	lEnc.config(wheelSize);
-    	rEnc.config(wheelSize);
-    }
 
     /**
      * 
@@ -61,6 +45,9 @@ public class DriveLogic implements IDrive {
         rEncoder = rEnc;
         accelerometer = acc;
         gyro = gyr;
+        //TODO: HACK; DON'T KNOW WHERE 2 CAME FROM, ADDED IN 8939efea7ae245a8ed0798b278a0e05b0f230fb6
+        lEncoder.config(Math.PI * WHEEL_DIAMETER * 2);
+        rEncoder.config(Math.PI * WHEEL_DIAMETER * 2);
     }
     
     
