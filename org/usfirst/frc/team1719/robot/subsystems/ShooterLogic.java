@@ -13,13 +13,13 @@ import edu.wpi.first.wpilibj.SpeedController;
  * Manages a single SpeedController
  */
 
-public class LogicalExShooter implements IExShooter {
+public class ShooterLogic implements IExShooter {
 
 	PIDSourceType sourceType = PIDSourceType.kRate;
 	private SpeedController shooterMotor;
 	private IEncoder encoder1, encoder2;
 	
-	public LogicalExShooter (SpeedController shooterMotor, IEncoder encoder1, IEncoder encoder2) {
+	public ShooterLogic (SpeedController shooterMotor, IEncoder encoder1, IEncoder encoder2) {
 		this.shooterMotor = shooterMotor;
 		this.encoder1 = encoder1;
 		this.encoder2 = encoder2;

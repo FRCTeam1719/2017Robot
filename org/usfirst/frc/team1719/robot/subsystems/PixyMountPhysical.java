@@ -8,14 +8,14 @@ import org.usfirst.frc.team1719.robot.vision.SingleTarget;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class PhysicalPixyMount extends Subsystem implements IPixyMount{
+public class PixyMountPhysical extends Subsystem implements IPixyMount{
 	
-	LogicalPixyMount logic;
+	PixyMountLogic logic;
 	IPixy camera;
 	
-	public PhysicalPixyMount (Servo pan, Servo tilt, IPixy camera){
+	public PixyMountPhysical (Servo pan, Servo tilt, IPixy camera){
 		this.camera = camera;
-		logic = new LogicalPixyMount(pan, tilt);
+		logic = new PixyMountLogic(pan, tilt);
 	}
 
 	@Override

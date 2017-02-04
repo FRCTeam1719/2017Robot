@@ -7,14 +7,14 @@ import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
-import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
-import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
-import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
-import org.usfirst.frc.team1719.robot.subsystems.PhysicalClimber;
-import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
-import org.usfirst.frc.team1719.robot.subsystems.PhysicalPixyMount;
-import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
-import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
+import org.usfirst.frc.team1719.robot.subsystems.DrivePhysical;
+import org.usfirst.frc.team1719.robot.subsystems.IntakePhysical;
+import org.usfirst.frc.team1719.robot.subsystems.ClimberPhysical;
+import org.usfirst.frc.team1719.robot.subsystems.ShooterPhysical;
+import org.usfirst.frc.team1719.robot.subsystems.PixyMountPhysical;
+import org.usfirst.frc.team1719.robot.subsystems.PixyPhysical;
+import org.usfirst.frc.team1719.robot.subsystems.PositionPhysical;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -33,24 +33,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot implements IRobot {
 	
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	
 	public static double WHEEL_DIAMETER = 6;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
-	DriveSubsys drive;
-	PhysicalExShooter shooter;
-	IntakeSubsystem intake;
+	DrivePhysical drive;
+	ShooterPhysical shooter;
+	IntakePhysical intake;
 	MatchTimer timer;
-	PhysicalClimber physClimber;
+	ClimberPhysical physClimber;
 	GenericSubsystem[] subsystems = {drive, shooter, intake, physClimber};
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
-	PixySubsys pixy;
-	PhysicalPixyMount pixyMount;
+	PixyPhysical pixy;
+	PixyMountPhysical pixyMount;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -63,26 +62,26 @@ public class Robot extends IterativeRobot implements IRobot {
 		compressor.setClosedLoopControl(true);
 		compressor.start();
 		//Drive
-		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
+		drive = new DrivePhysical(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
-		shooter = new PhysicalExShooter(RobotMap.exMotorController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
+		shooter = new ShooterPhysical(RobotMap.exMotorController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
 		//Shooter
 		//Intake
-		intake = new IntakeSubsystem(RobotMap.intakeMotor);
+		intake = new IntakePhysical(RobotMap.intakeMotor);
 		timer = new MatchTimer();
 		//Climber
 		//TODO make an encoder if necesarry
-		physClimber = new PhysicalClimber(RobotMap.climberController,null); 
+		physClimber = new ClimberPhysical(RobotMap.climberController,null); 
 		//Position tracker Init
-		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
+		tracker = new PositionPhysical(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();
 		//Encoder Init
 		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
 		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
 
 		//Pixy
-		pixy = new PixySubsys(RobotMap.pixyI2C);
-		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, pixy);
+		pixy = new PixyPhysical(RobotMap.pixyI2C);
+		pixyMount = new PixyMountPhysical (RobotMap.pan, RobotMap.tilt, pixy);
 		//Setup OI
 		oi = new OI();
 		oi.init(this);

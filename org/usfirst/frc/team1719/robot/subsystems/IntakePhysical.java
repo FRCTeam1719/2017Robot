@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * LogicIntake Wrapper
  * @author Benny
  */
-public class IntakeSubsystem extends Subsystem implements IIntake{
+public class IntakePhysical extends Subsystem implements IIntake{
 
 	private IntakeLogic logic;
-	public IntakeSubsystem(SpeedController controller) {
+	public IntakePhysical(SpeedController controller) {
 		logic = new IntakeLogic(controller);
 	}
 	@Override

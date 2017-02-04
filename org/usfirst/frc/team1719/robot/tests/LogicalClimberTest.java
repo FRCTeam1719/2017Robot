@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.usfirst.frc.team1719.robot.mockHardware.MockEncoder;
 import org.usfirst.frc.team1719.robot.mockHardware.MockSpeedController;
 import org.usfirst.frc.team1719.robot.sensors.IEncoder;
-import org.usfirst.frc.team1719.robot.subsystems.LogicalClimber;
+import org.usfirst.frc.team1719.robot.subsystems.ClimberLogic;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -15,13 +15,13 @@ public class LogicalClimberTest {
 	
 	SpeedController controller;
 	MockEncoder encoder;
-	LogicalClimber climber;
+	ClimberLogic climber;
 	
 	@Before
 	public void setUp() throws Exception {
 		controller = new MockSpeedController();
 		encoder = new MockEncoder();
-		climber = new LogicalClimber(controller, encoder);
+		climber = new ClimberLogic(controller, encoder);
 	}
 
 	@Test

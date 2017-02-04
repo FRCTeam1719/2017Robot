@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Position-tracker subsystem wrapper.
  * @author Duncan
  */
-public class PositionSubsys extends Subsystem implements IPositionTracker{
+public class PositionPhysical extends Subsystem implements IPositionTracker{
     /**
      * Pseudo-command to update position every iteration.
      * @author Duncan
      */
     private class Update extends Command {
-        private Update(PositionSubsys sup) {requires(sup);}
+        private Update(PositionPhysical sup) {requires(sup);}
         @Override
         protected void execute() {
             update();
@@ -31,7 +31,7 @@ public class PositionSubsys extends Subsystem implements IPositionTracker{
     
     private final PositionLogic logic;
     
-    public PositionSubsys(IGyro3D gyro, IEncoder left, IEncoder right) {
+    public PositionPhysical(IGyro3D gyro, IEncoder left, IEncoder right) {
         logic = new PositionLogic(gyro, left, right);
     }
 

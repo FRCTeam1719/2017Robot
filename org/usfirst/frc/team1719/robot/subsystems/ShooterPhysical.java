@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class PhysicalExShooter extends Subsystem implements IExShooter{
+public class ShooterPhysical extends Subsystem implements IExShooter{
 
-	LogicalExShooter logic;
+	ShooterLogic logic;
 	IRobot robot;
-	public PhysicalExShooter (SpeedController motor, IRobot robot, IEncoder enc1, IEncoder enc2){
-		logic = new LogicalExShooter(motor, enc1, enc2);
+	public ShooterPhysical (SpeedController motor, IRobot robot, IEncoder enc1, IEncoder enc2){
+		logic = new ShooterLogic(motor, enc1, enc2);
 		this.robot = robot;
 	}
 	

@@ -5,12 +5,12 @@ import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class LogicalClimber implements IClimber{
+public class ClimberLogic implements IClimber{
 	
 	private SpeedController motor;
 	private IEncoder encoder;
 	
-	public LogicalClimber(SpeedController motor, IEncoder encoder) {
+	public ClimberLogic(SpeedController motor, IEncoder encoder) {
 		this.motor = motor;
 		this.encoder = encoder;
 	}

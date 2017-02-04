@@ -9,7 +9,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IClimber;
 import org.usfirst.frc.team1719.robot.interfaces.IMatchTimer;
 import org.usfirst.frc.team1719.robot.mockHardware.MockMatchTimer;
 import org.usfirst.frc.team1719.robot.sensors.IEncoder;
-import org.usfirst.frc.team1719.robot.subsystems.LogicalClimber;
+import org.usfirst.frc.team1719.robot.subsystems.ClimberLogic;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -24,7 +24,7 @@ public class UseClimberTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		lClimber = new LogicalClimber(controller,encoder);
+		lClimber = new ClimberLogic(controller,encoder);
 		timer = new MockMatchTimer();
 		climber = new UseClimber(lClimber, timer);
 	}
