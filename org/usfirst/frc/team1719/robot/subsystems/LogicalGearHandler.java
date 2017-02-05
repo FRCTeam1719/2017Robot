@@ -29,9 +29,9 @@ public class LogicalGearHandler implements IGearHandler{
 	 * @see <a href="104.131.160.86/index.php/Project_Overview#GearHandler_2> the wiki</a> for more.
 	 */
 	public void setState(gearStates state){
-		boolean[] pistonStates = null;
+		ISolenoid.states[] pistonState = null;
 		switch(state){
-		case RECIEVE: pistonStates = new boolean[] {true,false,true}; break;
+		case RECIEVE: pistonState = LogicalGearHandler.recieveState; break;
 		case GRAB: pistonStates = new boolean[] {true,true,true}; break;
 		case TRANSPORT: pistonStates = new boolean[] {false,true,true}; break;
 		case POSITION: pistonStates = new boolean[] {false,false,true}; break;
