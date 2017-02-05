@@ -9,12 +9,14 @@ import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.GearHandlerSubsys;
 import org.usfirst.frc.team1719.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalClimber;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalExShooter;
 import org.usfirst.frc.team1719.robot.subsystems.PhysicalPixyMount;
 import org.usfirst.frc.team1719.robot.subsystems.PixySubsys;
 import org.usfirst.frc.team1719.robot.subsystems.PositionSubsys;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -45,7 +47,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	IntakeSubsystem intake;
 	MatchTimer timer;
 	PhysicalClimber physClimber;
-	GenericSubsystem[] subsystems = {drive, shooter, intake, physClimber};
+	GearHandlerSubsys gearHandler;
+	GenericSubsystem[] subsystems = {drive, shooter, intake, physClimber, gearHandler};
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
@@ -73,6 +76,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		//Climber
 		//TODO make an encoder if necesarry
 		physClimber = new PhysicalClimber(RobotMap.climberController,null); 
+		//Gear Handler
+		gearHandler = new GearHandlerSubsys(RobotMap.elevator, RobotMap.clawTop, RobotMap.clawBottom);
 		//Position tracker Init
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();
