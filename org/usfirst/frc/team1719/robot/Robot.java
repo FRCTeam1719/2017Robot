@@ -116,7 +116,7 @@ public class Robot extends IterativeRobot implements IRobot {
         SmartDashboard.putNumber("TurnToHeading K[D]", 0);
         oi.init(this);
 
-        chooser.addDefault("Place Gear", new MoveToPosAndHead(0, 65, 0, 12, 100, tracker, drive, this));
+        chooser.addDefault("Place Gear", new MoveToPosAndHead(0, 65, 0, 24, 100, tracker, drive, this));
         // chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
 	}
