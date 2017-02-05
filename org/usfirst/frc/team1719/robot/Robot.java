@@ -182,7 +182,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 	    //System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
-
+		double rate = shooter.getAvgEncoderRate() * 15.0D;
+		System.out.println("ShotV " + rate);
+		SmartDashboard.putNumber("Shooter velocity (rpm)", rate);
 	}
 
 	/**
