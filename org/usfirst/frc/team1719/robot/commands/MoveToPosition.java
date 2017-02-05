@@ -160,6 +160,10 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
             distOffPath = Math.sin(offPathAngle) * Math.sqrt(errX * errX + errY * errY);System.out.println("Following path : power " + rotSpd + "Rotator " + rotateController.get());
             drive.moveArcade(SPD, rotSpd);
         }
+        SmartDashboard.putNumber("MTP e\u27c2", distOffPath);
+        SmartDashboard.putNumber("MTP Desired angle", pidhelper.val);
+        SmartDashboard.putNumber("MTP current angle", posTracker.getHeading() - pathAngle);
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()
