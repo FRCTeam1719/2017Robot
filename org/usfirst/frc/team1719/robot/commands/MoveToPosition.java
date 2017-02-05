@@ -65,6 +65,7 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
 	private PIDHelper pidhelper;
 	private PIDController desiredHeadingController;
 	private PIDController rotateController;
+	private PIDController rotateControllerStill;
     private boolean init = false;
     private boolean turning = false;
     private final boolean absolute;
@@ -89,6 +90,7 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     	pidhelper = new PIDHelper();
     	desiredHeadingController = new PIDController(0, 0, 0, this, pidhelper);
     	rotateController = new PIDController(0, 0, 0, pidhelper, this);
+    	rotateControllerStill = new PIDController(0, 0, 0, pidhelper, this);
     }
 
     public MoveToPosition(double _desiredX, double _desiredY, IPositionTracker _posTracker, IDrive _drive,
@@ -105,26 +107,39 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     	    desiredY = parY + initY;
     	}
     	pathAngle = Math.toDegrees(Math.atan2(desiredX - initX, desiredY - initY));
-    	desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1), SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
+    	desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1),
+    	        SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
     	        SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
-        rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1), SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
+        rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1),
+                SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
                 SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
-    	 
+        rotateControllerStill.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1),
+                SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
+                SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
       	desiredHeadingController.setSetpoint(0);
-    	rotateController.setSetpoint(0);
-    	rotateController.setInputRange(-180.0D,  180.0D);
-    	rotateController.setContinuous();
-    	rotateController.setOutputRange(-1.0D, 1.0D);
-        rotateController.enable();
+        rotateController.setSetpoint(0);
+        rotateController.setInputRange(-180.0D,  180.0D);
+        rotateController.setContinuous();
+        rotateController.setOutputRange(-1.0D, 1.0D);
+    	rotateControllerStill.setSetpoint(0);
+    	rotateControllerStill.setInputRange(-180.0D,  180.0D);
+    	rotateControllerStill.setContinuous();
+    	rotateControllerStill.setOutputRange(-1.0D, 1.0D);
     	desiredHeadingController.enable();
+    	rotateController.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if(oi.getResetPIDConstants()) {
-            desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1), SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
+            desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1),
+                    SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
                     SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
-            rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1), SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
+            rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1),
+                    SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
+                    SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
+            rotateControllerStill.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1),
+                    SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
                     SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
         }
         if(init) {
@@ -146,18 +161,24 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
             if(Math.abs(head_m_atxy) > MAX_ANGLE_TOLERANCE) { /* Are we so far off target that the 1094 algorithm won't work well? */
                 turning = true;
                 desiredHeadingController.disable();
+                rotateController.disable();
+                rotateControllerStill.enable();
                 pidhelper.pidWrite(0.0D);
             } else if(Math.abs(head_m_atxy) < MIN_ANGLE_TOLERANCE) { /* Have we gotten to almost directly the direction we wish to go? */
                 turning = false;
                 desiredHeadingController.enable();
+                rotateController.enable();
+                rotateControllerStill.disable();
             }
         }
         if(doHardTurns && turning) { /* Just use one PID loop to turn in place*/
-           pathAngle = atanXY;System.out.println("Turning to heading " + pathAngle + "; power " + rotSpd + " ctrl " + rotateController.get() + "FROM" + rotateController.getError() + "K[P]=" + rotateController.getP() + "enabled=" + rotateController.isEnabled());
+           pathAngle = atanXY;
+           System.out.println("Turning to heading " + pathAngle + "; power " + rotSpd + " ctrl " + rotateController.get() + "FROM" + rotateController.getError() + "K[P]=" + rotateController.getP() + "enabled=" + rotateController.isEnabled());
            drive.moveTank(rotSpd, -rotSpd);
         } else { /* Use 1094 algorithm */
             double offPathAngle = Math.atan2(errX, errY) - Math.toRadians(pathAngle);
-            distOffPath = Math.sin(offPathAngle) * Math.sqrt(errX * errX + errY * errY);System.out.println("Following path : power " + rotSpd + "Rotator " + rotateController.get());
+            distOffPath = Math.sin(offPathAngle) * Math.sqrt(errX * errX + errY * errY);
+            System.out.println("Following path : power " + rotSpd + "Rotator " + rotateController.get());
             drive.moveArcade(SPD, rotSpd);
         }
         SmartDashboard.putNumber("MTP e\u27c2", distOffPath);
@@ -169,7 +190,9 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         /* Finished if the Euclidean distance from target is less than tolerance or if the driver aborts */
-        return oi.getAbortAutomove() || (doHardTurns ? ((errX * errX + errY * errY) < SQ_TOLERANCE) : (Math.abs(Math.atan2(errX, errY) - Math.toRadians(pathAngle)) > 90)) ;
+        return oi.getAbortAutomove() || (doHardTurns ?
+                ((errX * errX + errY * errY) < SQ_TOLERANCE) :
+                    (Math.abs(Math.atan2(errX, errY) - Math.toRadians(pathAngle)) > 90)) ;
     }
 
     // Called once after isFinished returns true
