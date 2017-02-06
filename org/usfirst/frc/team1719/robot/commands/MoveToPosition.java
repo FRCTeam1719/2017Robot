@@ -110,12 +110,12 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     	desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1),
     	        SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
     	        SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
-        rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1),
+        rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.02),
                 SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
                 SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
-        rotateControllerStill.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1),
-                SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
-                SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
+        rotateControllerStill.setPID(SmartDashboard.getNumber("TurnToHeading K[P]", 0.01),
+                SmartDashboard.getNumber("TurnToHeading K[I]", 0),
+                SmartDashboard.getNumber("TurnToHeading K[D]", 0));
       	desiredHeadingController.setSetpoint(0);
         rotateController.setSetpoint(0);
         rotateController.setInputRange(-180.0D,  180.0D);
@@ -135,12 +135,12 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
             desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1),
                     SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
                     SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
-            rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1),
+            rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.02),
                     SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
                     SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
-            rotateControllerStill.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.1),
-                    SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
-                    SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
+            rotateControllerStill.setPID(SmartDashboard.getNumber("TurnToHeading K[P]", 0.01),
+                    SmartDashboard.getNumber("TurnToHeading K[I]", 0),
+                    SmartDashboard.getNumber("TurnToHeading K[D]", 0));
         }
         if(init) {
             initialize();

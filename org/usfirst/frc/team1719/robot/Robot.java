@@ -108,7 +108,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber("MoveToPos K[0][P]", 0.1D);
 		SmartDashboard.putNumber("MoveToPos K[0][I]", 0.0D);
         SmartDashboard.putNumber("MoveToPos K[0][D]", 0.0D);
-        SmartDashboard.putNumber("MoveToPos K[1][P]", 0.01D);
+        SmartDashboard.putNumber("MoveToPos K[1][P]", 0.02D);
         SmartDashboard.putNumber("MoveToPos K[1][I]", 0.0D);
         SmartDashboard.putNumber("MoveToPos K[1][D]", 0.0D);
         SmartDashboard.putNumber("TurnToHeading K[P]", 0.007);
