@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
+import org.usfirst.frc.team1719.robot.interfaces.IGearHandler;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -34,10 +35,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot implements IRobot {
-	
+
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
-	
+
 	public static double WHEEL_DIAMETER = 6;
 
 	Command autonomousCommand;
@@ -48,7 +49,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	MatchTimer timer;
 	PhysicalClimber physClimber;
 	GearHandlerSubsys gearHandler;
-	GenericSubsystem[] subsystems = {drive, shooter, intake, physClimber, gearHandler};
+	GenericSubsystem[] subsystems = { drive, shooter, intake, physClimber, gearHandler };
 	Display display = new Display();
 	IPositionTracker tracker;
 	int iter = 0;
@@ -65,41 +66,42 @@ public class Robot extends IterativeRobot implements IRobot {
 		Compressor compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		compressor.start();
-		//Drive
+		// Drive
 		drive = new DriveSubsys(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this, WHEEL_DIAMETER * 3.14);
 		shooter = new PhysicalExShooter(RobotMap.exMotorController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
-		//Shooter
-		//Intake
+		// Shooter
+		// Intake
 		intake = new IntakeSubsystem(RobotMap.intakeMotor);
 		timer = new MatchTimer();
-		//Climber
-		//TODO make an encoder if necesarry
-		physClimber = new PhysicalClimber(RobotMap.climberController,null); 
-		//Gear Handler
+		// Climber
+		// TODO make an encoder if necesarry
+		physClimber = new PhysicalClimber(RobotMap.climberController, null);
+		// Gear Handler
 		gearHandler = new GearHandlerSubsys(RobotMap.elevator, RobotMap.clawTop, RobotMap.clawBottom);
-		//Position tracker Init
+		// Position tracker Init
 		tracker = new PositionSubsys(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		RobotMap.navx.reset();
-		//Encoder Init
-		RobotMap.leftDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/);
-		RobotMap.rightDriveEnc.config(6.0D * Math.PI * 2.0D /* Hack -- i don't know where the 2 came from*/); 
+		// Encoder Init
+		RobotMap.leftDriveEnc.config(6.0D * Math.PI
+				* 2.0D /* Hack -- i don't know where the 2 came from */);
+		RobotMap.rightDriveEnc.config(6.0D * Math.PI
+				* 2.0D /* Hack -- i don't know where the 2 came from */);
 
-		//Pixy
+		// Pixy
 		pixy = new PixySubsys(RobotMap.pixyI2C);
-		pixyMount = new PhysicalPixyMount (RobotMap.pan, RobotMap.tilt, pixy);
-		//Setup OI
+		pixyMount = new PhysicalPixyMount(RobotMap.pan, RobotMap.tilt, pixy);
+		// Setup OI
 		oi = new OI();
 		oi.init(this);
-		//Setup dashboard
+		// Setup dashboard
 		smartdashboardInit();
 	}
-	
-	
-	public void smartdashboardInit(){
+
+	public void smartdashboardInit() {
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
-		
+
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
 		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
 	}
@@ -111,19 +113,19 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void disabledInit() {
-//		for (int i = 0; i < subsystems.length; i++) {
-//			if (subsystems[i] != null) {
-//				subsystems[i].disable();
-//			}
-//		}
+		// for (int i = 0; i < subsystems.length; i++) {
+		// if (subsystems[i] != null) {
+		// subsystems[i].disable();
+		// }
+		// }
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		
-		if((iter++) % 0x10 == 0) {
-		    display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+
+		if ((iter++) % 0x10 == 0) {
+			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
 	}
 
@@ -160,9 +162,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		if((iter++) % 0x10 == 0) {
-            display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
-        }
+		if ((iter++) % 0x10 == 0) {
+			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+		}
 	}
 
 	@Override
@@ -171,13 +173,11 @@ public class Robot extends IterativeRobot implements IRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		
+
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		pixyMount.setX(0.5);
-		pixyMount.setY(0.5);
-		
+
 	}
 
 	/**
@@ -185,9 +185,11 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-	    //System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" + RobotMap.leftDriveEnc.getDistance() + "renc" + RobotMap.rightDriveEnc.getDistance());
+		// System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" +
+		// RobotMap.leftDriveEnc.getDistance() + "renc" +
+		// RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
-
+		updateDashboardGearInfo();
 	}
 
 	/**
@@ -210,5 +212,33 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public IDashboard getDashboard() {
 		return null;
+	}
+
+	public void updateDashboardGearInfo() {
+		IGearHandler.gearStates currState = gearHandler.getState();
+
+		SmartDashboard.putBoolean("GearHandler_Receive", false);
+		SmartDashboard.putBoolean("GearHandler_Grab", false);
+		SmartDashboard.putBoolean("GearHandler_Transport", false);
+		SmartDashboard.putBoolean("GearHandler_Position", false);
+		SmartDashboard.putBoolean("GearHandler_Deliver", false);
+
+		switch (currState) {
+			case RECIEVE:
+				SmartDashboard.putBoolean("GearHandler_Receive", true);
+				break;
+			case GRAB:
+				SmartDashboard.putBoolean("GearHandler_Grab", true);
+				break;
+			case TRANSPORT:
+				SmartDashboard.putBoolean("GearHandler_Transport", true);
+				break;
+			case POSITION:
+				SmartDashboard.putBoolean("GearHandler_Position", true);
+				break;
+			case DELIVER:
+				SmartDashboard.putBoolean("GearHandler_Deliver", true);
+				break;
+		}
 	}
 }
