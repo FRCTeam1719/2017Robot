@@ -11,13 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class UnclogIntake extends Command{
 
 	private IIntake intake;
+	private final double UNCLOG_SPEED = -1;
 	
 	public UnclogIntake(IIntake intake){
 		this.intake = intake;
 	}
 	@Override
 	public void execute(){
-		intake.set(-1);
+		intake.set(UNCLOG_SPEED);
 	}
 	
 	@Override
@@ -28,7 +29,6 @@ public class UnclogIntake extends Command{
 	
 	@Override
 	public boolean isFinished() {
-		
 		return false;
 	}
 	

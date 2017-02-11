@@ -37,4 +37,21 @@ public class I2C extends edu.wpi.first.wpilibj.I2C implements ISerial {
         return super.writeBulk(bytes) ? max : 0;
     }
     
+    @Override
+    public synchronized boolean read(int registerAddress, int count, byte[] buffer) {
+        if (count < 1) {
+            throw new BoundaryException("Value must be at least 1, " + count + " given");
+        }
+
+        ByteBuffer dataToSendBuffer = ByteBuffer.allocateDirect(1);
+        dataToSendBuffer.put(new byte[] {(byte) registerAddress});
+
+        if(I2CJNI.i2CWrite((byte) prt.value, (byte) addr, dataToSendBuffer, (byte) 1) < 1) return true;
+        
+        ByteBuffer dataReceivedBuffer = ByteBuffer.allocateDirect(count);
+        int retVal = I2CJNI.i2CRead((byte) prt.value, (byte) addr, dataReceivedBuffer,
+                                    (byte) count);
+        dataReceivedBuffer.get(buffer);
+        return retVal < count;
+    }
 }

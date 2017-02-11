@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot.commands;
 
+import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IPixy;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -22,7 +23,7 @@ public class DriveToGearLift extends MoveForwardDist {
 
     @Override
     protected boolean isFinished() {
-        return target.closeEnough(pixy.getBlocks());
+        return target.closeEnough(pixy.getBlocks()) || RobotMap.lidar.getDistanceCM() <= 20;
     }
 
     // Called once after isFinished returns true

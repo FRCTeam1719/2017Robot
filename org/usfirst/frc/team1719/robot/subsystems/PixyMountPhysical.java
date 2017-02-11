@@ -9,19 +9,20 @@ import org.usfirst.frc.team1719.robot.vision.TwoFuelUnits;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class PhysicalPixyMount extends Subsystem implements IPixyMount{
+public class PixyMountPhysical extends Subsystem implements IPixyMount{
 	
-	LogicalPixyMount logic;
+	PixyMountLogic logic;
 	IPixy camera;
 
 	
-	public PhysicalPixyMount (Servo pan, Servo tilt, IPixy camera, VisionTarget target){
+	public PixyMountPhysical (Servo pan, Servo tilt, IPixy camera, VisionTarget target){
 		this.camera = camera;
-		logic = new LogicalPixyMount(pan, tilt, target);
+		logic = new PixyMountLogic(pan, tilt, target);
 	}
 	
-	public PhysicalPixyMount(Servo pan, Servo tilt, IPixy camera){
+	public PixyMountPhysical(Servo pan, Servo tilt, IPixy camera){
 		this(pan,tilt,camera,new TwoFuelUnits());
+
 	}
 
 	@Override
@@ -68,6 +69,11 @@ public class PhysicalPixyMount extends Subsystem implements IPixyMount{
 	@Override
 	public double getY() {
 		return logic.getY();
+	}
+	
+	@Override
+	public String toString() {
+		return "Pixy Mount Subsys";
 	}
 
 	@Override

@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
+import org.usfirst.frc.team1719.robot.interfaces.IGyro3D;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
-import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
 
 /**
  * Logical implementation of the IPositionTracker interface
@@ -52,6 +52,11 @@ public class PositionLogic implements IPositionTracker {
     @Override
     public double getHeading() {
         return heading;
+    }
+    
+    @Override
+    public String toString() {
+    	return "Position Logic";
     }
     
 }

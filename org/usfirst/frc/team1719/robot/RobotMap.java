@@ -3,10 +3,10 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.I2C;
+import org.usfirst.frc.team1719.robot.sensors.LIDAR;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
 
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -29,10 +29,10 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
     
     /* DIO */
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true, EncodingType.k2X);
-    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false, EncodingType.k2X);
-    public static final RS7Encoder shooterEnc1 = new RS7Encoder(4, 5, true, EncodingType.k4X);
-    public static final E4TOpticalEncoder shooterEnc2 = new E4TOpticalEncoder(6, 7, false, EncodingType.k4X);
+    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true);
+    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
+    public static final RS7Encoder shooterEnc1 = new RS7Encoder(4, 5, true);
+    public static final RS7Encoder shooterEnc2 = new RS7Encoder(6, 7, false);
 
     
     /* PWM */
@@ -40,12 +40,13 @@ public class RobotMap {
     public static final SpeedController rightDrive = new Spark(1);
     public static final Servo pan = new Servo(2);
     public static final Servo tilt = new Servo(3);
-    public static final SpeedController exMotorController = new Spark(4);
+    public static final SpeedController shooterController = new Spark(4);
     public static final SpeedController intakeMotor = new Spark(5);
     public static final SpeedController climberController = new Spark(6);
 
     /* I2C */
     public static final I2C pixyI2C = new I2C(I2C.Port.kOnboard, 0x54);
+    public static final LIDAR lidar = new LIDAR(I2C.Port.kOnboard);
     
     /* MXP */
     public static final NAVX navx = new NAVX(I2C.Port.kMXP);

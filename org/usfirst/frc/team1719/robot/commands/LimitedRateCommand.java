@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public abstract class LimitedRateCommand extends Command{
 	
-	private final int RIO_POLLING_RATE = 100;
 	private final int rate;
 	private int frame = 0;
 	

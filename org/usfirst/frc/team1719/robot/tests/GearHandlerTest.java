@@ -4,8 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.usfirst.frc.team1719.robot.actuators.ISolenoid;
 import org.usfirst.frc.team1719.robot.interfaces.IGearHandler;
+import org.usfirst.frc.team1719.robot.interfaces.ISolenoid;
 import org.usfirst.frc.team1719.robot.mockHardware.MockSolenoid;
 import org.usfirst.frc.team1719.robot.subsystems.LogicalGearHandler;
 

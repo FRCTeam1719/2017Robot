@@ -2,17 +2,17 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
 import org.usfirst.frc.team1719.robot.interfaces.IClimber;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class PhysicalClimber extends Subsystem implements IClimber{
+public class ClimberPhysical extends Subsystem implements IClimber{
 	
-	LogicalClimber logic;
+	ClimberLogic logic;
 	
-	public PhysicalClimber(SpeedController motor, IEncoder encoder) {
-		logic = new LogicalClimber(motor, encoder);
+	public ClimberPhysical(SpeedController motor, IEncoder encoder) {
+		logic = new ClimberLogic(motor, encoder);
 	}
 
 	@Override
@@ -38,6 +38,11 @@ public class PhysicalClimber extends Subsystem implements IClimber{
 	@Override
 	protected void initDefaultCommand() {
 		
+	}
+	
+	@Override
+	public String toString(){
+		return "Climber Subsystem";
 	}
 
 }

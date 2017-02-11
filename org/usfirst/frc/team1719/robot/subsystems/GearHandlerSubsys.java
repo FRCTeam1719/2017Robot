@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-import org.usfirst.frc.team1719.robot.actuators.ISolenoid;
 import org.usfirst.frc.team1719.robot.interfaces.IGearHandler;
+import org.usfirst.frc.team1719.robot.interfaces.ISolenoid;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 

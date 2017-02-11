@@ -5,7 +5,7 @@ import org.usfirst.frc.team1719.robot.interfaces.VisionTarget;
 
 import edu.wpi.first.wpilibj.Servo;
 
-public class LogicalPixyMount implements IPixyMount {
+public class PixyMountLogic implements IPixyMount {
 	
 	private Servo pan;
 	private Servo tilt;
@@ -13,7 +13,8 @@ public class LogicalPixyMount implements IPixyMount {
 	private final double MIN = 0.1;
 	protected VisionTarget currentTarget;
 	
-	public LogicalPixyMount (Servo pan, Servo tilt, VisionTarget currTarget){
+	public PixyMountLogic (Servo pan, Servo tilt, VisionTarget currTarget){
+
 		this.pan = pan;
 		this.tilt = tilt;
 		
@@ -70,4 +71,7 @@ public class LogicalPixyMount implements IPixyMount {
 	}
 
 
+	public String toString() {
+		return "Pixy Mount Logic";
+	}
 }

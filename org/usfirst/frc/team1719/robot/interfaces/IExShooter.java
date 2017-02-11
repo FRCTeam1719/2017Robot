@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1719.robot.interfaces;
 
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
-
 import edu.wpi.first.wpilibj.PIDSource;
 
 public interface IExShooter extends GenericSubsystem, PIDSource {

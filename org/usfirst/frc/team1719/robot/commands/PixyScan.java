@@ -8,8 +8,8 @@ import org.usfirst.frc.team1719.robot.interfaces.VisionTarget;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class PixyScan extends LimitedRateCommand{
-	
+public class PixyScan extends LimitedRateCommand {
+
 	private IPixyMount mount;
 	private VisionTarget target;
 	private IPixy pixy;
@@ -22,10 +22,9 @@ public class PixyScan extends LimitedRateCommand{
 	private double curY;
 	private double stepX;
 	private double stepY;
-	
-	
-	public PixyScan(IPixyMount mount, VisionTarget target, IPixy pixy, IOI oi){
-		//Set rate
+
+	public PixyScan(IPixyMount mount, VisionTarget target, IPixy pixy, IOI oi) {
+		// Set rate
 		super(5);
 		this.mount = mount;
 		this.target = target;
@@ -34,74 +33,77 @@ public class PixyScan extends LimitedRateCommand{
 		found = false;
 		stepX = 0.01;
 		stepY = 0.01;
-		requires((Subsystem) mount);
+		try {
+			requires((Subsystem) mount);
+		} catch (ClassCastException e) {
+			System.out.println("PixyScan running under Junit");
+		}
 		cancelTimer = new Timer();
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		found = false;
-		//Move to starting pos
+		// Move to starting pos
 		curX = 0.5;
 		curY = 0.5;
 		mount.setY(curY);
 		mount.setX(curX);
 		cancelTimer.start();
 	}
-	
-	
 
+	//End if we've found the target, the scan button was pressed again after a short delay, or the timeout was reached
 	@Override
 	protected boolean isFinished() {
-		return found || (cancelTimer.get()>CANCELABLE && oi.getCancelScan()) || cancelTimer.get()>TIMEOUT;
+		return found || (cancelTimer.get() > CANCELABLE && oi.getCancelScan()) || cancelTimer.get() > TIMEOUT;
 	}
 
+	//TODO THIS NEEDS TO BE REWRITTEN; NOT WATCHDOG SAFE
 	@Override
 	public void action() {
-		if(pixy.hasBlocks() && target.inFrame(pixy.getBlocks())){
-			//We found the target
+		if (pixy.hasBlocks() && target.inFrame(pixy.getBlocks())) {
+			// We found the target
 			found = true;
-		}else{
-			//Move on
+		} else {
+			// Move on
 			curX = curX + stepX;
 			mount.setX(curX);
-			if(curX <= 0 || curX >= 1){
+			if (curX <= 0 || curX >= 1) {
 				stepX = stepX * -1;
 			}
-			
-			if(curX == 0.0 || curX == 0.3 || curX == 0.6 || curX == 1) { 
+
+			if (curX == 0.0 || curX == 0.3 || curX == 0.6 || curX == 1) {
 				boolean goAgain = false;
 				int curYCounter = 0;
-				while(goAgain) {
+				while (goAgain) {
 					curY = curY + stepY;
 					mount.setY(curY);
-					if(curY <= 0 || curY >=1){
-						stepY = stepY*-1;
+					if (curY <= 0 || curY >= 1) {
+						stepY = stepY * -1;
 					}
-					if(curY == 0.5) {
+					if (curY == 0.5) {
 						curYCounter += 1;
 					}
-					//once the pixy goes up to 1, back to 0, then back to normal .5 
-					if(curYCounter == 2) { 
+					// once the pixy goes up to 1, back to 0, then back to
+					// normal .5
+					if (curYCounter == 2) {
 						goAgain = false;
 					}
 				}
-				
-					
-				
+
 			}
 		}
-		
+
 	}
-	
+
 	@Override
-	public void end(){
+	public void end() {
 		cancelTimer.stop();
 		cancelTimer.reset();
 	}
-	
+
 	@Override
-	public void interrupted(){
+	public void interrupted() {
 		end();
 	}
 

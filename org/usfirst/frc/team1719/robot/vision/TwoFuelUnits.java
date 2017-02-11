@@ -7,10 +7,10 @@ public class TwoFuelUnits implements VisionTarget{
 	public boolean inFrame(Block[] frame) {
 		boolean result;
 		try{
-//			System.out.println(frame.length);
-			int fSize = frame[0].hgt*frame[0].wid;
-			int sSize = frame[1].hgt*frame[1].wid;
-			result = (fSize > 50) && (sSize > 50);
+
+			int fSize = frame[0].heigt*frame[0].width;
+			int sSize = frame[1].heigt*frame[1].width;
+			result = (fSize > 350) && (sSize > 350);
 		}catch(ArrayIndexOutOfBoundsException e){
 			result = false;
 		}
