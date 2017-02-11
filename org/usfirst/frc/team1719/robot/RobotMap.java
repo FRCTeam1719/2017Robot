@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.actuators.LEDCtrl;
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.I2C;
@@ -32,7 +33,7 @@ public class RobotMap {
     public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
     public static final RS7Encoder shooterEnc1 = new RS7Encoder(4, 5, true);
     public static final RS7Encoder shooterEnc2 = new RS7Encoder(6, 7, false);
-
+    public static final LEDCtrl led = new LEDCtrl(8);
     
     /* PWM */
     public static final SpeedController leftDrive = new Spark(0);
