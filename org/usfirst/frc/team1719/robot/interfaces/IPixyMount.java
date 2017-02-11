@@ -9,4 +9,7 @@ public interface IPixyMount extends GenericSubsystem{
 	double getY();
 	double getAngleX();
 	double getAngleY();
+	
+	VisionTarget getTarget();
+	void setTarget(VisionTarget target);
 }

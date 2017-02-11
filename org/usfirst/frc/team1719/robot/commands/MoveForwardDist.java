@@ -33,7 +33,6 @@ public class MoveForwardDist extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("Left enc: " + drive.getEncoderL().getDistance() + " | Right enc: " + drive.getEncoderR().getDistance());
     	drive.moveTank(.5, .5);
     }
 

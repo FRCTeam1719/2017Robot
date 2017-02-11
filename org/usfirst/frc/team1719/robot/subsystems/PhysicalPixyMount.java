@@ -4,7 +4,7 @@ import org.usfirst.frc.team1719.robot.commands.SimpleUsePixyMount;
 import org.usfirst.frc.team1719.robot.interfaces.IPixy;
 import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
 import org.usfirst.frc.team1719.robot.interfaces.VisionTarget;
-import org.usfirst.frc.team1719.robot.vision.SingleTarget;
+import org.usfirst.frc.team1719.robot.vision.TwoFuelUnits;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,17 +13,15 @@ public class PhysicalPixyMount extends Subsystem implements IPixyMount{
 	
 	LogicalPixyMount logic;
 	IPixy camera;
-	VisionTarget currentTarget;
 
 	
 	public PhysicalPixyMount (Servo pan, Servo tilt, IPixy camera, VisionTarget target){
 		this.camera = camera;
-		currentTarget = target;
-		logic = new LogicalPixyMount(pan, tilt);
+		logic = new LogicalPixyMount(pan, tilt, target);
 	}
 	
 	public PhysicalPixyMount(Servo pan, Servo tilt, IPixy camera){
-		this(pan,tilt,camera,new SingleTarget());
+		this(pan,tilt,camera,new TwoFuelUnits());
 	}
 
 	@Override
@@ -54,12 +52,12 @@ public class PhysicalPixyMount extends Subsystem implements IPixyMount{
 	}
 	
 	public void setTarget(VisionTarget newTarget){
-		currentTarget = newTarget;
+		logic.setTarget(newTarget);
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new SimpleUsePixyMount(camera, this, currentTarget));
+		setDefaultCommand(new SimpleUsePixyMount(camera, this, logic.getTarget()));
 	}
 
 	@Override
@@ -70,6 +68,11 @@ public class PhysicalPixyMount extends Subsystem implements IPixyMount{
 	@Override
 	public double getY() {
 		return logic.getY();
+	}
+
+	@Override
+	public VisionTarget getTarget() {
+		return logic.getTarget();
 	}
 
 }

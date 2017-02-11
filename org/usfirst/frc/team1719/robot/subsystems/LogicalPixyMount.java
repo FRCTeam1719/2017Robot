@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
 import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
+import org.usfirst.frc.team1719.robot.interfaces.VisionTarget;
 
 import edu.wpi.first.wpilibj.Servo;
 
@@ -10,10 +11,13 @@ public class LogicalPixyMount implements IPixyMount {
 	private Servo tilt;
 	private final double MAX = 0.81;
 	private final double MIN = 0.1;
+	protected VisionTarget currentTarget;
 	
-	public LogicalPixyMount (Servo pan, Servo tilt){
+	public LogicalPixyMount (Servo pan, Servo tilt, VisionTarget currTarget){
 		this.pan = pan;
 		this.tilt = tilt;
+		
+		this.currentTarget = currTarget;
 	}
 
 	@Override
@@ -53,6 +57,16 @@ public class LogicalPixyMount implements IPixyMount {
 	@Override
 	public double getY() {
 		return tilt.get();
+	}
+
+	@Override
+	public VisionTarget getTarget() {
+		return currentTarget;
+	}
+
+	@Override
+	public void setTarget(VisionTarget target) {
+		this.currentTarget = target;
 	}
 
 

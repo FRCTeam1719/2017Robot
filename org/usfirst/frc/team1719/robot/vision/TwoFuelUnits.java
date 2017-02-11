@@ -10,7 +10,7 @@ public class TwoFuelUnits implements VisionTarget{
 //			System.out.println(frame.length);
 			int fSize = frame[0].hgt*frame[0].wid;
 			int sSize = frame[1].hgt*frame[1].wid;
-			result = (fSize > 350) && (sSize > 350);
+			result = (fSize > 50) && (sSize > 50);
 		}catch(ArrayIndexOutOfBoundsException e){
 			result = false;
 		}
