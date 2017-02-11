@@ -120,6 +120,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		if((iter++) % 0x10 == 0) {
 		    display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
+		
+		System.out.println("Distance: " + shooter.getAvgEncoderDistance());
 	}
 
 	/**

@@ -85,13 +85,11 @@ public class RevUpShooter extends Command implements PIDOutput {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        System.out.println("tick");
     	setPIDConstantsFromDashboard();
-    	//System.out.println("Error: " + velocityController.getError());
-    	//System.out.println("motor output: " + motorOutput);
+    	
     	exShooter.setSpeed(motorOutput);
     	
-    	if (timer.get() % 10 < 0.05) {
+    	if (timer.get() % 1 < 0.05) {
     		System.out.println("Encoder dist: " + RobotMap.shooterEnc1.getDistance());
     	}
     	

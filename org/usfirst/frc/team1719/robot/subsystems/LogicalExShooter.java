@@ -22,10 +22,8 @@ public class LogicalExShooter implements IExShooter {
 	public LogicalExShooter (SpeedController shooterMotor, IEncoder encoder1, IEncoder encoder2) {
 		this.shooterMotor = shooterMotor;
 		this.encoder1 = encoder1;
-		this.encoder2 = encoder2;
 		
-		encoder1.setDistancePerPulse((4.0 / 30.0));
-		//encoder2.config(1 / 60);
+		encoder1.setDistancePerPulse(1 / 1024);
 	}
 	
 	
