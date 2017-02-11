@@ -52,4 +52,7 @@ public class RobotMap {
     
     /* Pneumatics */
     public static final Solenoid shifter = new Solenoid(0);
+    public static final Solenoid elevator = new Solenoid (1);
+    public static final Solenoid clawTop = new Solenoid (2);
+    public static final Solenoid clawBottom = new Solenoid (3);
 }
