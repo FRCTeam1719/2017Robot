@@ -8,12 +8,15 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class LIDAR implements IRangeFinder {
     private I2C i2c;
-    private byte[] distance;
+    private volatile byte[] distance;
     private java.util.Timer updater;
     
-    private final int LIDAR_ADDR = 0x62;
-    private final int LIDAR_CONFIG_REGISTER = 0x00;
-    private final int LIDAR_DISTANCE_REGISTER = 0x8f;
+    private static final int LIDAR_ADDR = 0x62;
+    private static final int LIDAR_CONFIG_REGISTER = 0x00;
+    private static final int LIDAR_STATUS_REGISTER = 0x01;
+    private static final int LIDAR_DISTANCE_REGISTER = 0x8f;
+    
+    private static final int STATUS_FLAG_BUSY = 0x01;
     
     public LIDAR(I2C.Port port) {
         i2c = new I2C(port, LIDAR_ADDR);
@@ -24,7 +27,7 @@ public class LIDAR implements IRangeFinder {
     }
     
     @Override
-    public int getDistanceCM() {
+    public synchronized int getDistanceCM() {
         int var1 = distance[0];
         if(var1 < 0) var1 += 256;
         int var2 = distance[1];
@@ -51,10 +54,16 @@ public class LIDAR implements IRangeFinder {
     }
     
     // Update distance variable
-    public void update() {
+    public synchronized void update() {
         i2c.write(LIDAR_CONFIG_REGISTER, 0x04); // Initiate measurement
-        Timer.delay(0.04); // Delay for measurement to be taken
-        i2c.read(LIDAR_DISTANCE_REGISTER, 2, distance); // Read in measurement
+        byte status[] = new byte[1];
+        do {
+            //System.out.println("waiting for read");
+            Timer.delay(0.04); // Delay for measurement to be taken
+            i2c.read(LIDAR_STATUS_REGISTER, 1, status);
+        } while((status[0] & STATUS_FLAG_BUSY) != 0);
+        if(i2c.read(LIDAR_DISTANCE_REGISTER, 2, distance)) System.out.println("No legal reading"); // Read in measurement
+        System.out.println("MSB" + Byte.toString(distance[0]) + "LSB" +  Byte.toString(distance[1]));
         Timer.delay(0.005); // Delay to prevent over polling
     }
     

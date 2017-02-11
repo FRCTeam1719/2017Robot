@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.I2C;
+import org.usfirst.frc.team1719.robot.sensors.LIDAR;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
 
@@ -45,6 +46,7 @@ public class RobotMap {
 
     /* I2C */
     public static final I2C pixyI2C = new I2C(I2C.Port.kOnboard, 0x54);
+    public static final LIDAR lidar = new LIDAR(I2C.Port.kOnboard);
     
     /* MXP */
     public static final NAVX navx = new NAVX(I2C.Port.kMXP);

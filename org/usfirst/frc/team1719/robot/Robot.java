@@ -104,6 +104,7 @@ public class Robot extends IterativeRobot implements IRobot {
 				subsystems[i].disable();
 			}
 		}
+		RobotMap.lidar.start();
 	}
 
 	@Override
@@ -112,6 +113,7 @@ public class Robot extends IterativeRobot implements IRobot {
 
 		if ((displayIter++) % 0x10 == 0) {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+			System.out.println("LIDAR distance: " + RobotMap.lidar.getDistanceCM() + "cm");
 		}
 	}
 
