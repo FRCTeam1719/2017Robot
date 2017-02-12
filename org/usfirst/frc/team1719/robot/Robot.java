@@ -127,6 +127,7 @@ public class Robot extends IterativeRobot implements IRobot {
 
 	@Override
 	public void disabledPeriodic() {
+	    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
 		Scheduler.getInstance().run();
 
 		if ((displayIter++) % 0x10 == 0) {
@@ -193,9 +194,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		// System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" +
-		// RobotMap.leftDriveEnc.getDistance() + "renc" +
-		// RobotMap.rightDriveEnc.getDistance());
+	    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
+
 		Scheduler.getInstance().run();
 
 	}
@@ -205,6 +205,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
+
 		LiveWindow.run();
 	}
 
