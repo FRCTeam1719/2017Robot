@@ -102,7 +102,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		pixy = new PixyPhysical(RobotMap.pixyI2C);
 		// Pixy Mount
 		pixyMount = new PixyMountPhysical(RobotMap.pan, RobotMap.tilt, pixy);
-
+		dashboard.putNumber("LED", 0);
 		// Setup OI
 		// NOTE: This function _must_ be called after subsystem are initialized.
 		oi = new OI();
@@ -168,6 +168,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		if ((displayIter++) % 0x10 == 0) {
+		    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
 	}
