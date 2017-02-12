@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author jess
  *
  */
-public class UseExShooter extends Command implements PIDOutput {
+public class UseShooter extends Command implements PIDOutput {
 
 	public static final String SHOOTER_KP = "Shooter kP: ";
 	public static final String SHOOTER_KI = "Shooter kI: ";
@@ -38,7 +38,7 @@ public class UseExShooter extends Command implements PIDOutput {
 	
 	private PIDController velocityController;
 	
-	public UseExShooter(IExShooter exshooter, IRobot robot) {
+	public UseShooter(IExShooter exshooter, IRobot robot) {
 		
 		SmartDashboard.putNumber(SHOOTER_KP, 0);
 		SmartDashboard.putNumber(SHOOTER_KI, 0);

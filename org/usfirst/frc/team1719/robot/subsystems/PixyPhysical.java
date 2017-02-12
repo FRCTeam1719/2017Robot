@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Subsystem wrapper for PixyLogic
  * @author Duncan
  */
-public class PixySubsys extends Subsystem implements IPixy {
+public class PixyPhysical extends Subsystem implements IPixy {
     
     private class Updater extends Command {
         private long iter = 0;
-        Updater(PixySubsys subsys) {
+        Updater(PixyPhysical subsys) {
             requires(subsys);
         }
         @Override
@@ -29,7 +29,7 @@ public class PixySubsys extends Subsystem implements IPixy {
     
     private final PixyLogic logic;
     
-    public PixySubsys(ISerial serial) {
+    public PixyPhysical(ISerial serial) {
         logic = new PixyLogic(serial);
     }
     
@@ -60,6 +60,11 @@ public class PixySubsys extends Subsystem implements IPixy {
 	@Override
 	public boolean isTrustworthy() {
 		return logic.isTrustworthy();
+	}
+	
+	@Override
+	public String toString() {
+		return "Pixy Subsystem";
 	}
     
 }

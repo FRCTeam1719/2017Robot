@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1719.robot.sensors;
+package org.usfirst.frc.team1719.robot.interfaces;
 
 import edu.wpi.first.wpilibj.PIDSource;
 

@@ -30,5 +30,9 @@ public class IntakeLogic implements IIntake{
 		
 	}
 	
+	@Override
+	public String toString() {
+		return "Intake Logic";
+	}
 	
 }

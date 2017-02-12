@@ -1,20 +1,20 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-import org.usfirst.frc.team1719.robot.commands.UseExShooter;
+import org.usfirst.frc.team1719.robot.commands.UseShooter;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
 
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class PhysicalExShooter extends Subsystem implements IExShooter{
+public class ShooterPhysical extends Subsystem implements IExShooter{
 
-	LogicalExShooter logic;
+	ShooterLogic logic;
 	IRobot robot;
-	public PhysicalExShooter (SpeedController motor, IRobot robot, IEncoder enc1, IEncoder enc2){
-		logic = new LogicalExShooter(motor, enc1, enc2);
+	public ShooterPhysical (SpeedController motor, IRobot robot, IEncoder enc1){
+		logic = new ShooterLogic(motor, enc1);
 		this.robot = robot;
 	}
 	
@@ -39,7 +39,7 @@ public class PhysicalExShooter extends Subsystem implements IExShooter{
 	@Override
 	protected void initDefaultCommand() {
 		//No default command
-		setDefaultCommand(new UseExShooter(this, robot));
+		setDefaultCommand(new UseShooter(this, robot));
 	}
 
 
@@ -83,6 +83,8 @@ public class PhysicalExShooter extends Subsystem implements IExShooter{
 		return logic.getAvgEncoderDistance();
 	}
 
-	
-
+	@Override
+	public String toString() {
+		return "Shooter Subsystem";
+	}
 }

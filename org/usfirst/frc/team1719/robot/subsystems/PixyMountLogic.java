@@ -4,14 +4,14 @@ import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
 
 import edu.wpi.first.wpilibj.Servo;
 
-public class LogicalPixyMount implements IPixyMount {
+public class PixyMountLogic implements IPixyMount {
 	
 	private Servo pan;
 	private Servo tilt;
 	private final double MAX = 0.81;
 	private final double MIN = 0.1;
 	
-	public LogicalPixyMount (Servo pan, Servo tilt){
+	public PixyMountLogic (Servo pan, Servo tilt){
 		this.pan = pan;
 		this.tilt = tilt;
 	}
@@ -55,5 +55,7 @@ public class LogicalPixyMount implements IPixyMount {
 		return tilt.get();
 	}
 
-
+	public String toString() {
+		return "Pixy Mount Logic";
+	}
 }

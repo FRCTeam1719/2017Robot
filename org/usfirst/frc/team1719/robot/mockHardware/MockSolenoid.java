@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.mockHardware;
 
-import org.usfirst.frc.team1719.robot.actuators.ISolenoid;
+import org.usfirst.frc.team1719.robot.interfaces.ISolenoid;
 
 public class MockSolenoid implements ISolenoid {
 

@@ -34,6 +34,7 @@ public class UseDrive extends Command {
     private boolean shifted = false;
     
     private double DRIVE_MAX_SPEED = 70;
+    private double MAX_SPEED_SCALING_FACTOR = 1.2;
     double SYNCH_TOLERANCE = 0.2;
     
     private final double JOYSTICK_DEADZONE = 0.15;
@@ -49,6 +50,7 @@ public class UseDrive extends Command {
     double leftMotorOutput = 0;
     double rightMotorOutput = 0;
     
+    //PID objects
     private class leftDrivePIDOut implements PIDOutput {
 
 		@Override
@@ -72,9 +74,6 @@ public class UseDrive extends Command {
      * @param _robot Robot to grab external data from
      */
     public UseDrive(IDrive _drive, IRobot _robot) {
-    	
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         drive = _drive;
         robot = _robot;
         oi = robot.getOI();
@@ -102,7 +101,7 @@ public class UseDrive extends Command {
     	leftController.setOutputRange(-1, 1);
     	rightController.setOutputRange(-1, 1);
     	
-    	double maxInput = DRIVE_MAX_SPEED * 1.5;
+    	double maxInput = DRIVE_MAX_SPEED * MAX_SPEED_SCALING_FACTOR;
     	leftController.setInputRange(-(maxInput), maxInput);
     	rightController.setInputRange(-(maxInput), maxInput);
     	
@@ -118,6 +117,12 @@ public class UseDrive extends Command {
     	
     	leftController.enable();
     	rightController.enable();
+    	//Setup dashboard constants
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KP, 0.01);
+		SmartDashboard.putNumber(UseDrive.LEFT_DRIVE_KD, 0);
+		
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KP, 0.01);
+		SmartDashboard.putNumber(UseDrive.RIGHT_DRIVE_KD, 0);
     }
 
     // Called repeatedly when this Command is scheduled to run

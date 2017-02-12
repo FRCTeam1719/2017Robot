@@ -6,7 +6,6 @@ import org.usfirst.frc.team1719.robot.sensors.I2C;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
 
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -29,10 +28,11 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
     
     /* DIO */
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true, EncodingType.k2X);
-    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false, EncodingType.k2X);
-    public static final RS7Encoder shooterEnc1 = new RS7Encoder(6, 7, true, EncodingType.k4X);
-    public static final E4TOpticalEncoder shooterEnc2 = new E4TOpticalEncoder(8, 9, false, EncodingType.k4X);
+
+    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true);
+    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
+    public static final RS7Encoder shooterEnc1 = new RS7Encoder(4, 5, false);
+
 
     
     /* PWM */
@@ -40,7 +40,7 @@ public class RobotMap {
     public static final SpeedController rightDrive = new Spark(1);
     public static final Servo pan = new Servo(2);
     public static final Servo tilt = new Servo(3);
-    public static final SpeedController exMotorController = new Spark(4);
+    public static final SpeedController shooterController = new Spark(4);
     public static final SpeedController intakeMotor = new Spark(5);
     public static final SpeedController climberController = new Spark(6);
 
