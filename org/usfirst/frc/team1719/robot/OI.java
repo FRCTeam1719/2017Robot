@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.commands.PixyScan;
 import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
+import org.usfirst.frc.team1719.robot.commands.ToggleSilo;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
 import org.usfirst.frc.team1719.robot.commands.UseShooter;
@@ -23,7 +24,8 @@ public class OI implements IOI{
     Joystick driver = new Joystick(0);
     Joystick operator = new Joystick(1);
     
-    JoystickButton revUpButton = new JoystickButton(operator, 3);
+    JoystickButton revUpButton = new JoystickButton(operator, 4);
+    JoystickButton fireButton = new JoystickButton(operator, 3);
     
     @Override
     public double getLeftX() {
@@ -77,9 +79,7 @@ public class OI implements IOI{
 		return driver.getRawButton(2);
 	}
 
-	public boolean getRevUpShooterButton() {
-		return operator.getRawButton(4);
-	}
+	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -126,6 +126,8 @@ public class OI implements IOI{
 			//TODO Decide what button this should be.
 			Button runClimber = new JoystickButton(operator, 4);
 			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
+			
+			fireButton.whileHeld(new ToggleSilo(robot.silo, robot));
 		}
 		catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");
@@ -144,6 +146,7 @@ public class OI implements IOI{
 	@Override
 	public boolean getRevUpShooter() {
 		return operator.getRawButton(3);
+
 	}
 		
 	

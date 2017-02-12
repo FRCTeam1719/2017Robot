@@ -9,6 +9,7 @@ import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.ClimberPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.DrivePhysical;
 import org.usfirst.frc.team1719.robot.subsystems.IntakePhysical;
+import org.usfirst.frc.team1719.robot.subsystems.PhysicalSilo;
 import org.usfirst.frc.team1719.robot.subsystems.PixyMountPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PositionPhysical;
@@ -40,6 +41,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	IPositionTracker tracker;
 	PixyPhysical pixy;
 	PixyMountPhysical pixyMount;
+	PhysicalSilo silo;
 	// Array to hold all of the subsystems; so that we can disable them easily
 	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker };
 	// Other global references
@@ -49,6 +51,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	Command autonomousCommand;
 	int displayIter = 0;
 	Dashboard dashboard;
+
+	
+
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -90,6 +95,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		// NOTE: This function _must_ be called after subsystem are initialized.
 		oi = new OI();
 		oi.init(this);
+
 	}
 
 	/**
