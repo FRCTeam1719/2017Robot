@@ -56,6 +56,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void robotInit() {
+		dashboard.putNumber("Desired RevUpShooter speed (RPS): ", 0);
 		// General Initialization
 		// Setup Compressor
 		compressor = new Compressor(0);

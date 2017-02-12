@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1719.robot.commands;
 
-import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
@@ -46,6 +45,8 @@ public class RevUpShooter extends Command implements PIDOutput {
 	Timer timer = new Timer();
 
 	private PIDController velocityController;
+	
+	private IRobot robot;
 
 	/**
 	 * @author Kyle
@@ -73,6 +74,7 @@ public class RevUpShooter extends Command implements PIDOutput {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	desiredRate = robot.getDashboard().getNumber("Desired RevUpShooter speed (RPS): ", 0);
     	velocityController.setOutputRange(-1, 1);
     	velocityController.setInputRange(-MAX_SPEED * MAX_SPEED_LIMIT_SCALING, MAX_SPEED * MAX_SPEED_LIMIT_SCALING);
     	velocityController.setToleranceBuffer(TOLERANCE_BUFFER_SIZE);
@@ -101,7 +103,7 @@ public class RevUpShooter extends Command implements PIDOutput {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return (timer.get() >= 0.05 && robot.getOI().getRevUpShooter());
     }
 
     // Called once after isFinished returns true

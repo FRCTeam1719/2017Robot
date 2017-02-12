@@ -4,7 +4,6 @@ import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.I2C;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
-import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
 import org.usfirst.frc.team1719.robot.sensors.VersaPlanetaryEmbeddedEncoder;
 
 import edu.wpi.first.wpilibj.Servo;

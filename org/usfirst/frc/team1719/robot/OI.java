@@ -77,6 +77,9 @@ public class OI implements IOI{
 		return driver.getRawButton(2);
 	}
 
+	public boolean getRevUpShooterButton() {
+		return operator.getRawButton(4);
+	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -107,7 +110,7 @@ public class OI implements IOI{
 	
 	public void init(Robot robot){
 		try {
-			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 100)); 
+			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 0)); 
 			Button controlShooter = new JoystickButton(operator, 9);
 			
 			controlShooter.whileHeld(new UseShooter(robot.shooter, robot));
