@@ -4,6 +4,7 @@ import org.usfirst.frc.team1719.robot.commands.SimpleUsePixyMount;
 import org.usfirst.frc.team1719.robot.interfaces.IPixy;
 import org.usfirst.frc.team1719.robot.interfaces.IPixyMount;
 import org.usfirst.frc.team1719.robot.interfaces.VisionTarget;
+import org.usfirst.frc.team1719.robot.vision.GearLift;
 import org.usfirst.frc.team1719.robot.vision.TwoFuelUnits;
 
 import edu.wpi.first.wpilibj.Servo;
@@ -21,7 +22,7 @@ public class PixyMountPhysical extends Subsystem implements IPixyMount{
 	}
 	
 	public PixyMountPhysical(Servo pan, Servo tilt, IPixy camera){
-		this(pan,tilt,camera,new TwoFuelUnits());
+		this(pan,tilt,camera,new GearLift());
 
 	}
 
