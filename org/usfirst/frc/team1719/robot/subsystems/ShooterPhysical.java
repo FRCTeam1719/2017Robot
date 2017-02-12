@@ -44,14 +44,9 @@ public class ShooterPhysical extends Subsystem implements IExShooter{
 
 
 	@Override
-	public IEncoder getEncoder1() {
-		return logic.getEncoder1();
+	public IEncoder getEncoder() {
+		return logic.getEncoder();
 	}
-	
-	public IEncoder getEncoder2() {
-		return logic.getEncoder2();
-	}
-
 
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
@@ -73,14 +68,14 @@ public class ShooterPhysical extends Subsystem implements IExShooter{
 
 
 	@Override
-	public double getAvgEncoderRate() {
-		return logic.getAvgEncoderRate();
+	public double getEncoderRate() {
+		return logic.getEncoderRate();
 	}
 
 
 	@Override
-	public double getAvgEncoderDistance() {
-		return logic.getAvgEncoderDistance();
+	public double getEncoderDistance() {
+		return logic.getEncoderDistance();
 	}
 
 	@Override

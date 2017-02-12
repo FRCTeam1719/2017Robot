@@ -16,7 +16,7 @@ public class ShooterLogic implements IExShooter {
 
 	PIDSourceType sourceType = PIDSourceType.kRate;
 	private SpeedController shooterMotor;
-	private IEncoder encoder1, encoder2;
+	private IEncoder encoder1;
 	
 	public ShooterLogic (SpeedController shooterMotor, IEncoder encoder1) {
 		this.shooterMotor = shooterMotor;
@@ -45,13 +45,8 @@ public class ShooterLogic implements IExShooter {
 
 
 	@Override
-	public IEncoder getEncoder1() {
+	public IEncoder getEncoder() {
 		return encoder1;
-	}
-	
-	@Override
-	public IEncoder getEncoder2() {
-		return encoder2;
 	}
 
 
@@ -70,23 +65,23 @@ public class ShooterLogic implements IExShooter {
 	@Override
 	public double pidGet() {
 		if (sourceType == PIDSourceType.kRate) {
-			return getAvgEncoderRate();
+			return getEncoderRate();
 		}
 		else {
-			return getAvgEncoderDistance();
+			return getEncoderDistance();
 		}
 	}
 
 
 	@Override
-	public double getAvgEncoderRate() {
-		return (getEncoder1().getRate() + getEncoder2().getRate()) / 2;
+	public double getEncoderRate() {
+		return (getEncoder().getRate());
 	}
 
 
 	@Override
-	public double getAvgEncoderDistance() {
-		return (getEncoder1().getDistance() + getEncoder2().getDistance()) / 2;
+	public double getEncoderDistance() {
+		return (getEncoder().getDistance());
 	}
 
 	@Override

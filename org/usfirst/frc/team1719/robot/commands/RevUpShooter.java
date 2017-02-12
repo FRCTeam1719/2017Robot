@@ -83,7 +83,7 @@ public class RevUpShooter extends Command implements PIDOutput {
     	
     	velocityController.enable();
     	timer.start();
-    	RobotMap.shooterEnc1.reset();
+    	shooter.getEncoder().reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -93,7 +93,7 @@ public class RevUpShooter extends Command implements PIDOutput {
     	shooter.setSpeed(motorOutput);
     	
     	if (timer.get() % 1 < 0.05) {
-    		System.out.println("Encoder dist: " + RobotMap.shooterEnc1.getDistance());
+    		System.out.println("Encoder dist: " + shooter.getEncoder().getDistance());
     	}
     	
     	SmartDashboard.putNumber("Shooter target velocity (rpm)", desiredRate * 15.0D);

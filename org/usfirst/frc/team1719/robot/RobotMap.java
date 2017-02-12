@@ -5,6 +5,7 @@ import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.I2C;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
+import org.usfirst.frc.team1719.robot.sensors.VersaPlanetaryEmbeddedEncoder;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
@@ -31,7 +32,7 @@ public class RobotMap {
 
     public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true);
     public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
-    public static final RS7Encoder shooterEnc1 = new RS7Encoder(4, 5, false);
+    public static final VersaPlanetaryEmbeddedEncoder shooterEnc = new VersaPlanetaryEmbeddedEncoder(4, 5, false);
 
 
     

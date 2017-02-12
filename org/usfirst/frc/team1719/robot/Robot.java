@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		drive = new DrivePhysical(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
 		// Shooter
-		shooter = new ShooterPhysical(RobotMap.shooterController, this, RobotMap.shooterEnc1);
+		shooter = new ShooterPhysical(RobotMap.shooterController, this, RobotMap.shooterEnc);
 		// Intake
 		intake = new IntakePhysical(RobotMap.intakeMotor);
 		// Climber
@@ -114,7 +114,7 @@ public class Robot extends IterativeRobot implements IRobot {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
 		
-		System.out.println("Distance: " + shooter.getAvgEncoderDistance());
+		System.out.println("Distance: " + shooter.getEncoderDistance());
 	}
 
 	/**
