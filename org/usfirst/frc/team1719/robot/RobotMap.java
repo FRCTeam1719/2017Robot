@@ -5,7 +5,7 @@ import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.I2C;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.VersaPlanetaryEmbeddedEncoder;
-import edu.wpi.first.wpilibj.Relay;
+
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -43,6 +43,7 @@ public class RobotMap {
     public static final SpeedController shooterController = new Spark(4);
     public static final SpeedController intakeMotor = new Spark(5);
     public static final SpeedController climberController = new Spark(6);
+    public static final SpeedController siloMotor = new Spark(7);
 
     /* I2C */
     public static final I2C pixyI2C = new I2C(I2C.Port.kOnboard, 0x54);
@@ -52,8 +53,5 @@ public class RobotMap {
     
     /* Pneumatics */
     public static final Solenoid shifter = new Solenoid(0);
-    
-    /* Relays */
-    public static final Relay silo = new Relay(0);
 
 }

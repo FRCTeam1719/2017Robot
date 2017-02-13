@@ -3,7 +3,7 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.commands.PixyScan;
 import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
-import org.usfirst.frc.team1719.robot.commands.ToggleSilo;
+import org.usfirst.frc.team1719.robot.commands.RunSilo;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
 import org.usfirst.frc.team1719.robot.commands.UseShooter;
@@ -123,11 +123,13 @@ public class OI implements IOI{
 			Button scanButton = new JoystickButton(driver, 2);
 			scanButton.whenPressed(new PixyScan(robot.pixyMount, new SingleTarget(), robot.pixy, robot.getOI()));
 
+			(new JoystickButton(operator, 1)).whileHeld(new RunSilo(robot.silo, robot));
+			
 			//TODO Decide what button this should be.
 			Button runClimber = new JoystickButton(operator, 4);
 			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
 			
-			fireButton.whileHeld(new ToggleSilo(robot.silo, robot));
+			fireButton.whileHeld(new RunSilo(robot.silo, robot));
 		}
 		catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");
