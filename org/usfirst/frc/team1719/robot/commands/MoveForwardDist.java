@@ -14,10 +14,12 @@ public class MoveForwardDist extends Command {
 	
 	IDrive drive;
 	IRobot robot;
+	double distance;
 	
-    public MoveForwardDist(IDrive drive, IRobot robot) {
+    public MoveForwardDist(IDrive drive, IRobot robot, double distance) {
         this.drive = drive;
         this.robot = robot;
+        this.distance = distance;
         
         try {
         	requires((Subsystem) drive);
@@ -39,7 +41,7 @@ public class MoveForwardDist extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return drive.getEncoderL().getDistance() > 100 && drive.getEncoderR().getDistance() > 100;
+        return drive.getEncoderL().getDistance() > distance && drive.getEncoderR().getDistance() > distance;
     }
 
     // Called once after isFinished returns true

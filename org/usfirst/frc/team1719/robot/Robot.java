@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.MoveForwardDist;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -65,6 +66,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		RobotMap.navx.reset();
 		timer = new MatchTimer();
 		dashboard = new Dashboard();
+		autonomousCommand = new MoveForwardDist(drive, this, 120);
 
 		// Subsystem Init
 
