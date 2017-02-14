@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1719.robot.actuators;
+package org.usfirst.frc.team1719.robot.interfaces;
 
 /**
  * Solenoid Interface

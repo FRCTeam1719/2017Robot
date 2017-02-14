@@ -1,11 +1,11 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-import org.usfirst.frc.team1719.robot.actuators.ISolenoid;
 import org.usfirst.frc.team1719.robot.commands.UseDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
+import org.usfirst.frc.team1719.robot.interfaces.IGyro3D;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
-import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
+import org.usfirst.frc.team1719.robot.interfaces.ISolenoid;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,13 +16,13 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
  * @author aaron
  *
  */
-public class DriveSubsys extends Subsystem implements IDrive {
+public class DrivePhysical extends Subsystem implements IDrive {
     
     private DriveLogic drive;
     private IRobot robot;
     
 
-    public DriveSubsys(SpeedController l, SpeedController r, ISolenoid shifter,
+    public DrivePhysical(SpeedController l, SpeedController r, ISolenoid shifter,
             IEncoder lEnc, IEncoder rEnc, Accelerometer acc, IGyro3D gyr, IRobot robot) {
         drive = new DriveLogic(l, r, shifter, lEnc, rEnc, acc, gyr);
         this.robot = robot;
@@ -77,5 +77,10 @@ public class DriveSubsys extends Subsystem implements IDrive {
 	@Override
 	public void disable() {
 		drive.disable();
+	}
+	
+	@Override
+	public String toString(){
+		return "Drive Subsystem";
 	}
 }

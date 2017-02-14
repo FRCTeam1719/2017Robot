@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1719.robot.mockHardware;
 
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
+
+import edu.wpi.first.wpilibj.PIDSourceType;
 
 /**
  * Mock encoder sensor
@@ -8,10 +10,13 @@ import org.usfirst.frc.team1719.robot.sensors.IEncoder;
  * @author Kyle Coblentz
  *
  */
+
 public class MockEncoder implements IEncoder {
 	
 	double rate = 0;
 	double dist = 0;
+	
+	PIDSourceType pidSourcetype = PIDSourceType.kDisplacement;
 	
 	double distancePerPulse = 1;
 	double distPerRev = 1;
@@ -68,6 +73,26 @@ public class MockEncoder implements IEncoder {
 	@Override
 	public void setReverseDirection(boolean reverseDirection) {
 		this.direction = reverseDirection;
+	}
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		this.pidSourcetype = pidSource;
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return pidSourcetype;
+	}
+
+	@Override
+	public double pidGet() {
+		if (pidSourcetype == PIDSourceType.kDisplacement) {
+			return getDistance();
+		}
+		else {
+			return getRate();
+		}
 	}
 
 }

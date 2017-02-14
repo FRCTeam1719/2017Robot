@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1719.robot.actuators;
 
+import org.usfirst.frc.team1719.robot.interfaces.ISolenoid;
+
 /**
  * Simple wrapper around wpilib Solenoid that allows implements ISolenoid for mocking.
  * @author aaron
