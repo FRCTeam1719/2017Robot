@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot.customHardware;
 
 import org.usfirst.frc.team1719.robot.interfaces.IPDP;
+import org.usfirst.frc.team1719.robot.sensors.UTimer;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -60,12 +61,18 @@ public class SafeSpeedController implements SpeedController {
 		private boolean shouldTry;
 		private int fails;
 		private final int MAX_ATTEMPTS = 3;
-		//TODO I don't buy that this is the real threshold. Circuit has a 40A fuse on it...
-		private final int VOLTAGE_THRESHOLD = 80;
+		private final double DANGER_AMPS = 130;
+		private final double WARNING_AMPS = 100;
+		private final double COOLDOWN_TIME = 100;
 		private volatile double currentSpeed;
 		private final String name;
 		private final int PORT;
 		private IPDP pdp;
+		private UTimer cooldown = new UTimer();
+		private double[] readings = new double[40];
+		private int count = 0;
+		private final int MAX_LIST = 40+1;
+		private final double WARNING_THRESHOLD = 0.75;
 
 		public UpdateLoop(SpeedController controlled, int port, IPDP pdp, String name) {
 			super(name);
@@ -79,34 +86,52 @@ public class SafeSpeedController implements SpeedController {
 		}
 
 		public void run() {
-			while (shouldTry) {
-				if (safeToDrive()) {
-					controlled.set(currentSpeed);
-				} else {
-					// Error Condition Tripped!
-					controlled.set(0);
-					// Report the error
-					System.out.println("Motor: " + name + " stalled! Halting! Will retry!");
-					// Wait for retry
-					try{
-						Thread.sleep(1000);
-					}catch(InterruptedException e){
-						e.printStackTrace();
+			while(shouldTry){
+				if(cooldown.isSet()){
+					//We're disabled
+					if(cooldown.get()>=COOLDOWN_TIME){
+						cooldown.stop();
+						cooldown.reset();
 					}
-					fails++;
-					if (fails > MAX_ATTEMPTS) {
-						// We've failed, and need to stop
-						shouldTry = false;
-						controlled.disable();
-						// Log
-						System.out.println("Motor: " + name + " has passed the retry threshold, disabling!");
+				}else{
+					//Get the current reading
+					double current = pdp.getCurrent(PORT);
+					updateReadings(current);
+					if(current>=DANGER_AMPS || isDangerous()){
+						//We need to cooldown
+						controlled.set(0);
+						cooldown.start();
+						fails++;
+						System.out.println("VEXPRO " + name + " IS TOO HOT! COOLING DOWN!");
+						if(fails>MAX_ATTEMPTS){
+							shouldTry = false;
+							System.out.println("VEXPRO " + name + " IS TOO DANGEROUS! SHUTTING DOWN!");
+						}
+					}else{
+						//We're good
+						controlled.set(currentSpeed);
 					}
+					
 				}
 			}
 		}
 
-		public boolean safeToDrive() {
-			return pdp.getCurrent(PORT) <= VOLTAGE_THRESHOLD;
+		//Update the readings List by forcing out the old entry & adding a new one
+		private void updateReadings(double newReading){
+			readings[count] = newReading;
+			if(count<MAX_LIST){
+				count++;
+			}
+		}
+		
+		private boolean isDangerous(){
+			int good = 0;
+			for(int i=0;i<readings.length;i++){
+				if(readings[i]<WARNING_AMPS){
+					good++;
+				}
+			}
+			return (good/readings.length) > WARNING_THRESHOLD;
 		}
 
 		@Override
