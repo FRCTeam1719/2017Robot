@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.usfirst.frc.team1719.robot.customHardware.SafeSpeedController;
+import org.usfirst.frc.team1719.robot.actuators.VexPro775Pro;
 import org.usfirst.frc.team1719.robot.mockHardware.MockPDP;
 import org.usfirst.frc.team1719.robot.mockHardware.MockSpeedController;
 
@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class SafeSpeedControllerTest {
 	
-	SafeSpeedController subject;
+	VexPro775Pro subject;
 	MockPDP pdp;
 	SpeedController controller;
 	final int port = 0;
@@ -29,7 +29,7 @@ public class SafeSpeedControllerTest {
 	//Tests basic functionality
 	@Test
 	public void testBasic() throws InterruptedException{
-		subject = new SafeSpeedController(controller, port, "testMotor", pdp);
+		subject = new VexPro775Pro(controller, port, "testMotor", pdp);
 		pdp.setCurrent(port, 0);
 		for(double i =-1d;i<1;i+=0.1){
 			subject.set(i);
@@ -45,7 +45,7 @@ public class SafeSpeedControllerTest {
 	//Tests safe functionality
 	@Test
 	public void testSafety() throws InterruptedException{
-		subject = new SafeSpeedController(controller, port, "testMotor", pdp);
+		subject = new VexPro775Pro(controller, port, "testMotor", pdp);
 		pdp.setCurrent(port, 0);
 		subject.set(1);
 		Thread.sleep(10);

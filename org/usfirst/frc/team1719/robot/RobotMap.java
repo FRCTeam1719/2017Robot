@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
-import org.usfirst.frc.team1719.robot.customHardware.SafeSpeedController;
+import org.usfirst.frc.team1719.robot.actuators.VexPro775Pro;
 import org.usfirst.frc.team1719.robot.interfaces.IPDP;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.I2C;
@@ -44,8 +44,9 @@ public class RobotMap {
     public static final SpeedController rightDrive = new Spark(1);
     public static final Servo pan = new Servo(2);
     public static final Servo tilt = new Servo(3);
-    public static final SpeedController shooterController = new Spark(4);
-    public static final SpeedController intakeMotor = new Spark(5);
+    //TODO: these are wrong
+    public static final SpeedController shooterController = new VexPro775Pro(new Spark(4), 4, "Intake", pdp);
+    public static final SpeedController intakeMotor = new VexPro775Pro(new Spark(5), 3, "Intake", pdp);
     public static final SpeedController climberController = new Spark(6);
 
     /* I2C */

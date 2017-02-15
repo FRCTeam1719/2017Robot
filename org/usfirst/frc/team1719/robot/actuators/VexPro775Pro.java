@@ -1,14 +1,14 @@
-package org.usfirst.frc.team1719.robot.customHardware;
+package org.usfirst.frc.team1719.robot.actuators;
 
 import org.usfirst.frc.team1719.robot.interfaces.IPDP;
 import org.usfirst.frc.team1719.robot.sensors.UTimer;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class SafeSpeedController implements SpeedController {
+public class VexPro775Pro implements SpeedController {
 	UpdateLoop loop;
 
-	public SafeSpeedController(SpeedController controlled, int port, String name, IPDP pdp) {
+	public VexPro775Pro(SpeedController controlled, int port, String name, IPDP pdp) {
 		loop = new UpdateLoop(controlled,port,pdp,name);
 		loop.start();
 	}
