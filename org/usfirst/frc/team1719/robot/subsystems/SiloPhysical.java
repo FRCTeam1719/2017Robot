@@ -35,7 +35,6 @@ public class SiloPhysical extends Subsystem implements ISilo{
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new SiloReject(this));
 	}
 
 }

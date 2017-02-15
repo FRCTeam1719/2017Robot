@@ -1,9 +1,9 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.ConstantPowerShooter;
 import org.usfirst.frc.team1719.robot.commands.PixyScan;
-import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
-import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
 import org.usfirst.frc.team1719.robot.commands.RunSilo;
+import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
 import org.usfirst.frc.team1719.robot.commands.UseShooter;
@@ -110,7 +110,8 @@ public class OI implements IOI{
 	
 	public void init(Robot robot){
 		try {
-			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 0)); 
+//			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 0)); 
+			revUpButton.toggleWhenPressed(new ConstantPowerShooter(robot.shooter)); 
 			Button controlShooter = new JoystickButton(operator, 9);
 			
 			controlShooter.whileHeld(new UseShooter(robot.shooter, robot));
