@@ -14,9 +14,9 @@ public class RunSilo extends Command {
 	private boolean instantFail = true;
 	private final IDashboard dashboard;
 
-	public RunSilo(ISilo silo, IRobot robot) {
+	public RunSilo(ISilo silo, IDashboard dashboard) {
 		this.silo = silo;
-		this.dashboard = robot.getDashboard();
+		this.dashboard = dashboard;
 		try {
 			requires((Subsystem) silo);
 		} catch (ClassCastException e) {
