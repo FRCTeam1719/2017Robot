@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
+import org.usfirst.frc.team1719.robot.Constants;
+import org.usfirst.frc.team1719.robot.Dashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.interfaces.ISilo;
 
@@ -7,28 +9,39 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class RunSilo extends Command {
-	
+
 	private final ISilo silo;
-	
-	public RunSilo(ISilo silo, IRobot robot){
+	private boolean instantFail = true;
+	private final Dashboard dashboard;
+
+	public RunSilo(ISilo silo, IRobot robot, Dashboard dashboard) {
 		this.silo = silo;
-		
-		try{
+		this.dashboard = dashboard;
+		try {
 			requires((Subsystem) silo);
-		}catch(ClassCastException e){
+		} catch (ClassCastException e) {
 			System.out.println("Couldn't cast! Probably in a test!");
 		}
 	}
-	
+
+	public void initialize() {
+		// Check if the shooter is running
+		if (dashboard.getBoolean(Constants.SHOOTER_RUNNING, false)) {
+			instantFail = false;
+		}
+	}
+
 	public void execute() {
-		silo.setSpeed(1.0D);				
+		if (!instantFail) {
+			silo.setSpeed(1.0D);
+		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return instantFail;
 	}
-	
+
 	public void end() {
 		silo.disable();
 	}
