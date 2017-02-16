@@ -127,7 +127,7 @@ public class OI implements IOI{
 			(new JoystickButton(operator, 1)).whileHeld(new RunSilo(robot.silo, robot));
 			
 			//TODO Decide what button this should be.
-			Button runClimber = new JoystickButton(operator, 4);
+			Button runClimber = new JoystickButton(operator, 2);
 			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
 			
 			fireButton.whileHeld(new RunSilo(robot.silo, robot));

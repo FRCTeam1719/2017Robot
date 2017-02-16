@@ -62,6 +62,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void robotInit() {
 		// General Initialization
+		RobotMap.init();
 		// Setup Compressor
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
@@ -71,6 +72,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		timer = new MatchTimer();
 		dashboard = new Dashboard();
 		dashboard.putNumber("Desired RevUpShooter speed (RPS): ", 0);
+		dashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 
 		// Subsystem Init
 

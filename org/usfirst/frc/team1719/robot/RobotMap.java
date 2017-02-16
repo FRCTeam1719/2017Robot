@@ -53,5 +53,10 @@ public class RobotMap {
     
     /* Pneumatics */
     public static final Solenoid shifter = new Solenoid(0);
+    
+    //General hardware init
+    public static void init(){
+    	shooterController.setInverted(true);
+    }
 
 }
