@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Constants;
-import org.usfirst.frc.team1719.robot.Dashboard;
+import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.interfaces.ISilo;
 
@@ -12,11 +12,11 @@ public class RunSilo extends Command {
 
 	private final ISilo silo;
 	private boolean instantFail = true;
-	private final Dashboard dashboard;
+	private final IDashboard dashboard;
 
-	public RunSilo(ISilo silo, IRobot robot, Dashboard dashboard) {
+	public RunSilo(ISilo silo, IRobot robot) {
 		this.silo = silo;
-		this.dashboard = dashboard;
+		this.dashboard = robot.getDashboard();
 		try {
 			requires((Subsystem) silo);
 		} catch (ClassCastException e) {

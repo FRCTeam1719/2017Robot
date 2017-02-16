@@ -111,7 +111,7 @@ public class OI implements IOI{
 	public void init(Robot robot){
 		try {
 //			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 0)); 
-			revUpButton.toggleWhenPressed(new ConstantPowerShooter(robot.shooter)); 
+			revUpButton.toggleWhenPressed(new ConstantPowerShooter(robot.shooter, robot.getDashboard())); 
 			Button controlShooter = new JoystickButton(operator, 9);
 			
 			controlShooter.whileHeld(new UseShooter(robot.shooter, robot));

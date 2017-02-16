@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Constants;
-import org.usfirst.frc.team1719.robot.Dashboard;
+import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ConstantPowerShooter extends Command{
 
 	private final IExShooter shooter;
-	private final Dashboard dashboard;
+	private final IDashboard dashboard;
 	
-	public ConstantPowerShooter(IExShooter shooter, Dashboard dashboard){
+	public ConstantPowerShooter(IExShooter shooter, IDashboard dashboard){
 		this.shooter = shooter;
 		this.dashboard = dashboard;
 	}
