@@ -7,7 +7,6 @@ public interface IExShooter extends GenericSubsystem, PIDSource {
 	double getSpeed();
 	
 	IEncoder getEncoder1();
-	IEncoder getEncoder2();
 	
 	double getAvgEncoderRate();
 	double getAvgEncoderDistance();

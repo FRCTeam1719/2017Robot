@@ -67,11 +67,10 @@ public class Robot extends IterativeRobot implements IRobot {
 		//Drive
 		drive = new DrivePhysical(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
-		shooter = new ShooterPhysical(RobotMap.shooterController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
+		shooter = new ShooterPhysical(RobotMap.shooterController, this, RobotMap.shooterEnc1);
 		//Shooter
 		//Intake
 		intake = new IntakePhysical(RobotMap.intakeMotor);
-		timer = new MatchTimer();
 		//Climber
 		//TODO make an encoder if necesarry
 		climber = new ClimberPhysical(RobotMap.climberController,null); 
@@ -85,19 +84,6 @@ public class Robot extends IterativeRobot implements IRobot {
 		dashboard = new Dashboard();
 
 		// Subsystem Init
-
-		// Drive
-		drive = new DrivePhysical(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
-				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
-		// Shooter
-		shooter = new ShooterPhysical(RobotMap.shooterController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
-		// Intake
-		intake = new IntakePhysical(RobotMap.intakeMotor);
-		// Climber
-		// TODO make an encoder if necesarry
-		climber = new ClimberPhysical(RobotMap.climberController, null);
-		// Position tracker Init
-		tracker = new PositionPhysical(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		// Pixy
 		pixy = new PixyPhysical(RobotMap.pixyI2C);
 		// Pixy Mount
@@ -122,17 +108,18 @@ public class Robot extends IterativeRobot implements IRobot {
 				subsystems[i].disable();
 			}
 		}
-		RobotMap.lidar.start();
+		//RobotMap.lidar.start();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 	    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
+	    System.out.println("LED: " + dashboard.getNumber("LED", 0));
 		Scheduler.getInstance().run();
 
 		if ((displayIter++) % 0x10 == 0) {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
-			System.out.println("LIDAR distance: " + RobotMap.lidar.getDistanceCM() + "cm");
+			//System.out.println("LIDAR distance: " + RobotMap.lidar.getDistanceCM() + "cm");
 		}
 	}
 

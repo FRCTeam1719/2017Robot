@@ -35,6 +35,7 @@ public class PixyLogic implements IPixy {
      * @see <a href="http://104.131.160.86/index.php/Pixy_Cam#The_Algorithm">The 1719 wiki page on the Pixy</a>
      */
     public void update() {
+    	System.out.println("Pixy update");
         /* Read in the data: 16-bit words, little endian */
         byte[] bytes = new byte[64];
         boolean err = ((I2C) serial).readOnly(bytes, 64);

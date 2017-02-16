@@ -13,8 +13,8 @@ public class ShooterPhysical extends Subsystem implements IExShooter{
 
 	ShooterLogic logic;
 	IRobot robot;
-	public ShooterPhysical (SpeedController motor, IRobot robot, IEncoder enc1, IEncoder enc2){
-		logic = new ShooterLogic(motor, enc1, enc2);
+	public ShooterPhysical (SpeedController motor, IRobot robot, IEncoder enc1){
+		logic = new ShooterLogic(motor, enc1);
 		this.robot = robot;
 	}
 	
@@ -46,10 +46,6 @@ public class ShooterPhysical extends Subsystem implements IExShooter{
 	@Override
 	public IEncoder getEncoder1() {
 		return logic.getEncoder1();
-	}
-	
-	public IEncoder getEncoder2() {
-		return logic.getEncoder2();
 	}
 
 

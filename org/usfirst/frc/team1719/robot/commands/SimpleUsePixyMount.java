@@ -57,6 +57,7 @@ public class SimpleUsePixyMount extends Command {
 		int targetX = -1;
 		int targetY = -1;
 		synchronized (pixy) {
+			System.out.println("Has blocks: " + pixy.hasBlocks());
 			if (pixy.hasBlocks() && toTrack.inFrame(pixy.getBlocks())) {
 				hasVal = true;
 				int[] center = toTrack.getCenter(pixy.getBlocks());
@@ -99,7 +100,7 @@ public class SimpleUsePixyMount extends Command {
 		}
 		mount.setX(x_cur);
 		mount.setY(y_cur);
-
+		System.out.println("usePixy");
 	}
 
 	@Override

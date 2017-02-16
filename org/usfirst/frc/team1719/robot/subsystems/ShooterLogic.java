@@ -16,15 +16,13 @@ public class ShooterLogic implements IExShooter {
 
 	PIDSourceType sourceType = PIDSourceType.kRate;
 	private SpeedController shooterMotor;
-	private IEncoder encoder1, encoder2;
+	private IEncoder encoder1;
 	
-	public ShooterLogic (SpeedController shooterMotor, IEncoder encoder1, IEncoder encoder2) {
+	public ShooterLogic (SpeedController shooterMotor, IEncoder encoder1) {
 		this.shooterMotor = shooterMotor;
 		this.encoder1 = encoder1;
-		this.encoder2 = encoder2;
 		
 		encoder1.config(1);
-		encoder2.config(1);
 	}
 	
 	
@@ -49,12 +47,6 @@ public class ShooterLogic implements IExShooter {
 	public IEncoder getEncoder1() {
 		return encoder1;
 	}
-	
-	@Override
-	public IEncoder getEncoder2() {
-		return encoder2;
-	}
-
 
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
@@ -81,13 +73,13 @@ public class ShooterLogic implements IExShooter {
 
 	@Override
 	public double getAvgEncoderRate() {
-		return (getEncoder1().getRate() + getEncoder2().getRate()) / 2;
+		return getEncoder1().getRate();
 	}
 
 
 	@Override
 	public double getAvgEncoderDistance() {
-		return (getEncoder1().getDistance() + getEncoder2().getDistance()) / 2;
+		return getEncoder1().getDistance();
 	}
 
 	@Override

@@ -14,6 +14,7 @@ public class GearLift implements VisionTarget {
 			int fSize = frame[0].heigt * frame[0].width;
 			int sSize = frame[1].heigt * frame[1].width;
 			result = (fSize > 50) && (sSize > 50);
+			System.out.println("In frame!");
 		} catch (ArrayIndexOutOfBoundsException e) {
 			result = false;
 		}

@@ -19,7 +19,9 @@ public class PixyPhysical extends Subsystem implements IPixy {
         }
         @Override
         public void execute() {
-            if(iter++ % 10 == 0) {/* Only poll camera at 10Hz = every 10 roboRIO cycles */
+        	System.out.println("pixyupdate exec i=" + iter);
+            if(iter++ % 10 == 0) {
+            	System.out.println("pixy update");
                 update();
             }
         }
