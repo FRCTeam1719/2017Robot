@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot.tests;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.usfirst.frc.team1719.robot.interfaces.IDrive;
 import org.usfirst.frc.team1719.robot.mockHardware.MockAccelerometer;
 import org.usfirst.frc.team1719.robot.mockHardware.MockEncoder;
 import org.usfirst.frc.team1719.robot.mockHardware.MockGyro3D;
@@ -45,9 +46,9 @@ public class LogicalDriveTest {
 	@Test
 	public void testShift() {
 		setup();
-		drive.shift(true);
+		drive.shift(IDrive.Shift.HIGH);
 		assertTrue(shifter.get() == true);
-		drive.shift(false);
+		drive.shift(IDrive.Shift.LOW);
 		assertTrue(shifter.get() == false);
 		
 	}
@@ -68,7 +69,7 @@ public class LogicalDriveTest {
 	@Test
 	public void testDisable() {
 		setup();
-		drive.shift(true);
+		drive.shift(IDrive.Shift.HIGH);
 		assertTrue(shifter.get());
 		drive.disable();
 		assertFalse(shifter.get());

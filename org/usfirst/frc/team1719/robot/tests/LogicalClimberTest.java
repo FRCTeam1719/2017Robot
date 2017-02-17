@@ -1,10 +1,9 @@
 package org.usfirst.frc.team1719.robot.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.mockHardware.MockEncoder;
 import org.usfirst.frc.team1719.robot.mockHardware.MockSpeedController;
 import org.usfirst.frc.team1719.robot.subsystems.ClimberLogic;

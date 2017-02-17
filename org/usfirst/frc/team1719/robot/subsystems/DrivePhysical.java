@@ -40,8 +40,8 @@ public class DrivePhysical extends Subsystem implements IDrive {
     }
 
     @Override
-    public void shift(boolean fast) {
-        drive.shift(fast);
+    public void shift(IDrive.Shift state) {
+        drive.shift(state);
     }
 
     @Override
@@ -83,4 +83,5 @@ public class DrivePhysical extends Subsystem implements IDrive {
 	public String toString(){
 		return "Drive Subsystem";
 	}
+
 }

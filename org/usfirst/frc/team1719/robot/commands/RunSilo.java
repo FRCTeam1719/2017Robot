@@ -2,7 +2,6 @@ package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Constants;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
-import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.interfaces.ISilo;
 
 import edu.wpi.first.wpilibj.command.Command;
