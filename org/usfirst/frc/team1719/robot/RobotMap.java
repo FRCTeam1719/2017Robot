@@ -6,6 +6,7 @@ import org.usfirst.frc.team1719.robot.sensors.I2C;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.VersaPlanetaryEmbeddedEncoder;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -26,14 +27,15 @@ public class RobotMap {
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
+	
+	
+	/* PDP */
+	public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
     
     /* DIO */
-
     public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true);
     public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
     public static final VersaPlanetaryEmbeddedEncoder shooterEnc = new VersaPlanetaryEmbeddedEncoder(4, 5, false);
-
-
     
     /* PWM */
     public static final SpeedController leftDrive = new Spark(0);

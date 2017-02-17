@@ -1,6 +1,9 @@
 package org.usfirst.frc.team1719.robot.interfaces;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+
 public interface IRobot {
-	public IOI getOI();
-	public IDashboard getDashboard();
+	IOI getOI();
+	IDashboard getDashboard();
+	PowerDistributionPanel getPDP();
 }

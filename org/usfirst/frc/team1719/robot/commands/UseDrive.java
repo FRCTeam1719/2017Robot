@@ -31,7 +31,6 @@ public class UseDrive extends Command {
     private final IRobot robot;
     private final IOI oi;
     private final IDrive drive;
-    private boolean shifted = false;
     
     private double DRIVE_MAX_SPEED = 70;
     private double MAX_SPEED_SCALING_FACTOR = 1.2;
@@ -90,7 +89,6 @@ public class UseDrive extends Command {
     	rightController = new PIDController(right_kP, 0, right_kD, left_kF, drive.getEncoderR(), new rightDrivePIDOutput());
     	
     	
-        drive.shift(shifted);
     }
 
     // Called just before this Command runs the first time
@@ -168,11 +166,7 @@ public class UseDrive extends Command {
         
         
         drive.moveTank(leftMotorOutput, rightMotorOutput);
-        
-        if(shifted != oi.getShifter()) {
-            drive.shift(shifted = !shifted);
-        }
-        System.out.println("Left: " + drive.getEncoderL().getRate() + " | Right: " + drive.getEncoderR().getRate());
+//        System.out.println("Left: " + drive.getEncoderL().getRate() + " | Right: " + drive.getEncoderR().getRate());
     }
 
     // Make this return true when this Command no longer needs to run execute()

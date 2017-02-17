@@ -9,15 +9,16 @@ import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.ClimberPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.DrivePhysical;
 import org.usfirst.frc.team1719.robot.subsystems.IntakePhysical;
-import org.usfirst.frc.team1719.robot.subsystems.SiloPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyMountPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PositionPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.ShooterPhysical;
+import org.usfirst.frc.team1719.robot.subsystems.SiloPhysical;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -210,5 +211,10 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public IDashboard getDashboard() {
 		return dashboard;
+	}
+	
+	@Override
+	public PowerDistributionPanel getPDP(){
+		return RobotMap.pdp;
 	}
 }

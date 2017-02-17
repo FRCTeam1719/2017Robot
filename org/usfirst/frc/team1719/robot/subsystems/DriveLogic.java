@@ -15,13 +15,13 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
  */
 public class DriveLogic implements IDrive {
     
-    private SpeedController left;
-    private SpeedController right;
-    private ISolenoid shifter;
-    private IEncoder lEncoder;
-    private IEncoder rEncoder;
-    private Accelerometer accelerometer;
-    private IGyro3D gyro;
+    private final SpeedController left;
+    private final SpeedController right;
+    private final ISolenoid shifter;
+    private final IEncoder lEncoder;
+    private final IEncoder rEncoder;
+    private final Accelerometer accelerometer;
+    private final IGyro3D gyro;
     private double maxSpd = 1.0D;
 	private static double WHEEL_DIAMETER = 6;
     
@@ -96,8 +96,11 @@ public class DriveLogic implements IDrive {
      * Engages or disengages the shifter
      */
     @Override
-    public void shift(boolean fast) {
-        shifter.set(fast);
+    public void shift(IDrive.Shift state) {
+    	switch(state){
+    	case HIGH: shifter.set(true);
+    	case LOW: shifter.set(false);
+    	}
     }
     
     /**
