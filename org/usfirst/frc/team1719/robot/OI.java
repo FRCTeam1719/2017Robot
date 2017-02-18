@@ -116,6 +116,7 @@ public class OI implements IOI{
 		try {
 			//revUpButton.toggleWhenPressed(new ConstantPowerShooter(robot.shooter)); 
 			revUpButton.toggleWhenPressed(new RevUpShooter(robot.shooter, robot, SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0))); 
+
 			Button controlShooter = new JoystickButton(operator, 9);
 			
 			controlShooter.whileHeld(new UseShooter(robot.shooter, robot));
@@ -128,15 +129,17 @@ public class OI implements IOI{
 			Button scanButton = new JoystickButton(driver, 2);
 			scanButton.whenPressed(new PixyScan(robot.pixyMount, new SingleTarget(), robot.pixy, robot.getOI()));
 
-			(new JoystickButton(operator, 1)).whileHeld(new RunSilo(robot.silo, robot));
 			
 			//TODO Decide what button this should be.
 			//Button runClimber = new JoystickButton(operator, 4);
 			//runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
 			
-			fireButton.whileHeld(new RunSilo(robot.silo, robot));
 			
 			runSiloBackwards.whileHeld(new SiloReject(robot.silo));
+			Button runClimber = new JoystickButton(operator, 2);
+			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
+			
+			fireButton.whileHeld(new RunSilo(robot.silo, robot.getDashboard()));
 		}
 		catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");

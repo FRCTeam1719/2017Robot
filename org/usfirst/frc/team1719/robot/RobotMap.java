@@ -58,6 +58,6 @@ public class RobotMap {
     	shooterController.setInverted(false);
     	leftDrive.setInverted(false);
     	rightDrive.setInverted(true);
+    //General hardware init
     }
-
 }
