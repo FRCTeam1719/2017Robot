@@ -2,7 +2,9 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ConstantPowerShooter;
 import org.usfirst.frc.team1719.robot.commands.PixyScan;
+import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.RunSilo;
+import org.usfirst.frc.team1719.robot.commands.SiloReject;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
@@ -14,6 +16,7 @@ import org.usfirst.frc.team1719.robot.vision.SingleTarget;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -26,6 +29,7 @@ public class OI implements IOI{
     
     JoystickButton revUpButton = new JoystickButton(operator, 4);
     JoystickButton fireButton = new JoystickButton(operator, 3);
+    JoystickButton runSiloBackwards = new JoystickButton(operator, 5);
     
     @Override
     public double getLeftX() {
@@ -48,7 +52,7 @@ public class OI implements IOI{
     }
     
     public boolean getShifter() {
-        return driver.getRawButton(1);
+        return driver.getRawButton(5);
 
     }
 
@@ -110,8 +114,8 @@ public class OI implements IOI{
 	
 	public void init(Robot robot){
 		try {
-//			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 0)); 
-			revUpButton.toggleWhenPressed(new ConstantPowerShooter(robot.shooter)); 
+			//revUpButton.toggleWhenPressed(new ConstantPowerShooter(robot.shooter)); 
+			revUpButton.toggleWhenPressed(new RevUpShooter(robot.shooter, robot, SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0))); 
 			Button controlShooter = new JoystickButton(operator, 9);
 			
 			controlShooter.whileHeld(new UseShooter(robot.shooter, robot));
@@ -127,10 +131,12 @@ public class OI implements IOI{
 			(new JoystickButton(operator, 1)).whileHeld(new RunSilo(robot.silo, robot));
 			
 			//TODO Decide what button this should be.
-			Button runClimber = new JoystickButton(operator, 4);
-			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
+			//Button runClimber = new JoystickButton(operator, 4);
+			//runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
 			
 			fireButton.whileHeld(new RunSilo(robot.silo, robot));
+			
+			runSiloBackwards.whileHeld(new SiloReject(robot.silo));
 		}
 		catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");
@@ -148,7 +154,7 @@ public class OI implements IOI{
 
 	@Override
 	public boolean getRevUpShooter() {
-		return operator.getRawButton(3);
+		return operator.getRawButton(4);
 
 	}
 		

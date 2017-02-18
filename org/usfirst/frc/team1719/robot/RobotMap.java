@@ -29,9 +29,9 @@ public class RobotMap {
     
     /* DIO */
 
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true);
-    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
-    public static final VersaPlanetaryEmbeddedEncoder shooterEnc = new VersaPlanetaryEmbeddedEncoder(4, 5, false);
+    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, false);
+    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, true);
+    public static final VersaPlanetaryEmbeddedEncoder shooterEnc = new VersaPlanetaryEmbeddedEncoder(4, 5, true);
 
 
     
@@ -53,5 +53,11 @@ public class RobotMap {
     
     /* Pneumatics */
     public static final Solenoid shifter = new Solenoid(0);
+    
+    public static void init() {
+    	shooterController.setInverted(false);
+    	leftDrive.setInverted(false);
+    	rightDrive.setInverted(true);
+    }
 
 }

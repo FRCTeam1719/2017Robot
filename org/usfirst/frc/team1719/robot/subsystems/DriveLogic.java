@@ -23,7 +23,8 @@ public class DriveLogic implements IDrive {
     private Accelerometer accelerometer;
     private IGyro3D gyro;
     private double maxSpd = 1.0D;
-	private static double WHEEL_DIAMETER = 6;
+    
+	private static double WHEEL_DIAMETER = 4;
     
 
     /**
@@ -46,8 +47,8 @@ public class DriveLogic implements IDrive {
         accelerometer = acc;
         gyro = gyr;
         //TODO: HACK; DON'T KNOW WHERE 2 CAME FROM, ADDED IN 8939efea7ae245a8ed0798b278a0e05b0f230fb6
-        lEncoder.config(Math.PI * WHEEL_DIAMETER * 2);
-        rEncoder.config(Math.PI * WHEEL_DIAMETER * 2);
+        lEncoder.config(Math.PI * WHEEL_DIAMETER * 4);
+        rEncoder.config(Math.PI * WHEEL_DIAMETER * 4);
     }
     
     

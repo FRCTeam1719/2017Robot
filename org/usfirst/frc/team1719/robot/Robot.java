@@ -61,6 +61,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void robotInit() {
+		RobotMap.init();
 		// General Initialization
 		// Setup Compressor
 		compressor = new Compressor(0);
@@ -121,8 +122,10 @@ public class Robot extends IterativeRobot implements IRobot {
 		if ((displayIter++) % 0x10 == 0) {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
+
+		System.out.println("Left drive enc val: " + drive.getEncoderL().getDistance());
+		System.out.println("Right drive enc val: " + drive.getEncoderR().getDistance());
 		
-		System.out.println("Distance: " + shooter.getEncoderDistance());
 	}
 
 	/**
@@ -182,9 +185,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		// System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" +
-		// RobotMap.leftDriveEnc.getDistance() + "renc" +
-		// RobotMap.rightDriveEnc.getDistance());
+		
 		Scheduler.getInstance().run();
 	}
 
@@ -194,6 +195,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+		Scheduler.getInstance().run();
 	}
 
 	public IRobot getInstance() {

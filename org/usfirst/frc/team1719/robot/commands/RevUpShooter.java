@@ -3,8 +3,10 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,7 +25,7 @@ public class RevUpShooter extends Command implements PIDOutput {
 	private double kP;
 	private double kI;
 	private double kD;
-	private double kF;
+	private double kF = (1 / 300);
 
 	double desiredRate = 0;
 
@@ -40,7 +42,7 @@ public class RevUpShooter extends Command implements PIDOutput {
 													// reactivity
 	private final double PERCENT_TOLERANCE = 1.25; // percent of MAX_SPEED *
 													// MAX_SPEED_LIMIT_SCALING
-	double motorOutput;
+	volatile double motorOutput;
 
 	Timer timer = new Timer();
 
@@ -62,19 +64,23 @@ public class RevUpShooter extends Command implements PIDOutput {
     public RevUpShooter(IExShooter shooter, IRobot robot, double desiredRate) {
         this.desiredRate = desiredRate;
     	this.shooter = shooter;
+    	this.robot = robot;
     	try {
     		requires( (Subsystem) shooter);
     	}
     	catch (ClassCastException e) {
     		System.out.println("Running unit test on RevUpShooter");
     	}
-    	
-    	velocityController = new PIDController(kP, kI, kD, kF, shooter, this);
+    	shooter.getEncoder().setPIDSourceType(PIDSourceType.kRate);
+    	velocityController = new PIDController(kP, kI, kD, kF, (Encoder) shooter.getEncoder(), this, 0.02);
+
+    	SmartDashboard.putData("Shooter PID controller", velocityController);
+    	SmartDashboard.putData("Shooter encoder rate", (Encoder) shooter.getEncoder());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	desiredRate = robot.getDashboard().getNumber("Desired RevUpShooter speed (RPS): ", 0);
+    	desiredRate = SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0);
     	velocityController.setOutputRange(-1, 1);
     	velocityController.setInputRange(-MAX_SPEED * MAX_SPEED_LIMIT_SCALING, MAX_SPEED * MAX_SPEED_LIMIT_SCALING);
     	velocityController.setToleranceBuffer(TOLERANCE_BUFFER_SIZE);
@@ -84,30 +90,29 @@ public class RevUpShooter extends Command implements PIDOutput {
     	velocityController.setSetpoint(desiredRate);
     	
     	velocityController.enable();
+    	
     	timer.start();
     	shooter.getEncoder().reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	setPIDConstantsFromDashboard();
     	
+    	SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate() + 0.001 * Math.random());
+    	velocityController.setSetpoint(SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0));
     	shooter.setSpeed(motorOutput);
     	
-    	if (timer.get() % 1 < 0.05) {
-    		System.out.println("Encoder dist: " + shooter.getEncoder().getDistance());
-    	}
-    	
-    	SmartDashboard.putNumber("Shooter target velocity (rpm)", desiredRate * 15.0D);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (timer.get() >= 0.05 && robot.getOI().getRevUpShooter());
+        return timer.get() >= 0.1 && robot.getOI().getRevUpShooter();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	velocityController.disable();
+    	shooter.setSpeed(0);
     }
 
     // Called when another command which requires one or more of the same
@@ -119,12 +124,5 @@ public class RevUpShooter extends Command implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		this.motorOutput = output;
-	}
-
-	public void setPIDConstantsFromDashboard() {
-		kP = SmartDashboard.getNumber(SHOOTER_KP, 0);
-		kD = SmartDashboard.getNumber(SHOOTER_KD, 0);
-		kF = SmartDashboard.getNumber(SHOOTER_KF, 0);
-		velocityController.setPID(kP, 0, kD, kF);
 	}
 }

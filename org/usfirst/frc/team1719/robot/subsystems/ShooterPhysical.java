@@ -39,7 +39,7 @@ public class ShooterPhysical extends Subsystem implements IExShooter{
 	@Override
 	protected void initDefaultCommand() {
 		//No default command
-		setDefaultCommand(new UseShooter(this, robot));
+		//setDefaultCommand(new UseShooter(this, robot));
 	}
 
 
