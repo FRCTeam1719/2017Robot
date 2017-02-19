@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot implements IRobot {
         // NOTE: This function _must_ be called after subsystem are initialized.
         oi = new OI();
         oi.init(this);
-        SmartDashboard.putNumber("MoveToPos K[0][P]", 0.1D);
+        SmartDashboard.putNumber("MoveToPos K[0][P]", 5.0D);
         SmartDashboard.putNumber("MoveToPos K[0][I]", 0.0D);
         SmartDashboard.putNumber("MoveToPos K[0][D]", 0.0D);
         SmartDashboard.putNumber("MoveToPos K[1][P]", 0.04D);

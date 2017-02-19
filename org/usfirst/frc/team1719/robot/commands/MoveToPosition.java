@@ -107,16 +107,17 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
     	    desiredY = parY + initY;
     	}
     	pathAngle = Math.toDegrees(Math.atan2(desiredX - initX, desiredY - initY));
-    	desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1),
+    	desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 5.0),
     	        SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
     	        SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
-        rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.02),
+        rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.04),
                 SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
-                SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
+                SmartDashboard.getNumber("MoveToPos K[1][D]", 0.1));
         rotateControllerStill.setPID(SmartDashboard.getNumber("TurnToHeading K[P]", 0.01),
                 SmartDashboard.getNumber("TurnToHeading K[I]", 0),
                 SmartDashboard.getNumber("TurnToHeading K[D]", 0));
       	desiredHeadingController.setSetpoint(0);
+      	desiredHeadingController.setOutputRange(-90.0D, 90.0D);
         rotateController.setSetpoint(0);
         rotateController.setInputRange(-180.0D,  180.0D);
         rotateController.setContinuous();

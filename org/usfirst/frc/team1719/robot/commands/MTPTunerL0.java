@@ -24,9 +24,10 @@ public class MTPTunerL0 extends Command implements PIDSource, PIDOutput {
      * @author Duncan
      */
     private class PIDHelper implements PIDSource, PIDOutput {
-        private double val = 0;
+        private volatile double val = 0;
         @Override
         public void pidWrite(double output) {
+            System.out.println("PID write: " + output);
             val = output % 360;
         }
 
@@ -57,7 +58,7 @@ public class MTPTunerL0 extends Command implements PIDSource, PIDOutput {
     private double pathAngle = 0;
     private double distOffPath = 0;
     private double rotSpd = 0;
-    private PIDHelper pidhelper;
+    private volatile PIDHelper pidhelper;
     private PIDController desiredHeadingController;
     private PIDController rotateController;
    
@@ -83,14 +84,14 @@ public class MTPTunerL0 extends Command implements PIDSource, PIDOutput {
     // Called just before this Command runs the first time
     protected void initialize() {
         pathAngle = Math.toDegrees(Math.atan2(desiredX, desiredY));
-        desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1),
+        desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 5.0),
                 SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
                 SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
         rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.04),
                 SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
                 SmartDashboard.getNumber("MoveToPos K[1][D]", 0.1));
         desiredHeadingController.setSetpoint(0);
-        desiredHeadingController.setOutputRange(Double.MIN_VALUE, Double.MAX_VALUE);
+        desiredHeadingController.setOutputRange(-90.0D, 90.0D);
         rotateController.setSetpoint(0);
         rotateController.setInputRange(-180.0D,  180.0D);
         rotateController.setContinuous();
@@ -102,7 +103,7 @@ public class MTPTunerL0 extends Command implements PIDSource, PIDOutput {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if(true) {//oi.getResetPIDConstants()) {
-            double kp = SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1);
+            double kp = SmartDashboard.getNumber("MoveToPos K[0][P]", 5.0);
             desiredHeadingController.setPID(kp,
                     SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
                     SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
@@ -112,7 +113,8 @@ public class MTPTunerL0 extends Command implements PIDSource, PIDOutput {
                     SmartDashboard.getNumber("MoveToPos K[1][D]", 0.1));
             System.out.println("Updating PID");
         }
-        System.out.println("Actual KP" + desiredHeadingController.getP());
+        System.out.println("Actual KP" + desiredHeadingController.getP() + "/KI" + desiredHeadingController.getI() + "/KD" + desiredHeadingController.getD());
+        System.out.println("OUTPUT " + desiredHeadingController.get());
         errX = desiredX - posTracker.getX();
         errY = desiredY - posTracker.getY();
         double offPathAngle = Math.atan2(errX, errY) - Math.toRadians(pathAngle);
