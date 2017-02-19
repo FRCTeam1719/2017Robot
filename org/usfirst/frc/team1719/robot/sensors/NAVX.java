@@ -1,10 +1,13 @@
 package org.usfirst.frc.team1719.robot.sensors;
 
+import org.usfirst.frc.team1719.robot.interfaces.IGyro3D;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
+//TODO: FINISH IMPLEMENTATION
 public class NAVX extends AHRS implements IGyro3D, Accelerometer {
     
     public NAVX(I2C.Port port) {
@@ -33,10 +36,6 @@ public class NAVX extends AHRS implements IGyro3D, Accelerometer {
         return getWorldLinearAccelZ();
     }
     
-    @Override
-    public void resetPitch() {
-        // TODO Auto-generated method stub
-    }
     
     @Override
     public void resetRoll() {
@@ -62,5 +61,11 @@ public class NAVX extends AHRS implements IGyro3D, Accelerometer {
     public double getYawRate() {
         return getRate();
     }
+
+	@Override
+	public void resetPitch() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

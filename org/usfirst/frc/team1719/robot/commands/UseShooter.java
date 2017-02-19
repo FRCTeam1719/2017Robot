@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author jess
  *
  */
-public class UseExShooter extends Command implements PIDOutput {
+public class UseShooter extends Command implements PIDOutput {
 
 	public static final String SHOOTER_KP = "Shooter kP: ";
 	public static final String SHOOTER_KI = "Shooter kI: ";
@@ -38,7 +38,7 @@ public class UseExShooter extends Command implements PIDOutput {
 	
 	private PIDController velocityController;
 	
-	public UseExShooter(IExShooter exshooter, IRobot robot) {
+	public UseShooter(IExShooter exshooter, IRobot robot) {
 		
 		SmartDashboard.putNumber(SHOOTER_KP, 0);
 		SmartDashboard.putNumber(SHOOTER_KI, 0);
@@ -74,22 +74,7 @@ public class UseExShooter extends Command implements PIDOutput {
 	
 	@Override
 	public void execute(){
-		double joystickvalue = Math.abs(oi.getDeviceY()) * oi.getDeviceY(); 
-		double desiredRate = joystickvalue * MAX_SPEED;
-
-		if (Math.abs(joystickvalue) < DEADZONE_TOLERANCE){
-			joystickvalue = 0;
-			desiredRate = 0;
-			velocityController.setSetpoint(0);
-			
-		}
-		else {
-			velocityController.enable();
-			velocityController.setSetpoint(desiredRate);
-		}
-
 		
-		exshooter.setSpeed(motorOutput);
 	}
 
 

@@ -175,4 +175,9 @@ public class PixyLogic implements IPixy {
         }
         return words;
     }
+    
+    @Override
+    public String toString() {
+    	return "Pixy Logic";
+    }
 }

@@ -6,19 +6,19 @@ package org.usfirst.frc.team1719.robot.subsystems;
  */
 public class Block {
     public final boolean isCC;
-    public final int sig;
+    public final int signature;
     public final int x;
     public final int y;
-    public final int wid;
-    public final int hgt;
+    public final int width;
+    public final int heigt;
     
-    public Block(boolean _isCC, int _sig, int _x, int _y, int _wid, int _hgt) {
+    public Block(boolean _isCC, int signature, int x, int y, int width, int heigt) {
         isCC = _isCC;
-        sig = _sig;
-        x = _x;
-        y = _y;
-        wid = _wid;
-        hgt = _hgt;
+        this.signature = signature;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.heigt = heigt;
     }
     
     @Override

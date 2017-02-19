@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,15 +8,14 @@ import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.mockHardware.MockEncoder;
 import org.usfirst.frc.team1719.robot.mockHardware.MockOI;
 import org.usfirst.frc.team1719.robot.mockHardware.MockSpeedController;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
-import org.usfirst.frc.team1719.robot.subsystems.LogicalExShooter;
+import org.usfirst.frc.team1719.robot.subsystems.ShooterLogic;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class LogicalExShooterTest {
 
 	SpeedController motor;
-	LogicalExShooter shooter;
+	ShooterLogic shooter;
 	IOI oi;
 	
 	
@@ -24,7 +23,7 @@ public class LogicalExShooterTest {
 	public void setUp() throws Exception {
 		motor = new MockSpeedController();
 		oi = new MockOI();
-		shooter = new LogicalExShooter(motor, new MockEncoder(), new MockEncoder());
+		shooter = new ShooterLogic(motor, new MockEncoder());
 	}
 
 	@Test

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
-import org.usfirst.frc.team1719.robot.sensors.RS7Encoder;
 
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -13,19 +12,18 @@ import edu.wpi.first.wpilibj.SpeedController;
  * Manages a single SpeedController
  */
 
-public class LogicalExShooter implements IExShooter {
+public class ShooterLogic implements IExShooter {
 
 	PIDSourceType sourceType = PIDSourceType.kRate;
 	private SpeedController shooterMotor;
-	private IEncoder encoder1, encoder2;
+	private IEncoder encoder1;
 	
-	public LogicalExShooter (SpeedController shooterMotor, IEncoder encoder1, IEncoder encoder2) {
+	public ShooterLogic (SpeedController shooterMotor, IEncoder encoder1) {
 		this.shooterMotor = shooterMotor;
 		this.encoder1 = encoder1;
-		this.encoder2 = encoder2;
 		
-		encoder1.setDistancePerPulse((4.0 / 30.0));
-		//encoder2.config(1 / 60);
+		encoder1.setDistancePerPulse((1D / 1024D));
+
 	}
 	
 	
@@ -37,6 +35,7 @@ public class LogicalExShooter implements IExShooter {
 	@Override
 	
 	public void setSpeed(double speed) {
+		System.out.println("Shooter spd: " + speed);
 		shooterMotor.set(speed);
 	}
 
@@ -47,13 +46,8 @@ public class LogicalExShooter implements IExShooter {
 
 
 	@Override
-	public IEncoder getEncoder1() {
+	public IEncoder getEncoder() {
 		return encoder1;
-	}
-	
-	@Override
-	public IEncoder getEncoder2() {
-		return encoder2;
 	}
 
 
@@ -72,23 +66,27 @@ public class LogicalExShooter implements IExShooter {
 	@Override
 	public double pidGet() {
 		if (sourceType == PIDSourceType.kRate) {
-			return getAvgEncoderRate();
+			return getEncoderRate();
 		}
 		else {
-			return getAvgEncoderDistance();
+			return getEncoderDistance();
 		}
 	}
 
 
 	@Override
-	public double getAvgEncoderRate() {
-		return getEncoder1().getRate();
+	public double getEncoderRate() {
+		return (getEncoder().getRate());
 	}
 
 
 	@Override
-	public double getAvgEncoderDistance() {
-		return getEncoder1().getDistance();
+	public double getEncoderDistance() {
+		return (getEncoder().getDistance());
 	}
 
+	@Override
+	public String toString() {
+		return "Shooter Logic";
+	}
 }

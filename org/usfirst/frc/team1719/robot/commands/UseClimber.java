@@ -29,13 +29,16 @@ public class UseClimber extends Command {
 	boolean shouldRun;
 	@Override
 	public void initialize(){
-		double time = timer.getMatchTime();
-		if(time<=40)
-			shouldRun = true;
+		
+		
 	}
 	
 	@Override
 	public void execute(){
+		double time = timer.getMatchTime();
+		if(time<=40) {
+			shouldRun = true;
+		}
 		if (shouldRun){
 			climber.setSpeed(1); 
 			//TODO find out how hanging is going to work

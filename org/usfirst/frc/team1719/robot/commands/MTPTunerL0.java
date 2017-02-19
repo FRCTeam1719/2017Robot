@@ -86,9 +86,9 @@ public class MTPTunerL0 extends Command implements PIDSource, PIDOutput {
         desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1),
                 SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
                 SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
-        rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.02),
+        rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.04),
                 SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
-                SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
+                SmartDashboard.getNumber("MoveToPos K[1][D]", 0.1));
         desiredHeadingController.setSetpoint(0);
         desiredHeadingController.setOutputRange(Double.MIN_VALUE, Double.MAX_VALUE);
         rotateController.setSetpoint(0);
@@ -101,20 +101,24 @@ public class MTPTunerL0 extends Command implements PIDSource, PIDOutput {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(oi.getResetPIDConstants()) {
-            desiredHeadingController.setPID(SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1),
+        if(true) {//oi.getResetPIDConstants()) {
+            double kp = SmartDashboard.getNumber("MoveToPos K[0][P]", 0.1);
+            desiredHeadingController.setPID(kp,
                     SmartDashboard.getNumber("MoveToPos K[0][I]", 0),
                     SmartDashboard.getNumber("MoveToPos K[0][D]", 0));
-            rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.02),
+            System.out.println("KP: " + kp);
+            rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.04),
                     SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
-                    SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
+                    SmartDashboard.getNumber("MoveToPos K[1][D]", 0.1));
+            System.out.println("Updating PID");
         }
+        System.out.println("Actual KP" + desiredHeadingController.getP());
         errX = desiredX - posTracker.getX();
         errY = desiredY - posTracker.getY();
         double offPathAngle = Math.atan2(errX, errY) - Math.toRadians(pathAngle);
         distOffPath = Math.sin(offPathAngle) * Math.sqrt(errX * errX + errY * errY);
-        System.out.println("Following path : power " + rotSpd + "Rotator " + rotateController.get());
-        drive.moveArcade(SPD, rotSpd);
+        //System.out.println("Following path : power " + rotSpd + "Rotator " + rotateController.get());
+        drive.moveArcade(SPD, -rotSpd);
         double displayNoiseHack = Math.random() * 0.01D;
         SmartDashboard.putNumber("MTP Desired angle", pidhelper.val + displayNoiseHack);
         SmartDashboard.putNumber("MTP e\u27c2", distOffPath + displayNoiseHack);

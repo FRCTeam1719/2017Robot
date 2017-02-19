@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.mockHardware;
 
-import org.usfirst.frc.team1719.robot.sensors.IEncoder;
+import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 
 import edu.wpi.first.wpilibj.PIDSourceType;
 

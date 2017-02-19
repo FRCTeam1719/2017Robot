@@ -11,13 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ToggleIntake extends Command{
 
 	private IIntake intake;
+	private final double INTAKE_SPEED = 1;
 	
 	public ToggleIntake(IIntake intake){
 		this.intake = intake;
 	}
 	@Override
 	public void execute(){
-		intake.set(1);
+		intake.set(INTAKE_SPEED);
 	}
 	
 	@Override

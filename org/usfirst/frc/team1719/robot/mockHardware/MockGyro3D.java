@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.mockHardware;
 
-import org.usfirst.frc.team1719.robot.sensors.IGyro3D;
+import org.usfirst.frc.team1719.robot.interfaces.IGyro3D;
 
 public class MockGyro3D implements IGyro3D {
 	

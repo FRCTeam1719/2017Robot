@@ -45,9 +45,9 @@ public class MTPTestL1 extends Command implements PIDSource, PIDOutput {
     // Called just before this Command runs the first time
     protected void initialize() {
         rotateController = new PIDController(0, 0, 0, this, this);
-        rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.02),
+        rotateController.setPID(SmartDashboard.getNumber("MoveToPos K[1][P]", 0.04),
                 SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
-                SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
+                SmartDashboard.getNumber("MoveToPos K[1][D]", 0.1));
         rotateController.setSetpoint(0);
         rotateController.setInputRange(-180.0D,  180.0D);
         rotateController.setContinuous();
@@ -57,10 +57,10 @@ public class MTPTestL1 extends Command implements PIDSource, PIDOutput {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(oi.getResetPIDConstants()) {
-            double p = SmartDashboard.getNumber("MoveToPos K[1][P]", 0.02);
+        if(true){//oi.getResetPIDConstants()) {
+            double p = SmartDashboard.getNumber("MoveToPos K[1][P]", 0.04);
             double i = SmartDashboard.getNumber("MoveToPos K[1][I]", 0);
-            double d = SmartDashboard.getNumber("MoveToPos K[1][D]", 0);
+            double d = SmartDashboard.getNumber("MoveToPos K[1][D]", 0.1);
             rotateController.setPID(p, i, d);
             System.out.println("Updating PID constants: " + p + "/" + i + "/" + d);
         }
