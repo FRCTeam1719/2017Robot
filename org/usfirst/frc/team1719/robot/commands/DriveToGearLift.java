@@ -21,9 +21,15 @@ public class DriveToGearLift extends MoveForwardDist {
 	}
 
 
+    protected void execute() {
+    	System.out.println("Drive to gear lift");
+    	drive.moveTank(0.3, 0.3);
+    	
+    }
+    
     @Override
     protected boolean isFinished() {
-        return target.closeEnough(pixy.getBlocks()) || RobotMap.lidar.getDistanceCM() <= 20;
+        return target.closeEnough(pixy.getBlocks());
     }
 
     // Called once after isFinished returns true

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.DriveToGearLift;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -14,6 +15,7 @@ import org.usfirst.frc.team1719.robot.subsystems.PixyMountPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PositionPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.ShooterPhysical;
+import org.usfirst.frc.team1719.robot.vision.GearLift;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -137,6 +139,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void autonomousInit() {
 
+		autonomousCommand = new DriveToGearLift(drive, this, new GearLift(), pixy);
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
