@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -63,7 +64,6 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void robotInit() {
 		RobotMap.init();
 		// General Initialization
-		RobotMap.init();
 		// Setup Compressor
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
@@ -73,7 +73,6 @@ public class Robot extends IterativeRobot implements IRobot {
 		timer = new MatchTimer();
 		dashboard = new Dashboard();
 		dashboard.putNumber("Desired RevUpShooter speed (RPS): ", 0);
-		dashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 
 		// Subsystem Init
 
@@ -124,10 +123,10 @@ public class Robot extends IterativeRobot implements IRobot {
 		if ((displayIter++) % 0x10 == 0) {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
-
-		System.out.println("Left drive enc val: " + drive.getEncoderL().getDistance());
-		System.out.println("Right drive enc val: " + drive.getEncoderR().getDistance());
 		
+		SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate());
+		System.out.println("shooter enc val: " + shooter.getEncoderDistance());
+
 	}
 
 	/**
@@ -187,7 +186,6 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		
 		Scheduler.getInstance().run();
 	}
 

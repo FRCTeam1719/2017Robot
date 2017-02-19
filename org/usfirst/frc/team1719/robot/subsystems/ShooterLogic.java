@@ -2,6 +2,7 @@ package org.usfirst.frc.team1719.robot.subsystems;
 import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -22,8 +23,8 @@ public class ShooterLogic implements IExShooter {
 		this.shooterMotor = shooterMotor;
 		this.encoder1 = encoder1;
 		
-		encoder1.setDistancePerPulse((1D / 1024D));
-
+		encoder1.setDistancePerPulse((1D));
+		encoder1.setSamplesToAverage(8);
 	}
 	
 	

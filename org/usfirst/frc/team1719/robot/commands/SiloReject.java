@@ -13,7 +13,7 @@ public class SiloReject extends Command {
 	}
 	
 	public void execute() {
-		silo.setSpeed(-0.3D);
+		silo.setSpeed(-0.5D);
 	}
 	
 	protected void end() {

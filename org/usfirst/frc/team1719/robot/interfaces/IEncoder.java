@@ -17,6 +17,7 @@ public interface IEncoder extends PIDSource {
     public double getRate();
     public void setDistancePerPulse(double distancePerPulse);
     public void setReverseDirection(boolean reverseDirection);
+    public void setSamplesToAverage(int sampleNum);
     /**
      * Sets up device specific settings
      * @param distancePerRev (ft)

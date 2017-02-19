@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot.commands;
 
+import org.usfirst.frc.team1719.robot.Constants;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
@@ -22,25 +23,26 @@ public class RevUpShooter extends Command implements PIDOutput {
 	public static final String SHOOTER_KD = "Shooter kD: ";
 	public static final String SHOOTER_KF = "Shooter kF: ";
 
-	private double kP;
+	private double kP = 0.000002;
 	private double kI;
-	private double kD;
-	private double kF = (1 / 300);
-
+	private double kD = 0.000001;
+	
 	double desiredRate = 0;
 
 	private final IExShooter shooter;
-	private final double MAX_SPEED = 100000;
+	private final double MAX_SPEED = 275000;
 	private final double MAX_SPEED_LIMIT_SCALING = 1.2D; // Multiply max_speed
 															// by this to give
 															// some leeway in
 															// the input range
+	private double kF = 0;
+
 
 	private final int TOLERANCE_BUFFER_SIZE = 3; // Increase to reduce
 													// measurement noise,
 													// decrease to increase
 													// reactivity
-	private final double PERCENT_TOLERANCE = 1.25; // percent of MAX_SPEED *
+	private final double PERCENT_TOLERANCE = 5D; // percent of MAX_SPEED *
 													// MAX_SPEED_LIMIT_SCALING
 	volatile double motorOutput;
 
@@ -93,6 +95,7 @@ public class RevUpShooter extends Command implements PIDOutput {
     	
     	timer.start();
     	shooter.getEncoder().reset();
+    	robot.getDashboard().putBoolean(Constants.SHOOTER_RUNNING, true);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -113,11 +116,13 @@ public class RevUpShooter extends Command implements PIDOutput {
     protected void end() {
     	velocityController.disable();
     	shooter.setSpeed(0);
+    	robot.getDashboard().putBoolean(Constants.SHOOTER_RUNNING, false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 
 

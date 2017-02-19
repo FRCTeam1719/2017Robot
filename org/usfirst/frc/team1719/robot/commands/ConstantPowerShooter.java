@@ -26,7 +26,7 @@ public class ConstantPowerShooter extends Command{
 	protected void execute(){
     	SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate() + 0.001 * Math.random());
 
-		shooter.setSpeed(0.6);
+		shooter.setSpeed(SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0));
 	}
 	
 	@Override
