@@ -8,6 +8,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.ClimberPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.DrivePhysical;
+import org.usfirst.frc.team1719.robot.subsystems.GearHandlerPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.IntakePhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyMountPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyPhysical;
@@ -40,6 +41,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	IPositionTracker tracker;
 	PixyPhysical pixy;
 	PixyMountPhysical pixyMount;
+	GearHandlerPhysical gearHandler;
 	// Array to hold all of the subsystems; so that we can disable them easily
 	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker };
 	// Other global references
@@ -84,6 +86,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		pixy = new PixyPhysical(RobotMap.pixyI2C);
 		// Pixy Mount
 		pixyMount = new PixyMountPhysical(RobotMap.pan, RobotMap.tilt, pixy);
+		// Gear handler
+		gearHandler = new GearHandlerPhysical(RobotMap.gearActuator);
 
 		// Setup OI
 		// NOTE: This function _must_ be called after subsystem are initialized.

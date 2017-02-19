@@ -26,29 +26,29 @@ public class RobotMap {
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
-    
-    /* DIO */
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true);
-    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
-    public static final RS7Encoder shooterEnc1 = new RS7Encoder(4, 5, true);
-    public static final RS7Encoder shooterEnc2 = new RS7Encoder(6, 7, false);
 
-    
-    /* PWM */
-    public static final SpeedController leftDrive = new Spark(0);
-    public static final SpeedController rightDrive = new Spark(1);
-    public static final Servo pan = new Servo(2);
-    public static final Servo tilt = new Servo(3);
-    public static final SpeedController shooterController = new Spark(4);
-    public static final SpeedController intakeMotor = new Spark(5);
-    public static final SpeedController climberController = new Spark(6);
+	/* DIO */
+	public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, true);
+	public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
+	public static final RS7Encoder shooterEnc1 = new RS7Encoder(4, 5, true);
+	public static final RS7Encoder shooterEnc2 = new RS7Encoder(6, 7, false);
 
-    /* I2C */
-    public static final I2C pixyI2C = new I2C(I2C.Port.kOnboard, 0x54);
-    
-    /* MXP */
-    public static final NAVX navx = new NAVX(I2C.Port.kMXP);
-    
-    /* Pneumatics */
-    public static final Solenoid shifter = new Solenoid(0);
+	/* PWM */
+	public static final SpeedController leftDrive = new Spark(0);
+	public static final SpeedController rightDrive = new Spark(1);
+	public static final Servo pan = new Servo(2);
+	public static final Servo tilt = new Servo(3);
+	public static final SpeedController shooterController = new Spark(4);
+	public static final SpeedController intakeMotor = new Spark(5);
+	public static final SpeedController climberController = new Spark(6);
+
+	/* I2C */
+	public static final I2C pixyI2C = new I2C(I2C.Port.kOnboard, 0x54);
+
+	/* MXP */
+	public static final NAVX navx = new NAVX(I2C.Port.kMXP);
+
+	/* Pneumatics */
+	public static final Solenoid shifter = new Solenoid(0);
+	public static final Solenoid gearActuator = new Solenoid(1);
 }

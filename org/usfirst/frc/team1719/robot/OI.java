@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.DepositGear;
 import org.usfirst.frc.team1719.robot.commands.PixyScan;
 import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
@@ -18,50 +19,47 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class OI implements IOI{
+public class OI implements IOI {
 
-    Joystick driver = new Joystick(0);
-    Joystick operator = new Joystick(1);
-    
-    JoystickButton revUpButton = new JoystickButton(operator, 3);
-    
-    @Override
-    public double getLeftX() {
-        return driver.getRawAxis(0);
-    }
+	Joystick driver = new Joystick(0);
+	Joystick operator = new Joystick(1);
 
-    @Override
-    public double getLeftY() {
-        return driver.getRawAxis(1);
-    }
+	JoystickButton revUpButton = new JoystickButton(operator, 3);
 
-    @Override
-    public double getRightX() {
-        return driver.getRawAxis(4);
-    }
+	@Override
+	public double getLeftX() {
+		return driver.getRawAxis(0);
+	}
 
-    @Override
-    public double getRightY() {
-        return driver.getRawAxis(5);
-    }
-    
-    public boolean getShifter() {
-        return driver.getRawButton(1);
+	@Override
+	public double getLeftY() {
+		return driver.getRawAxis(1);
+	}
 
-    }
+	@Override
+	public double getRightX() {
+		return driver.getRawAxis(4);
+	}
 
+	@Override
+	public double getRightY() {
+		return driver.getRawAxis(5);
+	}
+
+	public boolean getShifter() {
+		return driver.getRawButton(1);
+
+	}
 
 	@Override
 	public double getDeviceX() {
 		return operator.getRawAxis(0);
 	}
 
-	
 	public double getDeviceY() {
 		return operator.getRawAxis(1);
 	}
-    
-	
+
 	@Override
 	public double getServoX() {
 		return operator.getRawAxis(0);
@@ -71,9 +69,9 @@ public class OI implements IOI{
 	public double getServoY() {
 		return operator.getRawAxis(1);
 	}
-	
+
 	@Override
-	public boolean getCancelScan(){
+	public boolean getCancelScan() {
 		return driver.getRawButton(2);
 	}
 
@@ -104,15 +102,15 @@ public class OI implements IOI{
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	
-	public void init(Robot robot){
+
+	public void init(Robot robot) {
 		try {
-			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 100)); 
+			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, 100));
 			Button controlShooter = new JoystickButton(operator, 9);
-			
+
 			controlShooter.whileHeld(new UseShooter(robot.shooter, robot));
-			
-			//TODO Decide on button
+
+			// TODO Decide on button
 			Button intakeToggle = new JoystickButton(operator, 8);
 			intakeToggle.toggleWhenPressed(new ToggleIntake(robot.intake));
 			Button unclogIntake = new JoystickButton(operator, 10);
@@ -120,13 +118,16 @@ public class OI implements IOI{
 			Button scanButton = new JoystickButton(driver, 2);
 			scanButton.whenPressed(new PixyScan(robot.pixyMount, new SingleTarget(), robot.pixy, robot.getOI()));
 
-			//TODO Decide what button this should be.
+			// TODO Decide what button this should be.
 			Button runClimber = new JoystickButton(operator, 4);
-			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
-		}
-		catch (NullPointerException e) {
+			runClimber.whileHeld(new UseClimber(robot.climber, robot.timer));
+
+			Button depositGear = new JoystickButton(operator, 5);
+			depositGear.whenPressed(new DepositGear(robot.gearHandler));
+		} catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");
-			System.out.println("Likely due to init() being called before all Subsystems in Robot.robotInit() are instantiated.");
+			System.out.println(
+					"Likely due to init() being called before all Subsystems in Robot.robotInit() are instantiated.");
 			System.out.println("List of all instantiated Subsystems: ");
 			for (GenericSubsystem subsys : robot.subsystems) {
 				if (subsys != null) {
@@ -142,7 +143,5 @@ public class OI implements IOI{
 	public boolean getRevUpShooter() {
 		return operator.getRawButton(3);
 	}
-		
-	
 
 }
