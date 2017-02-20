@@ -19,9 +19,7 @@ public class PixyPhysical extends Subsystem implements IPixy {
         }
         @Override
         public void execute() {
-        	System.out.println("pixyupdate exec i=" + iter);
             if(iter++ % 10 == 0) {
-            	System.out.println("pixy update");
                 update();
             }
         }
@@ -31,8 +29,11 @@ public class PixyPhysical extends Subsystem implements IPixy {
     
     private final PixyLogic logic;
     
+    Updater updater;
     public PixyPhysical(ISerial serial) {
         logic = new PixyLogic(serial);
+        updater = new Updater(this);
+        updater.setRunWhenDisabled(true);
     }
     
     @Override
@@ -51,7 +52,7 @@ public class PixyPhysical extends Subsystem implements IPixy {
     @Override
     protected void initDefaultCommand() {
         /* Update the system every loop */
-        setDefaultCommand(new Updater(this));
+        setDefaultCommand(updater);
     }
 
 	@Override

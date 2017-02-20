@@ -50,7 +50,7 @@ public class PixyLogic implements IPixy {
             words = getWords(bytes);
         }
         if(words[0] != BLOCK_SYNC) {
-            System.out.println("Unrecoverable sync error");
+            //System.out.println("Unrecoverable sync error");
             trustworthy = false;
             //Process the empty frame, for the purpose of signalling to other processes.
             processFrame(new int[] {});

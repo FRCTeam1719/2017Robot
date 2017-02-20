@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,7 +35,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot implements IRobot {
 
 	public static OI oi;
-
 
 	// Subsystems
 	DrivePhysical drive;
@@ -66,19 +66,19 @@ public class Robot extends IterativeRobot implements IRobot {
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		compressor.start();
-		//Drive
+		// Drive
 		drive = new DrivePhysical(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
 		shooter = new ShooterPhysical(RobotMap.shooterController, this, RobotMap.shooterEnc1);
-		//Shooter
-		//Intake
+		// Shooter
+		// Intake
 		intake = new IntakePhysical(RobotMap.intakeMotor);
-		//Climber
-		//TODO make an encoder if necesarry
-		climber = new ClimberPhysical(RobotMap.climberController,null); 
-		//Gear Handler
+		// Climber
+		// TODO make an encoder if necesarry
+		climber = new ClimberPhysical(RobotMap.climberController, null);
+		// Gear Handler
 		gearHandler = new GearHandlerSubsys(RobotMap.elevator, RobotMap.clawTop, RobotMap.clawBottom);
-		//Position tracker Init
+		// Position tracker Init
 		tracker = new PositionPhysical(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 
 		RobotMap.navx.reset();
@@ -90,11 +90,13 @@ public class Robot extends IterativeRobot implements IRobot {
 		pixy = new PixyPhysical(RobotMap.pixyI2C);
 		// Pixy Mount
 		pixyMount = new PixyMountPhysical(RobotMap.pan, RobotMap.tilt, pixy);
-		dashboard.putNumber("LED", 0);
+		dashboard.putNumber("LED", 5);
 		// Setup OI
 		// NOTE: This function _must_ be called after subsystem are initialized.
 		oi = new OI();
 		oi.init(this);
+		
+		SmartDashboard.putNumber("Servo Angle: ", 0);
 	}
 
 	/**
@@ -110,19 +112,27 @@ public class Robot extends IterativeRobot implements IRobot {
 				subsystems[i].disable();
 			}
 		}
-		//RobotMap.lidar.start();
+		// RobotMap.lidar.start();
 	}
 
 	@Override
 	public void disabledPeriodic() {
-	    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
-	    System.out.println("LED: " + dashboard.getNumber("LED", 0));
+		RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
+		
+//		if (pixy.hasBlocks()) {
+//			System.out.println("Block x: " + pixy.getBlocks()[0].x);
+//		}
+//		else {
+//			System.out.println("No blocks");
+//		}
 		Scheduler.getInstance().run();
 
 		if ((displayIter++) % 0x10 == 0) {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
-			//System.out.println("LIDAR distance: " + RobotMap.lidar.getDistanceCM() + "cm");
+			// System.out.println("LIDAR distance: " +
+			// RobotMap.lidar.getDistanceCM() + "cm");
 		}
+		System.out.println("Lidar: " + RobotMap.lidar.getDistanceCM() * 2.54);
 	}
 
 	/**
@@ -139,7 +149,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void autonomousInit() {
 
-		autonomousCommand = new DriveToGearLift(drive, this, new GearLift(), pixy);
+		autonomousCommand = new DriveToGearLift(drive, this, new GearLift(), pixy, pixyMount);
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -159,7 +169,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		if ((displayIter++) % 0x10 == 0) {
-		    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
+			RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
 	}
@@ -184,7 +194,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-	    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
+		RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
 
 		Scheduler.getInstance().run();
 
@@ -195,7 +205,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-	    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
+		RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
 
 		LiveWindow.run();
 	}

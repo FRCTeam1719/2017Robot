@@ -18,7 +18,7 @@ public class PutGearOnLift extends CommandGroup {
 
     public PutGearOnLift(IRobot robot, IDrive drive, IPixyMount mount, IPixy pixy, IGearHandler handler) {
         addSequential(new SetGearHandlerToPos(handler, gearStates.TRANSPORT));
-        addSequential(new DriveToGearLift(drive, robot, mount.getTarget(), pixy));
+        addSequential(new DriveToGearLift(drive, robot, mount.getTarget(), pixy, mount));
         addSequential(new SetGearHandlerToPos(handler, gearStates.DELIVER));
     }
 }

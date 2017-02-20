@@ -23,7 +23,7 @@ public class GearLift implements VisionTarget {
 
 	@Override
 	public int[] getCenter(Block[] frame) {
-		double xSum = 0;
+		
 		int x = (int) Math.round((frame[0].x + frame[1].x) / 2);
 		int y = (int) Math.round((frame[0].y + frame[1].y) / 2);
 		return new int[] { x, y };
@@ -35,7 +35,7 @@ public class GearLift implements VisionTarget {
 			int width = Math.abs(frame[0].x - frame[1].x);
 			
 			
-			result = width >= 150;
+			result = width >= 100;
 		} catch (ArrayIndexOutOfBoundsException e) {
 			result = false;
 		}
