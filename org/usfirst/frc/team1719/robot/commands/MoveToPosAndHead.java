@@ -19,6 +19,7 @@ public class MoveToPosAndHead extends CommandGroup {
     private final double tHead;
     private final int fstimeout;
     private int fsloops = 0;
+    private boolean fsbackwards;
 
     public MoveToPosAndHead(double targetX, double targetY, double targetHeading, double straightDist,
             int _fstimeout, IPositionTracker posTracker, IDrive drive, IRobot robot) {
@@ -43,13 +44,14 @@ public class MoveToPosAndHead extends CommandGroup {
         tY = targetY;
         tHead = targetHeading;
         fstimeout = _fstimeout;
+        fsbackwards = (straightDist < 0);
         double waypointX = targetX - straightDist * Math.sin(Math.toRadians(targetHeading));
         double waypointY = targetY - straightDist * Math.cos(Math.toRadians(targetHeading));
         addSequential(new MoveForwardDist(drive, robot));
         addSequential(new TurnToHeading(Math.toDegrees(Math.atan2(waypointX, waypointY)), posTracker, drive, robot));
         addSequential(new MoveToPosition(waypointX, waypointY, posTracker, drive, robot, true));
         addSequential(new TurnToHeading(targetHeading, posTracker, drive, robot));
-        addSequential(new DriveConstV(SPD, SPD, robot, drive, this::fsdone));
+        addSequential(new DriveConstV(SPD * Math.signum(straightDist), SPD * Math.signum(straightDist), robot, drive, this::fsdone));
     }
     
     
@@ -61,6 +63,9 @@ public class MoveToPosAndHead extends CommandGroup {
         /* Hack -- am I at or past the line normal to the heading.*/
         double atanXY = Math.toDegrees(Math.atan2(tX - positionTracker.getX(), tY - positionTracker.getY()));
         System.out.println("MTPAH Final state (DCV): " + atanXY);
+        if(fsbackwards) {
+            return Math.abs(atanXY - tHead) % 360 <= 90;
+        }
         return Math.abs(atanXY - tHead) % 360 >= 90; 
     }
 }

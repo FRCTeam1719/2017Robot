@@ -104,12 +104,12 @@ public class Robot extends IterativeRobot implements IRobot {
         SmartDashboard.putNumber("MoveToPos K[1][P]", 0.04D);
         SmartDashboard.putNumber("MoveToPos K[1][I]", 0.0D);
         SmartDashboard.putNumber("MoveToPos K[1][D]", 0.1D);
-        SmartDashboard.putNumber("TurnToHeading K[P]", 0.01);
-        SmartDashboard.putNumber("TurnToHeading K[I]", 0.005);
+        SmartDashboard.putNumber("TurnToHeading K[P]", 0.02);
+        SmartDashboard.putNumber("TurnToHeading K[I]", 0.006);
         SmartDashboard.putNumber("TurnToHeading K[D]", 0.1);
         oi.init(this);
-        
-        autonomousCommand = new MoveToPosAndHead(139, 10, 135, 36, 100, tracker, drive, this);
+        autonomousCommand = new MoveToPosAndHead(41, 76, -90, -36, 100, tracker, drive, this); // Right side to right hopper (Red)
+        // Center to boiler (Red) autonomousCommand = new MoveToPosAndHead(139, 10, 135, 36, 100, tracker, drive, this);
     }
     
     /**

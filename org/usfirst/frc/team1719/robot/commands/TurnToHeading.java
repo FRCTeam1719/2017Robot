@@ -53,9 +53,9 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        pid = new PIDController(SmartDashboard.getNumber("TurnToHeading K[P]", 0.007),
-                SmartDashboard.getNumber("TurnToHeading K[I]", 0.0005),
-                SmartDashboard.getNumber("TurnToHeading K[D]", 0), this, this) {
+        pid = new PIDController(SmartDashboard.getNumber("TurnToHeading K[P]", 0.02),
+                SmartDashboard.getNumber("TurnToHeading K[I]", 0.006),
+                SmartDashboard.getNumber("TurnToHeading K[D]", 0.1), this, this) {
             /* Hack -- use RMSE for onTarget */
             @Override
             protected void calculate() {
@@ -81,9 +81,9 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
         // Use low gear
         drive.shift(true);
         if(true) {//oi.getResetPIDConstants()) {
-            pid.setPID(SmartDashboard.getNumber("TurnToHeading K[P]", 0.1),
-                    SmartDashboard.getNumber("TurnToHeading K[I]", 0),
-                    SmartDashboard.getNumber("TurnToHeading K[D]", 0));
+            pid.setPID(SmartDashboard.getNumber("TurnToHeading K[P]", 0.2),
+                    SmartDashboard.getNumber("TurnToHeading K[I]", 0.006),
+                    SmartDashboard.getNumber("TurnToHeading K[D]", 0.1));
         }
         if(!pid.isEnabled()) {
             pid.enable();
