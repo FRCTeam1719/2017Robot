@@ -23,19 +23,19 @@ public class RevUpShooter extends Command implements PIDOutput {
 	public static final String SHOOTER_KD = "Shooter kD: ";
 	public static final String SHOOTER_KF = "Shooter kF: ";
 
-	private double kP = 0.000002;
+	private double kP = 0.000006;
 	private double kI;
-	private double kD = 0.000001;
+	private double kD = 0.000003;
 	
 	double desiredRate = 0;
 
 	private final IExShooter shooter;
-	private final double MAX_SPEED = 275000;
+	private final double MAX_SPEED = 80000;
 	private final double MAX_SPEED_LIMIT_SCALING = 1.2D; // Multiply max_speed
 															// by this to give
 															// some leeway in
 															// the input range
-	private double kF = 0;
+	private double kF = (1 / MAX_SPEED);
 
 
 	private final int TOLERANCE_BUFFER_SIZE = 3; // Increase to reduce
@@ -100,8 +100,9 @@ public class RevUpShooter extends Command implements PIDOutput {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	System.out.println("RevUpShooter");
     	SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate() + 0.001 * Math.random());
+    	System.out.println("MMM: " + SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0));
     	velocityController.setSetpoint(SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0));
     	shooter.setSpeed(motorOutput);
     	
