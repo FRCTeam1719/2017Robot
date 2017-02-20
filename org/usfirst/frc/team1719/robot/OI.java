@@ -2,7 +2,6 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ConstantPowerShooter;
 import org.usfirst.frc.team1719.robot.commands.PixyScan;
-import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.RunSilo;
 import org.usfirst.frc.team1719.robot.commands.SiloReject;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
@@ -16,7 +15,6 @@ import org.usfirst.frc.team1719.robot.vision.SingleTarget;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
