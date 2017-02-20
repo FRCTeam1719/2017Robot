@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.MTPTunerL0;
+import org.usfirst.frc.team1719.robot.commands.MTPTestL1;
 import org.usfirst.frc.team1719.robot.commands.MoveToPosAndHead;
 import org.usfirst.frc.team1719.robot.commands.PixyScan;
 import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
@@ -114,9 +114,10 @@ public class OI implements IOI {
 
 		(new JoystickButton(driver, 3)).whenPressed(new MoveToPosAndHead(-36, 120, 90, 24, 100, robot.tracker, robot.drive, robot));//new MoveToPosition(36, 36, robot.tracker, robot.drive, robot, false));
 		(new JoystickButton(driver, 5)).whenPressed(new TurnToHeading(0.0D, robot.tracker, robot.drive, robot));//new MoveToPosition(36, 36, robot.tracker, robot.drive, robot, false));
-		(new JoystickButton(driver, 6)).whenPressed(new MTPTunerL0(0, 100, robot.tracker, robot.drive, robot));
+		//(new JoystickButton(driver, 6)).whenPressed(new MTPTunerL0(0, 100, robot.tracker, robot.drive, robot));
 		//(new JoystickButton(driver, 6)).whenPressed(new MTPTestL1(robot.tracker, robot.drive, robot));
-
+		(new JoystickButton(driver, 6)).whenPressed(new TurnToHeading(0, robot.tracker, robot.drive, robot));
+		
 		try {
 			//revUpButton.toggleWhenPressed(new ConstantPowerShooter(robot.shooter)); 
 			revUpButton.toggleWhenPressed(new RevUpShooter(robot.shooter, robot, SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0))); 

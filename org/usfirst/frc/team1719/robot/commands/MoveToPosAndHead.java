@@ -45,6 +45,8 @@ public class MoveToPosAndHead extends CommandGroup {
         fstimeout = _fstimeout;
         double waypointX = targetX - straightDist * Math.sin(Math.toRadians(targetHeading));
         double waypointY = targetY - straightDist * Math.cos(Math.toRadians(targetHeading));
+        addSequential(new MoveForwardDist(drive, robot));
+        addSequential(new TurnToHeading(Math.toDegrees(Math.atan2(waypointX, waypointY)), posTracker, drive, robot));
         addSequential(new MoveToPosition(waypointX, waypointY, posTracker, drive, robot, true));
         addSequential(new TurnToHeading(targetHeading, posTracker, drive, robot));
         addSequential(new DriveConstV(SPD, SPD, robot, drive, this::fsdone));

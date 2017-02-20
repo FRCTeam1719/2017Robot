@@ -140,8 +140,8 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
                     SmartDashboard.getNumber("MoveToPos K[1][I]", 0),
                     SmartDashboard.getNumber("MoveToPos K[1][D]", 0));
             rotateControllerStill.setPID(SmartDashboard.getNumber("TurnToHeading K[P]", 0.01),
-                    SmartDashboard.getNumber("TurnToHeading K[I]", 0),
-                    SmartDashboard.getNumber("TurnToHeading K[D]", 0));
+                    SmartDashboard.getNumber("TurnToHeading K[I]", 0.005),
+                    SmartDashboard.getNumber("TurnToHeading K[D]", 0.1));
         }
         if(init) {
             initialize();
@@ -173,10 +173,12 @@ public class MoveToPosition extends Command implements PIDSource, PIDOutput {
             }
         }
         if(doHardTurns && turning) { /* Just use one PID loop to turn in place*/
+            drive.shift(true);
            pathAngle = atanXY;
-           System.out.println("Turning to heading " + pathAngle + "; power " + rotSpd + " ctrl " + rotateController.get() + "FROM" + rotateController.getError() + "K[P]=" + rotateController.getP() + "enabled=" + rotateController.isEnabled());
+           System.out.println("Turning to heading " + pathAngle + "; power " + rotSpd + " ctrl " + rotateControllerStill.get() + "FROM" + rotateControllerStill.getError() + "K[P]=" + rotateControllerStill.getP() + "enabled=" + rotateControllerStill.isEnabled());
            drive.moveTank(rotSpd, -rotSpd);
         } else { /* Use 1094 algorithm */
+            drive.shift(false);
             double offPathAngle = Math.atan2(errX, errY) - Math.toRadians(pathAngle);
             distOffPath = Math.sin(offPathAngle) * Math.sqrt(errX * errX + errY * errY);
             System.out.println("Following path : power " + rotSpd + "Rotator " + rotateController.get());

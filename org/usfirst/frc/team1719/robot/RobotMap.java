@@ -28,7 +28,7 @@ public class RobotMap {
     // public static int rangefinderModule = 1;
     
     /* DIO */
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(0, 1, false);
+    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(6, 7, false);
     public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, true);
     public static final VersaPlanetaryEmbeddedEncoder shooterEnc = new VersaPlanetaryEmbeddedEncoder(4, 5, true);
     

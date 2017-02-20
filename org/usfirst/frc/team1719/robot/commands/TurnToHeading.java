@@ -78,7 +78,9 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(oi.getResetPIDConstants()) {
+        // Use low gear
+        drive.shift(true);
+        if(true) {//oi.getResetPIDConstants()) {
             pid.setPID(SmartDashboard.getNumber("TurnToHeading K[P]", 0.1),
                     SmartDashboard.getNumber("TurnToHeading K[I]", 0),
                     SmartDashboard.getNumber("TurnToHeading K[D]", 0));
@@ -87,6 +89,7 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
             pid.enable();
         }
         System.out.println("Turn to heading power: " + pidout);
+        SmartDashboard.putNumber("TTH err", pid.getError());
         drive.moveTank(pidout, -pidout);
     }
 
@@ -100,12 +103,14 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
     // Called once after isFinished returns true
     protected void end() {
         pid.reset();
+        drive.shift(false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
         pid.reset();
+        drive.shift(false);
     }
 
     @Override

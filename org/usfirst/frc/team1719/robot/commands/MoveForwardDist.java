@@ -39,7 +39,7 @@ public class MoveForwardDist extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return drive.getEncoderL().getDistance() > 100 && drive.getEncoderR().getDistance() > 100;
+        return drive.getEncoderL().getDistance() > 12 && drive.getEncoderR().getDistance() > 12;
     }
 
     // Called once after isFinished returns true

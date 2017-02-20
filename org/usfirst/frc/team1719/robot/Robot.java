@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.MoveToPosAndHead;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -103,11 +104,12 @@ public class Robot extends IterativeRobot implements IRobot {
         SmartDashboard.putNumber("MoveToPos K[1][P]", 0.04D);
         SmartDashboard.putNumber("MoveToPos K[1][I]", 0.0D);
         SmartDashboard.putNumber("MoveToPos K[1][D]", 0.1D);
-        SmartDashboard.putNumber("TurnToHeading K[P]", 0.007);
-        SmartDashboard.putNumber("TurnToHeading K[I]", 0.0004);
-        SmartDashboard.putNumber("TurnToHeading K[D]", 0);
+        SmartDashboard.putNumber("TurnToHeading K[P]", 0.01);
+        SmartDashboard.putNumber("TurnToHeading K[I]", 0.005);
+        SmartDashboard.putNumber("TurnToHeading K[D]", 0.1);
         oi.init(this);
         
+        autonomousCommand = new MoveToPosAndHead(139, 10, 135, 36, 100, tracker, drive, this);
     }
     
     /**
@@ -194,7 +196,7 @@ public class Robot extends IterativeRobot implements IRobot {
      */
     @Override
     public void teleopPeriodic() {
-        
+        System.out.println("Position=(" + tracker.getX() + "," + tracker.getY() + "), heading=" + tracker.getHeading());
         Scheduler.getInstance().run();
     }
     
