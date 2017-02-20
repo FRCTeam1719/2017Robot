@@ -2,6 +2,7 @@ package org.usfirst.frc.team1719.robot.subsystems;
 import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -16,15 +17,14 @@ public class ShooterLogic implements IExShooter {
 
 	PIDSourceType sourceType = PIDSourceType.kRate;
 	private SpeedController shooterMotor;
-	private IEncoder encoder1, encoder2;
+	private IEncoder encoder1;
 	
-	public ShooterLogic (SpeedController shooterMotor, IEncoder encoder1, IEncoder encoder2) {
+	public ShooterLogic (SpeedController shooterMotor, IEncoder encoder1) {
 		this.shooterMotor = shooterMotor;
 		this.encoder1 = encoder1;
-		this.encoder2 = encoder2;
 		
-		encoder1.config(1);
-		encoder2.config(1);
+		encoder1.setDistancePerPulse((1D));
+		encoder1.setSamplesToAverage(8);
 	}
 	
 	
@@ -36,6 +36,7 @@ public class ShooterLogic implements IExShooter {
 	@Override
 	
 	public void setSpeed(double speed) {
+		System.out.println("Shooter spd: " + speed);
 		shooterMotor.set(speed);
 	}
 
@@ -46,13 +47,8 @@ public class ShooterLogic implements IExShooter {
 
 
 	@Override
-	public IEncoder getEncoder1() {
+	public IEncoder getEncoder() {
 		return encoder1;
-	}
-	
-	@Override
-	public IEncoder getEncoder2() {
-		return encoder2;
 	}
 
 
@@ -71,23 +67,23 @@ public class ShooterLogic implements IExShooter {
 	@Override
 	public double pidGet() {
 		if (sourceType == PIDSourceType.kRate) {
-			return getAvgEncoderRate();
+			return getEncoderRate();
 		}
 		else {
-			return getAvgEncoderDistance();
+			return getEncoderDistance();
 		}
 	}
 
 
 	@Override
-	public double getAvgEncoderRate() {
-		return (getEncoder1().getRate() + getEncoder2().getRate()) / 2;
+	public double getEncoderRate() {
+		return (getEncoder().getRate());
 	}
 
 
 	@Override
-	public double getAvgEncoderDistance() {
-		return (getEncoder1().getDistance() + getEncoder2().getDistance()) / 2;
+	public double getEncoderDistance() {
+		return (getEncoder().getDistance());
 	}
 
 	@Override

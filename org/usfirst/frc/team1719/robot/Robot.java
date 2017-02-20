@@ -9,6 +9,7 @@ import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.ClimberPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.DrivePhysical;
 import org.usfirst.frc.team1719.robot.subsystems.IntakePhysical;
+import org.usfirst.frc.team1719.robot.subsystems.SiloPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyMountPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PositionPhysical;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -40,6 +42,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	IPositionTracker tracker;
 	PixyPhysical pixy;
 	PixyMountPhysical pixyMount;
+	SiloPhysical silo;
 	// Array to hold all of the subsystems; so that we can disable them easily
 	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker };
 	// Other global references
@@ -50,12 +53,16 @@ public class Robot extends IterativeRobot implements IRobot {
 	int displayIter = 0;
 	Dashboard dashboard;
 
+	
+
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
+		RobotMap.init();
 		// General Initialization
 		// Setup Compressor
 		compressor = new Compressor(0);
@@ -65,6 +72,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		RobotMap.navx.reset();
 		timer = new MatchTimer();
 		dashboard = new Dashboard();
+		dashboard.putNumber("Desired RevUpShooter speed (RPS): ", 0);
 
 		// Subsystem Init
 
@@ -72,7 +80,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		drive = new DrivePhysical(RobotMap.leftDrive, RobotMap.rightDrive, RobotMap.shifter, RobotMap.leftDriveEnc,
 				RobotMap.rightDriveEnc, RobotMap.navx, RobotMap.navx, this);
 		// Shooter
-		shooter = new ShooterPhysical(RobotMap.shooterController, this, RobotMap.shooterEnc1, RobotMap.shooterEnc2);
+		shooter = new ShooterPhysical(RobotMap.shooterController, this, RobotMap.shooterEnc);
 		// Intake
 		intake = new IntakePhysical(RobotMap.intakeMotor);
 		// Climber
@@ -85,10 +93,12 @@ public class Robot extends IterativeRobot implements IRobot {
 		// Pixy Mount
 		pixyMount = new PixyMountPhysical(RobotMap.pan, RobotMap.tilt, pixy);
 		dashboard.putNumber("LED", 0);
+		silo = new SiloPhysical(RobotMap.siloMotor, this);
 		// Setup OI
 		// NOTE: This function _must_ be called after subsystem are initialized.
 		oi = new OI();
 		oi.init(this);
+
 	}
 
 	/**
@@ -113,6 +123,10 @@ public class Robot extends IterativeRobot implements IRobot {
 		if ((displayIter++) % 0x10 == 0) {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
+		
+		SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate());
+		System.out.println("shooter enc val: " + shooter.getEncoderDistance());
+
 	}
 
 	
@@ -179,9 +193,6 @@ public class Robot extends IterativeRobot implements IRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		// System.out.println("navx " + RobotMap.navx.getYaw() + "lenc" +
-		// RobotMap.leftDriveEnc.getDistance() + "renc" +
-		// RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
 		updateSimpleDevices();
 	}
@@ -192,6 +203,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+		Scheduler.getInstance().run();
 	}
 
 	public IRobot getInstance() {

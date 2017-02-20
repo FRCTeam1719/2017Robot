@@ -2,8 +2,6 @@ package org.usfirst.frc.team1719.robot.sensors;
 
 import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 
-import edu.wpi.first.wpilibj.DigitalSource;
-
 /**
  * Driver class for the E4T Optical Encoder Simple wrapper around the WPILib
  * Encoder that implements IEncoder, for the purposes of mockability, and

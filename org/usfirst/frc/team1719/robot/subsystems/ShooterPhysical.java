@@ -13,8 +13,8 @@ public class ShooterPhysical extends Subsystem implements IExShooter{
 
 	ShooterLogic logic;
 	IRobot robot;
-	public ShooterPhysical (SpeedController motor, IRobot robot, IEncoder enc1, IEncoder enc2){
-		logic = new ShooterLogic(motor, enc1, enc2);
+	public ShooterPhysical (SpeedController motor, IRobot robot, IEncoder enc1){
+		logic = new ShooterLogic(motor, enc1);
 		this.robot = robot;
 	}
 	
@@ -39,19 +39,14 @@ public class ShooterPhysical extends Subsystem implements IExShooter{
 	@Override
 	protected void initDefaultCommand() {
 		//No default command
-		setDefaultCommand(new UseShooter(this, robot));
+		//setDefaultCommand(new UseShooter(this, robot));
 	}
 
 
 	@Override
-	public IEncoder getEncoder1() {
-		return logic.getEncoder1();
+	public IEncoder getEncoder() {
+		return logic.getEncoder();
 	}
-	
-	public IEncoder getEncoder2() {
-		return logic.getEncoder2();
-	}
-
 
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
@@ -73,14 +68,14 @@ public class ShooterPhysical extends Subsystem implements IExShooter{
 
 
 	@Override
-	public double getAvgEncoderRate() {
-		return logic.getAvgEncoderRate();
+	public double getEncoderRate() {
+		return logic.getEncoderRate();
 	}
 
 
 	@Override
-	public double getAvgEncoderDistance() {
-		return logic.getAvgEncoderDistance();
+	public double getEncoderDistance() {
+		return logic.getEncoderDistance();
 	}
 
 	@Override

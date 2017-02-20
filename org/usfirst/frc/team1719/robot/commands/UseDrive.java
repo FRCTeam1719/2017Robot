@@ -4,6 +4,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -33,22 +34,24 @@ public class UseDrive extends Command {
     private final IDrive drive;
     private boolean shifted = false;
     
-    private double DRIVE_MAX_SPEED = 70;
+    private double highMaxSpd = 250D;
+    private double lowMaxSpd = 50D;
+    private double maxSpeed = highMaxSpd;
     private double MAX_SPEED_SCALING_FACTOR = 1.2;
-    double SYNCH_TOLERANCE = 0.2;
+    double SYNCH_TOLERANCE = 0.15;
     
-    private final double JOYSTICK_DEADZONE = 0.15;
+    private final double JOYSTICK_DEADZONE = 0.05;
     
     double left_kP = 0;
-    double left_kF = 1 / DRIVE_MAX_SPEED;
+    double left_kF = 1 / maxSpeed;
     double left_kD = 0;
     
     double right_kP = 0;
-    double right_kF = 1 / DRIVE_MAX_SPEED;
+    double right_kF = 1 / maxSpeed;
     double right_kD = 0;
     
-    double leftMotorOutput = 0;
-    double rightMotorOutput = 0;
+    volatile double leftMotorOutput = 0;
+    volatile double rightMotorOutput = 0;
     
     //PID objects
     private class leftDrivePIDOut implements PIDOutput {
@@ -89,6 +92,11 @@ public class UseDrive extends Command {
         leftController = new PIDController(left_kP, 0, left_kD, left_kF, drive.getEncoderL(), new leftDrivePIDOut());
     	rightController = new PIDController(right_kP, 0, right_kD, left_kF, drive.getEncoderR(), new rightDrivePIDOutput());
     	
+    	SmartDashboard.putData("Left Drive PID Controller", leftController);
+    	SmartDashboard.putData("Left Drive rate", (Encoder) drive.getEncoderL());
+    	
+    	SmartDashboard.putData("Right Drive PID Controller", rightController);
+    	SmartDashboard.putData("Right Drive rate", (Encoder) drive.getEncoderR());
     	
         drive.shift(shifted);
     }
@@ -101,7 +109,7 @@ public class UseDrive extends Command {
     	leftController.setOutputRange(-1, 1);
     	rightController.setOutputRange(-1, 1);
     	
-    	double maxInput = DRIVE_MAX_SPEED * MAX_SPEED_SCALING_FACTOR;
+    	double maxInput = maxSpeed * MAX_SPEED_SCALING_FACTOR;
     	leftController.setInputRange(-(maxInput), maxInput);
     	rightController.setInputRange(-(maxInput), maxInput);
     	
@@ -140,8 +148,8 @@ public class UseDrive extends Command {
         }
         
         
-        double desiredLeftRate = leftJoystick * DRIVE_MAX_SPEED;
-        double desiredRightRate = rightJoystick * DRIVE_MAX_SPEED;
+        double desiredLeftRate = leftJoystick * maxSpeed;
+        double desiredRightRate = rightJoystick * maxSpeed;
 
         if (Math.abs(leftJoystick) < JOYSTICK_DEADZONE) {
         	leftMotorOutput = 0;
@@ -172,7 +180,20 @@ public class UseDrive extends Command {
         if(shifted != oi.getShifter()) {
             drive.shift(shifted = !shifted);
         }
-        System.out.println("Left: " + drive.getEncoderL().getRate() + " | Right: " + drive.getEncoderR().getRate());
+        if (shifted) {
+        	maxSpeed = lowMaxSpd;
+        }
+        else {
+        	maxSpeed = highMaxSpd;
+        }
+        leftController.setInputRange(-(maxSpeed * MAX_SPEED_SCALING_FACTOR), maxSpeed * MAX_SPEED_SCALING_FACTOR);
+        leftController.setPID(leftController.getP(), leftController.getI(), leftController.getD(), (1 / maxSpeed));
+        
+        rightController.setInputRange(-(maxSpeed * MAX_SPEED_SCALING_FACTOR), maxSpeed * MAX_SPEED_SCALING_FACTOR);
+        rightController.setPID(rightController.getP(), rightController.getI(), rightController.getD(), (1 / maxSpeed));
+        
+        SmartDashboard.putNumber("Left Drive Speed: ", drive.getEncoderL().getRate());
+        SmartDashboard.putNumber("Right drive speed: ", drive.getEncoderR().getRate());
     }
 
     // Make this return true when this Command no longer needs to run execute()
