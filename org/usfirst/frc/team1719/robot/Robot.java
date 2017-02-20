@@ -115,6 +115,15 @@ public class Robot extends IterativeRobot implements IRobot {
 		}
 	}
 
+	
+	//Updates DigitBoard & LED control
+	private void updateSimpleDevices(){
+		if ((displayIter++) % 0x10 == 0) {
+		    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
+			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+		}
+	}
+	
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -147,10 +156,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		if ((displayIter++) % 0x10 == 0) {
-		    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
-			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
-		}
+		updateSimpleDevices();
 	}
 
 	@Override
@@ -177,7 +183,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		// RobotMap.leftDriveEnc.getDistance() + "renc" +
 		// RobotMap.rightDriveEnc.getDistance());
 		Scheduler.getInstance().run();
-
+		updateSimpleDevices();
 	}
 
 	/**
