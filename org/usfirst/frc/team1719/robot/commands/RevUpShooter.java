@@ -26,7 +26,7 @@ public class RevUpShooter extends Command implements PIDOutput {
 	private double kP = 0.000006;
 	private double kI;
 	private double kD = 0.000003;
-	
+
 	double desiredRate = 0;
 
 	private final IExShooter shooter;
@@ -37,7 +37,6 @@ public class RevUpShooter extends Command implements PIDOutput {
 															// the input range
 	private double kF = (1 / MAX_SPEED);
 
-
 	private final int TOLERANCE_BUFFER_SIZE = 3; // Increase to reduce
 													// measurement noise,
 													// decrease to increase
@@ -46,10 +45,11 @@ public class RevUpShooter extends Command implements PIDOutput {
 													// MAX_SPEED_LIMIT_SCALING
 	volatile double motorOutput;
 
-	Timer timer = new Timer();
+	Timer safetyTimer = new Timer();
+	Timer controlTimer = new Timer();
 
 	private PIDController velocityController;
-	
+
 	private IRobot robot;
 
 	/**
@@ -63,69 +63,76 @@ public class RevUpShooter extends Command implements PIDOutput {
 	 * @param desiredRate
 	 *            The desired rate for the shooter wheel
 	 */
-    public RevUpShooter(IExShooter shooter, IRobot robot, double desiredRate) {
-        this.desiredRate = desiredRate;
-    	this.shooter = shooter;
-    	this.robot = robot;
-    	try {
-    		requires( (Subsystem) shooter);
-    	}
-    	catch (ClassCastException e) {
-    		System.out.println("Running unit test on RevUpShooter");
-    	}
-    	shooter.getEncoder().setPIDSourceType(PIDSourceType.kRate);
-    	velocityController = new PIDController(kP, kI, kD, kF, (Encoder) shooter.getEncoder(), this, 0.02);
+	public RevUpShooter(IExShooter shooter, IRobot robot, double desiredRate) {
+		this.desiredRate = desiredRate;
+		this.shooter = shooter;
+		this.robot = robot;
+		try {
+			requires((Subsystem) shooter);
+		} catch (ClassCastException e) {
+			System.out.println("Running unit test on RevUpShooter");
+		}
+		shooter.getEncoder().setPIDSourceType(PIDSourceType.kRate);
+		velocityController = new PIDController(kP, kI, kD, kF, (Encoder) shooter.getEncoder(), this, 0.02);
 
-    	SmartDashboard.putData("Shooter PID controller", velocityController);
-    	SmartDashboard.putData("Shooter encoder rate", (Encoder) shooter.getEncoder());
-    }
+		SmartDashboard.putData("Shooter PID controller", velocityController);
+		SmartDashboard.putData("Shooter encoder rate", (Encoder) shooter.getEncoder());
+	}
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	desiredRate = SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0);
-    	velocityController.setOutputRange(-1, 1);
-    	velocityController.setInputRange(-MAX_SPEED * MAX_SPEED_LIMIT_SCALING, MAX_SPEED * MAX_SPEED_LIMIT_SCALING);
-    	velocityController.setToleranceBuffer(TOLERANCE_BUFFER_SIZE);
-    	velocityController.setPercentTolerance(PERCENT_TOLERANCE);
-    	velocityController.setContinuous(false);
-    	
-    	velocityController.setSetpoint(desiredRate);
-    	
-    	velocityController.enable();
-    	
-    	timer.start();
-    	shooter.getEncoder().reset();
-    	robot.getDashboard().putBoolean(Constants.SHOOTER_RUNNING, true);
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		desiredRate = SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0);
+		velocityController.setOutputRange(-1, 1);
+		velocityController.setInputRange(-MAX_SPEED * MAX_SPEED_LIMIT_SCALING, MAX_SPEED * MAX_SPEED_LIMIT_SCALING);
+		velocityController.setToleranceBuffer(TOLERANCE_BUFFER_SIZE);
+		velocityController.setPercentTolerance(PERCENT_TOLERANCE);
+		velocityController.setContinuous(false);
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	System.out.println("RevUpShooter");
-    	SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate() + 0.001 * Math.random());
-    	System.out.println("MMM: " + SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0));
-    	velocityController.setSetpoint(SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0));
-    	shooter.setSpeed(motorOutput);
-    	
-    }
+		velocityController.setSetpoint(desiredRate);
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return timer.get() >= 0.1 && robot.getOI().getRevUpShooter();
-    }
+		velocityController.enable();
+		safetyTimer.reset();
+		controlTimer.reset();
+		controlTimer.start();
+		shooter.getEncoder().reset();
+		robot.getDashboard().putBoolean(Constants.SHOOTER_RUNNING, true);
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	velocityController.disable();
-    	shooter.setSpeed(0);
-    	robot.getDashboard().putBoolean(Constants.SHOOTER_RUNNING, false);
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		velocityController.setSetpoint(SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0));
+		shooter.setSpeed(motorOutput);
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	end();
-    }
+	}
 
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		if (controlTimer.get() > 0.3) {
+			controlTimer.stop();
+			if (safetyTimer.get() > 1) {
+				return true;
+			} else if (robot.getOI().getRevUpShooter() && !robot.getDashboard().getBoolean(Constants.SILO_RUNNING)) {
+				safetyTimer.start();
+			}
+		}
+		return false;
+	}
+
+	// Called once after isFinished returns true
+	protected void end() {
+		velocityController.disable();
+		shooter.setSpeed(0);
+		robot.getDashboard().putBoolean(Constants.SHOOTER_RUNNING, false);
+		safetyTimer.stop();
+		safetyTimer.reset();
+		controlTimer.reset();
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+		end();
+	}
 
 	@Override
 	public void pidWrite(double output) {

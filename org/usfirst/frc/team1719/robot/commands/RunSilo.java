@@ -2,7 +2,6 @@ package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Constants;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
-import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.interfaces.ISilo;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -29,6 +28,7 @@ public class RunSilo extends Command {
 		if (dashboard.getBoolean(Constants.SHOOTER_RUNNING, false)) {
 			instantFail = false;
 		}
+		dashboard.putBoolean(Constants.SILO_RUNNING, true);
 	}
 
 	public void execute() {
@@ -43,7 +43,12 @@ public class RunSilo extends Command {
 	}
 
 	public void end() {
-		silo.disable();
+		silo.setSpeed(0D);
+		dashboard.putBoolean(Constants.SILO_RUNNING, false);
+	}
+	
+	public void interrupted(){
+		end();
 	}
 
 }

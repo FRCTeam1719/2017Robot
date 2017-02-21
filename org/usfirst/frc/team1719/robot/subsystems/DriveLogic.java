@@ -145,4 +145,9 @@ public class DriveLogic implements IDrive {
 	public String toString(){
 		return "DriveLogic";
 	}
+	
+	@Override
+	public boolean isShifted(){
+		return shifter.get();
+	}
 }

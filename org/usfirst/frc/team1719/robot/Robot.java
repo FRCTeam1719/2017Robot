@@ -109,6 +109,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 		oi.init(this);
 		SmartDashboard.putNumber("Desired RevUpShooter speed (RPS): ", 45000);
+		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
+		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 
@@ -147,6 +149,9 @@ public class Robot extends IterativeRobot implements IRobot {
 		    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
+		SmartDashboard.putNumber("Shooter speed", shooter.getEncoderRate() + 0.001 * Math.random());
+		SmartDashboard.putNumber("Robotheading", tracker.getHeading());
+		SmartDashboard.putBoolean("shifter", drive.isShifted());
 	}
 	
 	/**

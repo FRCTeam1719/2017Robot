@@ -83,4 +83,9 @@ public class DrivePhysical extends Subsystem implements IDrive {
 	public String toString(){
 		return "Drive Subsystem";
 	}
+
+	@Override
+	public boolean isShifted() {
+		return drive.isShifted();
+	}
 }

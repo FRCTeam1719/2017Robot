@@ -16,4 +16,5 @@ public interface IDrive extends GenericSubsystem{
     public IEncoder getEncoderR();
     public Accelerometer getAccelerometer();
     public IGyro3D getGyro();
+    public boolean isShifted();
 }

@@ -86,7 +86,7 @@ public class OI implements IOI{
 	public void init(Robot robot) {
 		try {
 			//revUpButton.toggleWhenPressed(new ConstantPowerShooter(robot.shooter, robot.getDashboard())); 
-			revUpButton.toggleWhenPressed(new RevUpShooter(robot.shooter, robot, SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0))); 
+			revUpButton.whenPressed(new RevUpShooter(robot.shooter, robot, SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0))); 
 			
 			
 			//TODO Decide on button
@@ -124,7 +124,7 @@ public class OI implements IOI{
 
 	@Override
 	public boolean getRevUpShooter() {
-		return operator.getRawButton(4);
+		return operator.getRawButton(3);
 
 	}
 
