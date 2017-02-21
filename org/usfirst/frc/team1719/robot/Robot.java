@@ -57,6 +57,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	Command autonomousCommand;
 	int displayIter = 0;
 	Dashboard dashboard;
+	boolean isRedTeam;
 
 	
 
@@ -138,8 +139,13 @@ public class Robot extends IterativeRobot implements IRobot {
 		}
 		
 		SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate());
-		System.out.println("shooter enc val: " + shooter.getEncoderDistance());
-
+		if(!RobotMap.teamSwitch.get()){
+			isRedTeam = true;
+		}else{
+			isRedTeam = false;
+		}
+		System.out.println("Left: " + RobotMap.leftDriveEnc.getDistance());
+		System.out.println("Right: " + RobotMap.rightDriveEnc.getDistance());
 	}
 
 	
