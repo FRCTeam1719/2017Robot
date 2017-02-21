@@ -1,10 +1,10 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.DepositGear;
 import org.usfirst.frc.team1719.robot.commands.PixyScan;
 import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.RunSilo;
 import org.usfirst.frc.team1719.robot.commands.SiloReject;
-import org.usfirst.frc.team1719.robot.commands.SimpleDrive;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
@@ -54,34 +54,6 @@ public class OI implements IOI{
         return driver.getRawButton(5);
 
     }
-
-
-	@Override
-	public double getDeviceX() {
-		return operator.getRawAxis(0);
-	}
-
-	
-	public double getDeviceY() {
-		return operator.getRawAxis(1);
-	}
-    
-	
-	@Override
-	public double getServoX() {
-		return operator.getRawAxis(0);
-	}
-
-	@Override
-	public double getServoY() {
-		return operator.getRawAxis(1);
-	}
-	
-	@Override
-	public boolean getCancelScan(){
-		return driver.getRawButton(2);
-	}
-
 	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
@@ -110,8 +82,8 @@ public class OI implements IOI{
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	
-	public void init(Robot robot){
+
+	public void init(Robot robot) {
 		try {
 			//revUpButton.toggleWhenPressed(new ConstantPowerShooter(robot.shooter, robot.getDashboard())); 
 			revUpButton.toggleWhenPressed(new RevUpShooter(robot.shooter, robot, SmartDashboard.getNumber("Desired RevUpShooter speed (RPS): ", 0))); 
@@ -136,12 +108,12 @@ public class OI implements IOI{
 			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
 			
 			fireButton.whileHeld(new RunSilo(robot.silo, robot.getDashboard()));
-			Button testDrive = new JoystickButton(driver, 1);
-			testDrive.whenPressed(new SimpleDrive(robot.drive));
-		}
-		catch (NullPointerException e) {
+			Button depositGear = new JoystickButton(driver, 1);
+			depositGear.whenPressed(new DepositGear(robot.gearHandler));
+		} catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");
-			System.out.println("Likely due to init() being called before all Subsystems in Robot.robotInit() are instantiated.");
+			System.out.println(
+					"Likely due to init() being called before all Subsystems in Robot.robotInit() are instantiated.");
 			System.out.println("List of all instantiated Subsystems: ");
 			for (GenericSubsystem subsys : robot.subsystems) {
 				if (subsys != null) {
@@ -158,7 +130,11 @@ public class OI implements IOI{
 		return operator.getRawButton(4);
 
 	}
-		
-	
+
+	@Override
+	public boolean getCancelScan() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
