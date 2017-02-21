@@ -47,7 +47,7 @@ public class OI implements IOI {
 	}
 
 	public boolean getShifter() {
-		return driver.getRawButton(1);
+		return driver.getRawButton(5);
 
 	}
 
@@ -122,7 +122,7 @@ public class OI implements IOI {
 			Button runClimber = new JoystickButton(operator, 4);
 			runClimber.whileHeld(new UseClimber(robot.climber, robot.timer));
 
-			Button depositGear = new JoystickButton(operator, 5);
+			Button depositGear = new JoystickButton(driver, 1);
 			depositGear.whenPressed(new DepositGear(robot.gearHandler));
 		} catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");
