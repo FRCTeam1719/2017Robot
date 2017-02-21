@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -42,7 +41,6 @@ public class Robot extends IterativeRobot implements IRobot {
 	ShooterPhysical shooter;
 	IntakePhysical intake;
 	ClimberPhysical climber;
-	SendableChooser<Command> chooser = new SendableChooser<>();
 	IPositionTracker tracker;
 	PixyPhysical pixy;
 	PixyMountPhysical pixyMount;
@@ -93,7 +91,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		// TODO make an encoder if necesarry
 		climber = new ClimberPhysical(RobotMap.climberController, null, RobotMap.climberLimit1, RobotMap.climberLimit2);
 		// Position tracker Init
-		tracker = new PositionPhysical(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
+		tracker = new PositionPhysical(RobotMap.navx, RobotMap.rightDriveEnc, RobotMap.rightDriveEnc);
 		// Pixy
 		pixy = new PixyPhysical(RobotMap.pixyI2C);
 		// Pixy Mount
@@ -107,7 +105,6 @@ public class Robot extends IterativeRobot implements IRobot {
 		// NOTE: This function _must_ be called after subsystem are initialized.
 		oi = new OI();
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
 		oi.init(this);
 		SmartDashboard.putNumber("Desired RevUpShooter speed (RPS): ", 45000);
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);

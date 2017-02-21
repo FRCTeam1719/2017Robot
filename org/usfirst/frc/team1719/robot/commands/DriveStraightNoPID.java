@@ -1,30 +1,26 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
+import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  */
-public class MoveForwardDist extends Command {
+public class DriveStraightNoPID extends Command {
 
-	
-	IDrive drive;
-	IRobot robot;
-	
-    public MoveForwardDist(IDrive drive, IRobot robot) {
-        this.drive = drive;
-        this.robot = robot;
-        
-        try {
-        	requires((Subsystem) drive);
-        }
-        catch (ClassCastException e) {
-        	System.out.println("Runing Unit test on runSetDistance");
-        }
+    IDrive drive;
+    IRobot robot;
+    IOI oi;
+    double spd;
+    
+    public DriveStraightNoPID(IDrive _drive, IRobot _robot, double _spd) {
+        drive = _drive;
+        robot = _robot;
+        spd = _spd;
+        oi = robot.getOI();
     }
 
     // Called just before this Command runs the first time
@@ -33,13 +29,12 @@ public class MoveForwardDist extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("Left enc: " + drive.getEncoderL().getDistance() + " | Right enc: " + drive.getEncoderR().getDistance());
-    	drive.moveTank(.5, .5);
+        drive.moveTank(spd, spd);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return drive.getEncoderL().getDistance() > 12 && drive.getEncoderR().getDistance() > 12;
+        return oi.getAbortAutomove();
     }
 
     // Called once after isFinished returns true

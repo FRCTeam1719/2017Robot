@@ -78,6 +78,17 @@ public class MockOI implements IOI {
 		return 0;
 	}
 
+    @Override
+    public boolean getAbortAutomove() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean getResetPIDConstants() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 	@Override
 	public boolean getCancelScan() {
 		// TODO Auto-generated method stub

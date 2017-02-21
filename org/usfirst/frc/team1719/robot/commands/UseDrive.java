@@ -192,8 +192,6 @@ public class UseDrive extends Command {
         rightController.setInputRange(-(maxSpeed * MAX_SPEED_SCALING_FACTOR), maxSpeed * MAX_SPEED_SCALING_FACTOR);
         rightController.setPID(rightController.getP(), rightController.getI(), rightController.getD(), (1 / maxSpeed));
         
-        SmartDashboard.putNumber("Left Drive Speed: ", drive.getEncoderL().getRate());
-        SmartDashboard.putNumber("Right drive speed: ", drive.getEncoderR().getRate());
     }
 
     // Make this return true when this Command no longer needs to run execute()

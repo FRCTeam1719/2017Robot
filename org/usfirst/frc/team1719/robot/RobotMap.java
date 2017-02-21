@@ -19,15 +19,15 @@ import edu.wpi.first.wpilibj.SpeedController;
  * floating around.
  */
 public class RobotMap {
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
-
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
+    // For example to map the left and right motors, you could define the
+    // following variables to use with your drivetrain subsystem.
+    // public static int leftMotor = 1;
+    // public static int rightMotor = 2;
+    
+    // If you are using multiple modules, make sure to define both the port
+    // number and the module. For example you with a rangefinder:
+    // public static int rangefinderPort = 1;
+    // public static int rangefinderModule = 1;
     
     /* DIO */
     public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(6, 7, true);
@@ -47,7 +47,7 @@ public class RobotMap {
     public static final SpeedController intakeMotor = new Spark(5);
     public static final SpeedController climberController = new Spark(6);
     public static final SpeedController siloMotor = new Spark(7);
-
+    
     /* I2C */
     public static final I2C pixyI2C = new I2C(I2C.Port.kOnboard, 0x54);
     
@@ -59,9 +59,9 @@ public class RobotMap {
     public static final Solenoid gearActuator = new Solenoid(3);
     
     public static void init() {
-    	shooterController.setInverted(false);
-    	leftDrive.setInverted(false);
-    	rightDrive.setInverted(true);
-    //General hardware init
+        shooterController.setInverted(false);
+        leftDrive.setInverted(false);
+        rightDrive.setInverted(true);
+        // General hardware init
     }
 }
