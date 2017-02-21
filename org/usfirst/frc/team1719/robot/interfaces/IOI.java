@@ -14,4 +14,5 @@ public interface IOI {
     public double getServoY();
     public boolean getCancelScan();
     public boolean getRevUpShooter();
+    public boolean getCameraSwitch();
 }

@@ -29,7 +29,7 @@ public class OI implements IOI {
     JoystickButton revUpButton = new JoystickButton(operator, 3);
     JoystickButton fireButton = new JoystickButton(operator, 1);
     JoystickButton runSiloBackwards = new JoystickButton(operator, 2);
-    
+    JoystickButton camSwitch = new JoystickButton(operator, 8);
     @Override
     public double getLeftX() {
         return driver.getRawAxis(0);
@@ -120,7 +120,6 @@ public class OI implements IOI {
 
 			
 			
-			
 			runSiloBackwards.whileHeld(new SiloReject(robot.silo));
 			Button runClimber = new JoystickButton(operator, 6);
 			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
@@ -166,5 +165,12 @@ public class OI implements IOI {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public boolean getCameraSwitch() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }

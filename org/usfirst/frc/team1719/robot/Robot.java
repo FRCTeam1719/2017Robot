@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -56,9 +57,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	int displayIter = 0;
 	Dashboard dashboard;
 	boolean isRedTeam;
-
-	
-
+	static int curCam = 0;
+	Timer camTimer = new Timer();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -109,7 +109,6 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber("Desired RevUpShooter speed (RPS): ", 45000);
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
-		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**
@@ -134,29 +133,28 @@ public class Robot extends IterativeRobot implements IRobot {
 		if ((displayIter++) % 0x10 == 0) {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
-		
+
 		SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate());
-		if(!RobotMap.teamSwitch.get()){
+		if (!RobotMap.teamSwitch.get()) {
 			isRedTeam = true;
-		}else{
+		} else {
 			isRedTeam = false;
 		}
 		System.out.println("Left: " + RobotMap.leftDriveEnc.getDistance());
 		System.out.println("Right: " + RobotMap.rightDriveEnc.getDistance());
 	}
 
-	
-	//Updates DigitBoard & LED control & some dashboard values
-	private void updateSimpleDevices(){
+	// Updates DigitBoard & LED control & some dashboard values
+	private void updateSimpleDevices() {
 		if ((displayIter++) % 0x10 == 0) {
-		    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
+			RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
 		}
 		SmartDashboard.putNumber("Shooter speed", shooter.getEncoderRate() + 0.001 * Math.random());
 		SmartDashboard.putNumber("Robotheading", tracker.getHeading());
 		SmartDashboard.putBoolean("shifter", drive.isShifted());
 	}
-	
+
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -214,6 +212,26 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSimpleDevices();
+		// Update camera
+		if (oi.getCameraSwitch()) {
+			if (curCam == 1) {
+				curCam = 0;
+			} else {
+				curCam = 1;
+			}
+			CameraServer.getInstance().startAutomaticCapture(curCam);
+		}
+	}
+
+	public static void updateCamera() {
+		if (oi.getCameraSwitch()) {
+			if (curCam == 1) {
+				curCam = 0;
+			} else {
+				curCam = 1;
+			}
+			CameraServer.getInstance().startAutomaticCapture(curCam);
+		}
 	}
 
 	/**
