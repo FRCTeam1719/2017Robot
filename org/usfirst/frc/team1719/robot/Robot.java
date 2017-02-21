@@ -87,7 +87,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		intake = new IntakePhysical(RobotMap.intakeMotor);
 		// Climber
 		// TODO make an encoder if necesarry
-		climber = new ClimberPhysical(RobotMap.climberController, null);
+		climber = new ClimberPhysical(RobotMap.climberController, null, RobotMap.climberLimit1, RobotMap.climberLimit2);
 		// Position tracker Init
 		tracker = new PositionPhysical(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		// Pixy

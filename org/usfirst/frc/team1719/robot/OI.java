@@ -98,9 +98,6 @@ public class OI implements IOI{
 			scanButton.whenPressed(new PixyScan(robot.pixyMount, new SingleTarget(), robot.pixy, robot.getOI()));
 
 			
-			//TODO Decide what button this should be.
-			//Button runClimber = new JoystickButton(operator, 4);
-			//runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
 			
 			
 			runSiloBackwards.whileHeld(new SiloReject(robot.silo));

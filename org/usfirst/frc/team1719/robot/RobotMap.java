@@ -7,6 +7,7 @@ import org.usfirst.frc.team1719.robot.sensors.I2C;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.VersaPlanetaryEmbeddedEncoder;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -31,8 +32,10 @@ public class RobotMap {
     /* DIO */
     public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(6, 7, true);
     public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
-    public static final LEDCtrl led = new LEDCtrl(8);
+    public static final LEDCtrl led = new LEDCtrl(0);
     public static final VersaPlanetaryEmbeddedEncoder shooterEnc = new VersaPlanetaryEmbeddedEncoder(4, 5, true);
+    public static final DigitalInput climberLimit1 = new DigitalInput(8);
+    public static final DigitalInput climberLimit2 = new DigitalInput(9);
     
     /* PWM */
     public static final SpeedController leftDrive = new Spark(0);
