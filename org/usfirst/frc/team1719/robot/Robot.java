@@ -16,6 +16,7 @@ import org.usfirst.frc.team1719.robot.subsystems.PositionPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.ShooterPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.SiloPhysical;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -104,6 +105,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		oi = new OI();
 		oi.init(this);
 		SmartDashboard.putNumber("Desired RevUpShooter speed (RPS): ", 45000);
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**
