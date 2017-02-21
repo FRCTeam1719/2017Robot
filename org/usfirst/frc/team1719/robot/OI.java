@@ -1,13 +1,13 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.ConstantPowerShooter;
 import org.usfirst.frc.team1719.robot.commands.PixyScan;
+import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.RunSilo;
 import org.usfirst.frc.team1719.robot.commands.SiloReject;
+import org.usfirst.frc.team1719.robot.commands.SimpleDrive;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
-import org.usfirst.frc.team1719.robot.commands.UseShooter;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.vision.SingleTarget;
@@ -15,6 +15,7 @@ import org.usfirst.frc.team1719.robot.vision.SingleTarget;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -118,7 +119,7 @@ public class OI implements IOI{
 			
 			//TODO Decide on button
 			Button intakeToggle = new JoystickButton(operator, 4);
-			intakeToggle.toggleWhenPressed(new ToggleIntake(robot.intake));
+			intakeToggle.whileHeld(new ToggleIntake(robot.intake));
 			Button unclogIntake = new JoystickButton(operator, 5);
 			unclogIntake.whileHeld(new UnclogIntake(robot.intake));
 			Button scanButton = new JoystickButton(driver, 2);
@@ -135,6 +136,8 @@ public class OI implements IOI{
 			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
 			
 			fireButton.whileHeld(new RunSilo(robot.silo, robot.getDashboard()));
+			Button testDrive = new JoystickButton(driver, 1);
+			testDrive.whenPressed(new SimpleDrive(robot.drive));
 		}
 		catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");

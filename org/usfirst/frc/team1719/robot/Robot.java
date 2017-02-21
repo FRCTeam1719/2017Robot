@@ -9,11 +9,11 @@ import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
 import org.usfirst.frc.team1719.robot.subsystems.ClimberPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.DrivePhysical;
 import org.usfirst.frc.team1719.robot.subsystems.IntakePhysical;
-import org.usfirst.frc.team1719.robot.subsystems.SiloPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyMountPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PositionPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.ShooterPhysical;
+import org.usfirst.frc.team1719.robot.subsystems.SiloPhysical;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -98,7 +98,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		// NOTE: This function _must_ be called after subsystem are initialized.
 		oi = new OI();
 		oi.init(this);
-
+		SmartDashboard.putNumber("Desired RevUpShooter speed (RPS): ", 45000);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	}
 
 	
-	//Updates DigitBoard & LED control
+	//Updates DigitBoard & LED control & some dashboard values
 	private void updateSimpleDevices(){
 		if ((displayIter++) % 0x10 == 0) {
 		    RobotMap.led.setBrightness(dashboard.getNumber("LED", 0));

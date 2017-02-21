@@ -48,7 +48,8 @@ public class DriveLogic implements IDrive {
         gyro = gyr;
         //TODO: HACK; DON'T KNOW WHERE 2 CAME FROM, ADDED IN 8939efea7ae245a8ed0798b278a0e05b0f230fb6
         lEncoder.config(Math.PI * WHEEL_DIAMETER * 4);
-        rEncoder.config(Math.PI * WHEEL_DIAMETER * 4);
+        //Correction factor
+        rEncoder.config(Math.PI * WHEEL_DIAMETER * 4 * .965);
     }
     
     
