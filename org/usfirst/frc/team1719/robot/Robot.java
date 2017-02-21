@@ -214,6 +214,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSimpleDevices();
+		System.out.println(drive.getEncoderL().getDistance());
 	}
 
 	/**

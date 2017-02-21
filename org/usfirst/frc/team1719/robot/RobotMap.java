@@ -36,7 +36,7 @@ public class RobotMap {
     public static final DigitalInput teamSwitch = new DigitalInput(1);
     public static final VersaPlanetaryEmbeddedEncoder shooterEnc = new VersaPlanetaryEmbeddedEncoder(4, 5, true);
     public static final DigitalInput climberLimit1 = new DigitalInput(8);
-    public static final DigitalInput climberLimit2 = new DigitalInput(9);
+    public static final DigitalInput climberLimit2 = climberLimit1;
     
     /* PWM */
     public static final SpeedController leftDrive = new Spark(0);

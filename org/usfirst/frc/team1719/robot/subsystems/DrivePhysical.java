@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-import org.usfirst.frc.team1719.robot.commands.UseDrive;
+import org.usfirst.frc.team1719.robot.commands.UseDriveNoPID;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IGyro3D;
@@ -71,7 +71,7 @@ public class DrivePhysical extends Subsystem implements IDrive {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new UseDrive(this, robot));
+        setDefaultCommand(new UseDriveNoPID(robot.getOI(), this));
     }
 
 	@Override
