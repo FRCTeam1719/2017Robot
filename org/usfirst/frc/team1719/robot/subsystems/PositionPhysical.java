@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot.subsystems;
 import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IGyro3D;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
+import org.usfirst.frc.team1719.robot.sensors.NAVX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,8 +32,8 @@ public class PositionPhysical extends Subsystem implements IPositionTracker{
     
     private final PositionLogic logic;
     
-    public PositionPhysical(IGyro3D gyro, IEncoder left, IEncoder right) {
-        logic = new PositionLogic(gyro, left, right);
+    public PositionPhysical(NAVX navx, IEncoder left, IEncoder right) {
+        logic = new PositionLogic(navx, left, right);
     }
 
     public void initDefaultCommand() {
@@ -66,5 +67,15 @@ public class PositionPhysical extends Subsystem implements IPositionTracker{
     public String toString() {
     	return "Position Subsystem";
     }
+
+	@Override
+	public boolean isTrustworhty() {
+		return logic.isTrustworhty();
+	}
+
+	@Override
+	public void reset(double x, double y) {
+		logic.reset(x, y);
+	}
 }
 

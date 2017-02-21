@@ -22,7 +22,19 @@ public interface IPositionTracker extends GenericSubsystem {
     public double getY();
     
     /**
+     * Reset the Positioning System to a known good location
+     * @param x
+     * @param y
+     */
+    public void reset(double x, double y);
+    
+    /**
      * @return the current heading of the robot (in degrees away from starting orientation)
      */
     public double getHeading();
+    
+    /**
+     * @return whether or not the robot thinks the position reported is trustworthy
+     */
+    public boolean isTrustworhty();
 }

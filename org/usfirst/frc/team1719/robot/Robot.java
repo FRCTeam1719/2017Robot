@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -41,13 +42,14 @@ public class Robot extends IterativeRobot implements IRobot {
 	ShooterPhysical shooter;
 	IntakePhysical intake;
 	ClimberPhysical climber;
+	SendableChooser<Command> chooser = new SendableChooser<>();
 	IPositionTracker tracker;
 	PixyPhysical pixy;
 	PixyMountPhysical pixyMount;
 	SiloPhysical silo;
 	GearHandlerPhysical gearHandler;
 	// Array to hold all of the subsystems; so that we can disable them easily
-	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker };
+	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker, gearHandler };
 	// Other global references
 	Compressor compressor;
 	Display display = new Display();
@@ -103,6 +105,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		// Setup OI
 		// NOTE: This function _must_ be called after subsystem are initialized.
 		oi = new OI();
+		// chooser.addObject("My Auto", new MyAutoCommand());
+		SmartDashboard.putData("Auto mode", chooser);
 		oi.init(this);
 		SmartDashboard.putNumber("Desired RevUpShooter speed (RPS): ", 45000);
 		CameraServer.getInstance().startAutomaticCapture();
