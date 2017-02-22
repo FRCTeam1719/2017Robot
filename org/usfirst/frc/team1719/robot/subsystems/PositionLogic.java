@@ -97,7 +97,13 @@ public class PositionLogic implements IPositionTracker {
 		
 	}
 	
-	
+	@Override
+	public void reset(){
+		x = 0;
+		y = 0;
+		isTrustworthy = true;
+		navX.resetYaw();
+	}
     
     
 }

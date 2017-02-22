@@ -29,6 +29,11 @@ public interface IPositionTracker extends GenericSubsystem {
     public void reset(double x, double y);
     
     /**
+     * Reset the positioning system to zero
+     */
+    public void reset();
+    
+    /**
      * @return the current heading of the robot (in degrees away from starting orientation)
      */
     public double getHeading();

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
 import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
-import org.usfirst.frc.team1719.robot.interfaces.IGyro3D;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 
@@ -77,6 +76,11 @@ public class PositionPhysical extends Subsystem implements IPositionTracker{
 	@Override
 	public void reset(double x, double y) {
 		logic.reset(x, y);
+	}
+
+	@Override
+	public void reset() {
+		logic.reset();
 	}
 }
 
