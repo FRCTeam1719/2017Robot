@@ -21,6 +21,7 @@ public class PositionPhysical extends Subsystem implements IPositionTracker{
         private Update(PositionPhysical sup) {requires(sup);}
         @Override
         protected void execute() {
+//        	System.out.println("Updating");
             update();
         }
         @Override

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.auton.RedRightHopper;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -45,7 +46,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	PixyPhysical pixy;
 	PixyMountPhysical pixyMount;
 	SiloPhysical silo;
-	GearHandlerPhysical gearHandler;
+	public GearHandlerPhysical gearHandler;
 	// Array to hold all of the subsystems; so that we can disable them easily
 	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker, gearHandler };
 	// Other global references
@@ -110,6 +111,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
 		CameraServer.getInstance().startAutomaticCapture();
+		autonomousCommand = new RedRightHopper(this, tracker, drive, silo);
 	}
 
 	/**
@@ -141,8 +143,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		}else{
 			isRedTeam = false;
 		}
-		System.out.println("Left: " + RobotMap.leftDriveEnc.getDistance());
-		System.out.println("Right: " + RobotMap.rightDriveEnc.getDistance());
+//		System.out.println("Left: " + RobotMap.leftDriveEnc.getDistance());
+//		System.out.println("Right: " + RobotMap.rightDriveEnc.getDistance());
 	}
 
 	
@@ -214,7 +216,9 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSimpleDevices();
-		System.out.println(drive.getEncoderL().getDistance());
+//		System.out.println("NAVX" + RobotMap.navx.getYaw());
+//		System.out.println("Tracker " + tracker.getHeading());
+		System.out.println("Pos: " + tracker.getX() + " " + tracker.getY() + " "+tracker.getHeading());
 	}
 
 	/**
