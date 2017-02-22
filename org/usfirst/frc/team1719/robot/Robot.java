@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.auton.RedRightHopper;
+import org.usfirst.frc.team1719.robot.auton.LeftGearLift;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -111,7 +111,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
 		CameraServer.getInstance().startAutomaticCapture();
-		autonomousCommand = new RedRightHopper(this, tracker, drive, silo);
+		autonomousCommand = new LeftGearLift(this, tracker, drive, silo);
 	}
 
 	/**

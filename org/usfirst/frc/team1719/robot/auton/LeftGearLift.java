@@ -12,9 +12,9 @@ import org.usfirst.frc.team1719.robot.interfaces.ISilo;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class RedRightHopper extends CommandGroup{
+public class LeftGearLift extends CommandGroup{
 	
-	public RedRightHopper(Robot robot, IPositionTracker tracker, IDrive drive, ISilo silo){
+	public LeftGearLift(Robot robot, IPositionTracker tracker, IDrive drive, ISilo silo){
 //        addSequential(new MoveToPosAndHead(33, 69, -90, -36, 100, tracker, drive, robot)); // Right side to right hopper (Red)
 		addSequential(new MoveToPosition(0D, 57D, tracker, drive, robot, true));
 		addSequential(new TurnToHeading(-44D, tracker, drive, robot));
