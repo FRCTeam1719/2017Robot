@@ -82,5 +82,10 @@ public class PositionPhysical extends Subsystem implements IPositionTracker{
 	public void reset() {
 		logic.reset();
 	}
+
+	@Override
+	public NAVX getNAVX() {
+		return logic.getNAVX();
+	}
 }
 
