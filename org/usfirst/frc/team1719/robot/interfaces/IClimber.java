@@ -5,6 +5,5 @@ public interface IClimber extends GenericSubsystem {
 	void setSpeed(double speed);
 	double getSpeed();
 	
-	double getRate();
 
 }

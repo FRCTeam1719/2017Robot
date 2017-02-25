@@ -9,14 +9,12 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class ClimberLogic implements IClimber{
 	
 	private SpeedController motor;
-	private IEncoder encoder;
 	private DigitalInput limit1;
 	private DigitalInput limit2;
 	
 
-	public ClimberLogic(SpeedController motor, IEncoder encoder, DigitalInput limit1, DigitalInput limit2) {
+	public ClimberLogic(SpeedController motor, DigitalInput limit1, DigitalInput limit2) {
 		this.motor = motor;
-		this.encoder = encoder;
 		this.limit1 = limit1;
 		this.limit2 = limit2;
 	}
@@ -40,10 +38,6 @@ public class ClimberLogic implements IClimber{
 		return motor.get();
 	}
 
-	@Override
-	public double getRate() {
-		return encoder.getRate();
-	}
 	
 	@Override
 	public String toString(){

@@ -12,8 +12,8 @@ public class ClimberPhysical extends Subsystem implements IClimber{
 	
 	ClimberLogic logic;
 	
-	public ClimberPhysical(SpeedController motor, IEncoder encoder, DigitalInput limit1, DigitalInput limit2) {
-		logic = new ClimberLogic(motor, encoder, limit1, limit2);
+	public ClimberPhysical(SpeedController motor, DigitalInput limit1, DigitalInput limit2) {
+		logic = new ClimberLogic(motor, limit1, limit2);
 	}
 
 	@Override
@@ -31,10 +31,6 @@ public class ClimberPhysical extends Subsystem implements IClimber{
 		return logic.getSpeed();
 	}
 
-	@Override
-	public double getRate() {
-		return logic.getRate();
-	}
 
 	@Override
 	protected void initDefaultCommand() {
