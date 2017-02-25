@@ -35,6 +35,7 @@ public class Display {
      * @param s
      */
     public void write(String s) {
+    	if(isGood(s)) {
         /* Avoid skipping an initial dot */
         if(s.charAt(0) == '.') { 
             s = " ".concat(s);
@@ -63,6 +64,22 @@ public class Display {
         
         /* Perform the write */
         i2c.writeBulk(toSend);
+    	}
+    }
+    /**
+     * Takes the String and makes sure all the chars are letters, numbers, or periods
+     * It also makes sure that it is no longer than 4 characters
+     * @param s
+     * @author BennyRubin
+     */
+    private boolean isGood(String s) {
+    	boolean retVal = true;
+    	if(s.length() > 4)
+    		retVal = false;
+    	for(int i = 0; i<s.length(); i++) {
+    		charmap.containsKey(s.substring(i));
+    	}
+    	return retVal;
     }
     
     static {
