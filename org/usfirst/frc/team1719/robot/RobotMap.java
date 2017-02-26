@@ -30,19 +30,19 @@ public class RobotMap {
     // public static int rangefinderModule = 1;
     
     /* DIO */
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(6, 7, true);
-    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
     public static final LEDCtrl led = new LEDCtrl(0);
     public static final DigitalInput teamSwitch = new DigitalInput(1);
+    public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
     public static final VersaPlanetaryEmbeddedEncoder shooterEnc = new VersaPlanetaryEmbeddedEncoder(4, 5, true);
+    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(6, 7, true);
     public static final DigitalInput climberLimit1 = new DigitalInput(8);
     public static final DigitalInput climberLimit2 = climberLimit1;
     
     /* PWM */
     public static final SpeedController leftDrive = new Spark(0);
     public static final SpeedController rightDrive = new Spark(1);
-    public static final Servo pan = new Servo(2);
-    public static final Servo tilt = new Servo(3);
+    public static final Servo pixyPan = new Servo(2);
+    public static final Servo pixyTilt = new Servo(3);
     public static final SpeedController shooterController = new Spark(4);
     public static final SpeedController intakeMotor = new Spark(5);
     public static final SpeedController climberController = new Spark(6);
@@ -59,9 +59,9 @@ public class RobotMap {
     public static final Solenoid gearActuator = new Solenoid(3);
     
     public static void init() {
+        //Setup hardware constants
         shooterController.setInverted(false);
         leftDrive.setInverted(false);
         rightDrive.setInverted(true);
-        // General hardware init
     }
 }

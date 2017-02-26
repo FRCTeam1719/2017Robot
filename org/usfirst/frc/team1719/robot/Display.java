@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class Display {
     
-    I2C i2c = new I2C(Port.kMXP, 0x70);
+    private final int address = 0x70;
+    I2C i2c = new I2C(Port.kMXP, address);
     public static final Map<Character, byte[]> charmap;
     
     public Display() {

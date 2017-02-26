@@ -7,6 +7,11 @@ import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Simple command to drive the shooter at a constant voltage
+ * @author Duncan
+ *
+ */
 public class ConstantPowerShooter extends Command{
 
 	private final IExShooter shooter;
@@ -39,6 +44,11 @@ public class ConstantPowerShooter extends Command{
 	protected void end(){
 		shooter.setSpeed(0);
 		dashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
+	}
+	
+	@Override
+	protected void interrupted(){
+	    end();
 	}
 
 }

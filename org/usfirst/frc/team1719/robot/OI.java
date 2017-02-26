@@ -23,12 +23,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class OI implements IOI {
     
-    Joystick driver = new Joystick(0);
-    Joystick operator = new Joystick(1);
+    private final Joystick driver = new Joystick(0);
+    private final Joystick operator = new Joystick(1);
     
-    JoystickButton revUpButton = new JoystickButton(operator, 3);
-    JoystickButton fireButton = new JoystickButton(operator, 1);
-    JoystickButton runSiloBackwards = new JoystickButton(operator, 2);
+    private final JoystickButton revUpButton = new JoystickButton(operator, 3);
+    private final JoystickButton fireButton = new JoystickButton(operator, 1);
+    private final JoystickButton runSiloBackwards = new JoystickButton(operator, 2);
     
     @Override
     public double getLeftX() {
