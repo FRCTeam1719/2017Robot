@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1719.robot.interfaces;
 
+import org.usfirst.frc.team1719.robot.sensors.NAVX;
+
 /**
  * Actuator-void subsystem used for tracking the position on the field.
  * Position (0,0) at heading 0 is the starting position of the robot.
@@ -42,4 +44,11 @@ public interface IPositionTracker extends GenericSubsystem {
      * @return whether or not the robot thinks the position reported is trustworthy
      */
     public boolean isTrustworhty();
+    
+    /**
+     * @return internal navX
+     */
+    public NAVX getNAVX();
+    
+    	
 }
