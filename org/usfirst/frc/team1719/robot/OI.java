@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.DepositGear;
 import org.usfirst.frc.team1719.robot.commands.PixyScan;
 import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.RunSilo;
@@ -8,6 +7,7 @@ import org.usfirst.frc.team1719.robot.commands.SiloReject;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
+import org.usfirst.frc.team1719.robot.commands.gear.DepositGear;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.vision.SingleTarget;
@@ -127,7 +127,7 @@ public class OI implements IOI {
 			
 			fireButton.whileHeld(new RunSilo(robot.silo, robot.getDashboard()));
 			Button depositGear = new JoystickButton(driver, 1);
-			depositGear.whenPressed(new DepositGear(robot.gearHandler));
+			depositGear.whenPressed(new DepositGear(robot.gearHandler, robot.tracker, robot.drive, robot));
 		} catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");
 			System.out.println(

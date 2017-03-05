@@ -111,7 +111,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
 		CameraServer.getInstance().startAutomaticCapture();
-		autonomousCommand = new LeftGearLift(this, tracker, drive, silo);
+		autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
 	}
 
 	/**
