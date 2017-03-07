@@ -4,6 +4,7 @@ import org.usfirst.frc.team1719.robot.actuators.LEDCtrl;
 import org.usfirst.frc.team1719.robot.actuators.Solenoid;
 import org.usfirst.frc.team1719.robot.sensors.E4TOpticalEncoder;
 import org.usfirst.frc.team1719.robot.sensors.I2C;
+import org.usfirst.frc.team1719.robot.sensors.LIDAR;
 import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.VersaPlanetaryEmbeddedEncoder;
 
@@ -30,7 +31,7 @@ public class RobotMap {
     // public static int rangefinderModule = 1;
     
     /* DIO */
-    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(6, 7, true);
+    public static final VersaPlanetaryEmbeddedEncoder leftDriveEnc = new VersaPlanetaryEmbeddedEncoder(6, 7, true);
     public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
     public static final LEDCtrl led = new LEDCtrl(0);
     public static final DigitalInput teamSwitch = new DigitalInput(1);
@@ -50,6 +51,7 @@ public class RobotMap {
     
     /* I2C */
     public static final I2C pixyI2C = new I2C(I2C.Port.kOnboard, 0x54);
+    public static final LIDAR lidar = new LIDAR(I2C.Port.kOnboard);
     
     /* MXP */
     public static final NAVX navx = new NAVX(I2C.Port.kMXP);

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.auton.LeftGearLift;
+import org.usfirst.frc.team1719.robot.commands.TurnToHeading;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -92,7 +92,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		// TODO make an encoder if necesarry
 		climber = new ClimberPhysical(RobotMap.climberController, null, RobotMap.climberLimit1, RobotMap.climberLimit2);
 		// Position tracker Init
-		tracker = new PositionPhysical(RobotMap.navx, RobotMap.rightDriveEnc, RobotMap.rightDriveEnc);
+		tracker = new PositionPhysical(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		// Pixy
 		pixy = new PixyPhysical(RobotMap.pixyI2C);
 		// Pixy Mount
@@ -111,7 +111,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
 		CameraServer.getInstance().startAutomaticCapture();
-		autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
+//		autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
+		autonomousCommand = new TurnToHeading(90, tracker, drive, this);
 	}
 
 	/**
@@ -127,6 +128,7 @@ public class Robot extends IterativeRobot implements IRobot {
 				subsystems[i].disable();
 			}
 		}
+		RobotMap.lidar.start();
 	}
 
 	@Override
@@ -135,6 +137,7 @@ public class Robot extends IterativeRobot implements IRobot {
 
 		if ((displayIter++) % 0x10 == 0) {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
+//			System.out.println("LIDAR distance: " + RobotMap.lidar.getDistanceCM() + "cm");
 		}
 		
 		SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate());
@@ -143,8 +146,9 @@ public class Robot extends IterativeRobot implements IRobot {
 		}else{
 			isRedTeam = false;
 		}
-//		System.out.println("Left: " + RobotMap.leftDriveEnc.getDistance());
-//		System.out.println("Right: " + RobotMap.rightDriveEnc.getDistance());
+//		System.out.println("Left: " + drive.getEncoderL().getDistance());
+//		System.out.println("Right: " + drive.getEncoderR().getDistance());
+//		System.out.println("Heading: " + RobotMap.navx.getYaw());
 	}
 
 	
@@ -216,9 +220,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSimpleDevices();
-//		System.out.println("NAVX" + RobotMap.navx.getYaw());
-//		System.out.println("Tracker " + tracker.getHeading());
-		System.out.println("Pos: " + tracker.getX() + " " + tracker.getY() + " "+tracker.getHeading());
+		System.out.println("heading: " + tracker.getHeading());
 	}
 
 	/**

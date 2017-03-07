@@ -126,7 +126,7 @@ public class OI implements IOI {
 			runClimber.whileHeld(new UseClimber(robot.climber,robot.timer));
 			
 			fireButton.whileHeld(new RunSilo(robot.silo, robot.getDashboard()));
-			Button depositGear = new JoystickButton(driver, 1);
+			Button depositGear = new JoystickButton(operator, 7);
 			depositGear.whenPressed(new DepositGear(robot.gearHandler, robot.tracker, robot.drive, robot));
 		} catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");
