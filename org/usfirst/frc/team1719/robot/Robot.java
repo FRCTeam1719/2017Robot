@@ -91,7 +91,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		// TODO make an encoder if necesarry
 		climber = new ClimberPhysical(RobotMap.climberController, null, RobotMap.climberLimit1, RobotMap.climberLimit2);
 		// Position tracker Init
-		tracker = new PositionPhysical(RobotMap.navx, RobotMap.rightDriveEnc, RobotMap.rightDriveEnc);
+		tracker = new PositionPhysical(RobotMap.navx, RobotMap.leftDriveEnc, RobotMap.rightDriveEnc);
 		// Pixy
 		pixy = new PixyPhysical(RobotMap.pixyI2C);
 		// Pixy Mount
@@ -216,7 +216,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSimpleDevices();
-		System.out.println(drive.getEncoderL().getDistance());
+		System.out.println("Left" + RobotMap.leftDriveEnc.getDistance());
+		System.out.println("Right" + RobotMap.rightDriveEnc.getDistance());
 	}
 
 	/**
