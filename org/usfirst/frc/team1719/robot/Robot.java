@@ -137,7 +137,7 @@ public class Robot extends IterativeRobot implements IRobot {
 
 		if ((displayIter++) % 0x10 == 0) {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
-//			System.out.println("LIDAR distance: " + RobotMap.lidar.getDistanceCM() + "cm");
+			System.out.println("LIDAR distance: " + RobotMap.lidar.getDistanceCM() + "cm");
 		}
 		
 		SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate());
@@ -146,9 +146,6 @@ public class Robot extends IterativeRobot implements IRobot {
 		}else{
 			isRedTeam = false;
 		}
-//		System.out.println("Left: " + drive.getEncoderL().getDistance());
-//		System.out.println("Right: " + drive.getEncoderR().getDistance());
-//		System.out.println("Heading: " + RobotMap.navx.getYaw());
 	}
 
 	
@@ -220,7 +217,6 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSimpleDevices();
-		System.out.println("heading: " + tracker.getHeading());
 	}
 
 	/**

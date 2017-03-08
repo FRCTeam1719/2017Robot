@@ -31,7 +31,7 @@ public class RobotMap {
     // public static int rangefinderModule = 1;
     
     /* DIO */
-    public static final VersaPlanetaryEmbeddedEncoder leftDriveEnc = new VersaPlanetaryEmbeddedEncoder(6, 7, true);
+    public static final E4TOpticalEncoder leftDriveEnc = new E4TOpticalEncoder(6, 7, true);
     public static final E4TOpticalEncoder rightDriveEnc = new E4TOpticalEncoder(2, 3, false);
     public static final LEDCtrl led = new LEDCtrl(0);
     public static final DigitalInput teamSwitch = new DigitalInput(1);
