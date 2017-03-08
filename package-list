@@ -2,6 +2,7 @@ org.usfirst.frc.team1719.robot
 org.usfirst.frc.team1719.robot.actuators
 org.usfirst.frc.team1719.robot.auton
 org.usfirst.frc.team1719.robot.commands
+org.usfirst.frc.team1719.robot.commands.gear
 org.usfirst.frc.team1719.robot.interfaces
 org.usfirst.frc.team1719.robot.mockHardware
 org.usfirst.frc.team1719.robot.sensors
