@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.TurnToHeading;
+import org.usfirst.frc.team1719.robot.auton.LeftGearLift;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -111,8 +111,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
 		CameraServer.getInstance().startAutomaticCapture();
-//		autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
-		autonomousCommand = new TurnToHeading(90, tracker, drive, this);
+		autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
+//		autonomousCommand = new TurnToHeading(90, tracker, drive, this);
 	}
 
 	/**
@@ -217,6 +217,8 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSimpleDevices();
+		System.out.println("Yaw: " + RobotMap.navx.getYaw());
+		System.out.println("Heading: " + tracker.getHeading());
 	}
 
 	/**

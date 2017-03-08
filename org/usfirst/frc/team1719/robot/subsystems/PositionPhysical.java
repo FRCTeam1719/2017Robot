@@ -16,16 +16,20 @@ public class PositionPhysical extends Subsystem implements IPositionTracker{
      * Pseudo-command to update position every iteration.
      * @author Duncan
      */
-    private class Update extends Command {
-        private Update(PositionPhysical sup) {requires(sup);}
+    public class Update extends Command {
+        public Update(PositionPhysical sup) {requires(sup);}
         @Override
         protected void execute() {
-//        	System.out.println("Updating");
+        	System.out.println("Updating");
             update();
         }
         @Override
         protected boolean isFinished() {
             return false;
+        }
+        @Override
+        protected void interrupted(){
+            System.out.println("INTERRUPTED");
         }
         
     }

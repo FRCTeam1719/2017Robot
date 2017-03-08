@@ -21,9 +21,9 @@ public class PositionLogic implements IPositionTracker {
     private double lastAccelY;
     private double lDist;
     private double rDist;
-    private double x;
-    private double y;
-    private double heading;
+    private volatile double x;
+    private volatile double y;
+    private volatile double heading;
     
     public PositionLogic(NAVX navX, IEncoder _left, IEncoder _right) {
     	this.navX = navX;
@@ -46,6 +46,7 @@ public class PositionLogic implements IPositionTracker {
         rDist += dr;
         x += Math.sin(Math.toRadians(heading)) * (dl + dr) / 2D;
         y += Math.cos(Math.toRadians(heading)) * (dl + dr) / 2D;
+        System.out.println("Updating!");
     }
     
     private boolean checkForCollision(){
@@ -102,7 +103,6 @@ public class PositionLogic implements IPositionTracker {
 		x = 0;
 		y = 0;
 		isTrustworthy = true;
-		navX.resetYaw();
 	}
 
 	@Override
