@@ -7,8 +7,10 @@ import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
+import org.usfirst.frc.team1719.robot.subsystems.CameraManagerPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.ClimberPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.DrivePhysical;
+import org.usfirst.frc.team1719.robot.subsystems.FastCameraManagerLogic;
 import org.usfirst.frc.team1719.robot.subsystems.GearHandlerPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.IntakePhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyMountPhysical;
@@ -46,9 +48,10 @@ public class Robot extends IterativeRobot implements IRobot {
 	PixyPhysical pixy;
 	PixyMountPhysical pixyMount;
 	SiloPhysical silo;
+	CameraManagerPhysical cameraManager;
 	public GearHandlerPhysical gearHandler;
 	// Array to hold all of the subsystems; so that we can disable them easily
-	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker, gearHandler };
+	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker, gearHandler, cameraManager };
 	// Other global references
 	Compressor compressor;
 	Display display = new Display();
@@ -101,6 +104,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		silo = new SiloPhysical(RobotMap.siloMotor, this);
 		// Gear handler
 		gearHandler = new GearHandlerPhysical(RobotMap.gearActuator);
+		//Camera Manager
+		cameraManager = new CameraManagerPhysical(new FastCameraManagerLogic());
 
 		// Setup OI
 		// NOTE: This function _must_ be called after subsystem are initialized.

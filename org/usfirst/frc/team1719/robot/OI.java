@@ -4,6 +4,7 @@ import org.usfirst.frc.team1719.robot.commands.PixyScan;
 import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.RunSilo;
 import org.usfirst.frc.team1719.robot.commands.SiloReject;
+import org.usfirst.frc.team1719.robot.commands.SwitchCamera;
 import org.usfirst.frc.team1719.robot.commands.ToggleIntake;
 import org.usfirst.frc.team1719.robot.commands.UnclogIntake;
 import org.usfirst.frc.team1719.robot.commands.UseClimber;
@@ -128,6 +129,8 @@ public class OI implements IOI {
 			fireButton.whileHeld(new RunSilo(robot.silo, robot.getDashboard()));
 			Button depositGear = new JoystickButton(operator, 7);
 			depositGear.whenPressed(new DepositGear(robot.gearHandler));
+			Button switchCamera = new JoystickButton(operator, 8);
+			switchCamera.whenReleased(new SwitchCamera(robot.cameraManager));
 		} catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");
 			System.out.println(
