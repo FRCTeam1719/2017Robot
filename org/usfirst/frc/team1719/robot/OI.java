@@ -15,6 +15,7 @@ import org.usfirst.frc.team1719.robot.vision.SingleTarget;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -128,6 +129,15 @@ public class OI implements IOI {
 			fireButton.whileHeld(new RunSilo(robot.silo, robot.getDashboard()));
 			Button depositGear = new JoystickButton(operator, 7);
 			depositGear.whenPressed(new DepositGear(robot.gearHandler));
+			Button cameraToggle = new JoystickButton(operator, 10);
+			cameraToggle.whenReleased(new InstantCommand() {
+				@Override
+				public void execute(){
+					robot.cameraManager.toggleCamera();
+					System.out.println("Toggled!");
+				}
+			});
+
 		} catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");
 			System.out.println(

@@ -33,7 +33,7 @@ public class RunSilo extends Command {
 
 	public void execute() {
 		if (!instantFail) {
-			silo.setSpeed(1.0D);
+			silo.setSpeed(0.75D);
 		}
 	}
 

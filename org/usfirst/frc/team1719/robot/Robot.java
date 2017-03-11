@@ -7,8 +7,10 @@ import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
 import org.usfirst.frc.team1719.robot.sensors.MatchTimer;
+import org.usfirst.frc.team1719.robot.subsystems.CameraManagerPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.ClimberPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.DrivePhysical;
+import org.usfirst.frc.team1719.robot.subsystems.FastCameraManagerLogic;
 import org.usfirst.frc.team1719.robot.subsystems.GearHandlerPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.IntakePhysical;
 import org.usfirst.frc.team1719.robot.subsystems.PixyMountPhysical;
@@ -46,9 +48,10 @@ public class Robot extends IterativeRobot implements IRobot {
 	PixyPhysical pixy;
 	PixyMountPhysical pixyMount;
 	SiloPhysical silo;
+	CameraManagerPhysical cameraManager;
 	public GearHandlerPhysical gearHandler;
 	// Array to hold all of the subsystems; so that we can disable them easily
-	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker, gearHandler };
+	GenericSubsystem[] subsystems = { drive, shooter, intake, climber, pixy, pixyMount, tracker, gearHandler, cameraManager };
 	// Other global references
 	Compressor compressor;
 	Display display = new Display();
@@ -101,6 +104,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		silo = new SiloPhysical(RobotMap.siloMotor, this);
 		// Gear handler
 		gearHandler = new GearHandlerPhysical(RobotMap.gearActuator);
+		cameraManager = new CameraManagerPhysical(new FastCameraManagerLogic());
 
 		// Setup OI
 		// NOTE: This function _must_ be called after subsystem are initialized.
@@ -110,8 +114,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber("Desired RevUpShooter speed (RPS): ", 45000);
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
-		CameraServer.getInstance().startAutomaticCapture();
-		autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
+//		CameraServer.getInstance().startAutomaticCapture();
+		autonomousCommand = null;
 //		autonomousCommand = new TurnToHeading(90, tracker, drive, this);
 	}
 
@@ -141,10 +145,12 @@ public class Robot extends IterativeRobot implements IRobot {
 		}
 		
 		SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate());
-		if(!RobotMap.teamSwitch.get()){
+		if(RobotMap.teamSwitch.get()){
 			isRedTeam = true;
+			autonomousCommand = null;
 		}else{
 			isRedTeam = false;
+			autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
 		}
 	}
 
@@ -158,6 +164,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber("Shooter speed", shooter.getEncoderRate() + 0.001 * Math.random());
 		SmartDashboard.putNumber("Robotheading", tracker.getHeading());
 		SmartDashboard.putBoolean("shifter", drive.isShifted());
+		SmartDashboard.putNumber("Robot Speed", Math.abs(RobotMap.navx.getVelocityY()));
 	}
 	
 	/**
@@ -217,8 +224,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSimpleDevices();
-		System.out.println("Yaw: " + RobotMap.navx.getYaw());
-		System.out.println("Heading: " + tracker.getHeading());
+		System.out.println("Shooter: " + shooter.getEncoderRate());
 	}
 
 	/**

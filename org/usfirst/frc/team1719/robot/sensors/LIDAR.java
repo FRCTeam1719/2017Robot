@@ -62,8 +62,8 @@ public class LIDAR implements IRangeFinder {
             Timer.delay(0.04); // Delay for measurement to be taken
             i2c.read(LIDAR_STATUS_REGISTER, 1, status);
         } while((status[0] & STATUS_FLAG_BUSY) != 0);
-        if(i2c.read(LIDAR_DISTANCE_REGISTER, 2, distance)) System.out.println("No legal reading"); // Read in measurement
-        System.out.println("MSB" + Byte.toString(distance[0]) + "LSB" +  Byte.toString(distance[1]));
+        if(i2c.read(LIDAR_DISTANCE_REGISTER, 2, distance)) //System.out.println("No legal reading"); // Read in measurement
+        //System.out.println("MSB" + Byte.toString(distance[0]) + "LSB" +  Byte.toString(distance[1]));
         Timer.delay(0.005); // Delay to prevent over polling
     }
     
