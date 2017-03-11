@@ -77,6 +77,29 @@ public class LeftGearLift extends CommandGroup{
 
 		addSequential(new BreakHard(drive));
 		addSequential(new DepositGear(gearHandler));
+		addSequential(new ResetPositioning(tracker, drive));
+		addSequential(new Command() {
+			private double start;
+			@Override
+			protected void initialize(){
+				start = tracker.getY();
+			}
+			@Override
+			protected void execute(){
+				drive.moveArcade(-0.5, 0);
+			}
+			@Override
+			protected boolean isFinished(){
+				double difference = tracker.getY() - start;
+				boolean end = (Math.abs(difference) > 30.0D);
+				return end;
+			}
+			@Override
+			protected void end(){
+				drive.moveArcade(0, 0);
+			}
+		});
+		addSequential(new BreakHard(drive));
 	}
 
 }
