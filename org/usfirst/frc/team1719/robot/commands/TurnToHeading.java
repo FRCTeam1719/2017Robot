@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +31,8 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
     private final IDrive drive;
     private final IRobot robot;
     private final IOI oi;
+    private final Timer timeout;
+    private final double TIMEOUT = 5;
     
     private PIDController pid;
     
@@ -49,12 +52,13 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
         catch (ClassCastException e) {
             System.out.println("Running Unit test on TurnToHeading");
         }
+        timeout = new Timer();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        pid = new PIDController(SmartDashboard.getNumber("TurnToHeading K[P]", 0.02),
-                SmartDashboard.getNumber("TurnToHeading K[I]", 0.006),
+        pid = new PIDController(SmartDashboard.getNumber("TurnToHeading K[P]", 0.01),
+                SmartDashboard.getNumber("TurnToHeading K[I]", 0.004),
                 SmartDashboard.getNumber("TurnToHeading K[D]", 0.1), this, this) {
             /* Hack -- use RMSE for onTarget */
             @Override
@@ -74,6 +78,8 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
         pid.setAbsoluteTolerance(TOLERANCE);
         pid.setToleranceBuffer(MOV_AVG_COUNT);
         pid.enable();
+        timeout.reset();
+        timeout.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -95,13 +101,14 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
     protected boolean isFinished() {
         boolean abort = oi.getAbortAutomove();
         if(abort) System.out.println("Driver abort");
-        return pid.onTarget() || abort;
+        return pid.onTarget() || abort || timeout.get() > TIMEOUT;
     }
 
     // Called once after isFinished returns true
     protected void end() {
         pid.reset();
         drive.shift(false);
+        timeout.stop();
     }
 
     // Called when another command which requires one or more of the same
@@ -109,6 +116,7 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
     protected void interrupted() {
         pid.reset();
         drive.shift(false);
+        end();
     }
 
     @Override

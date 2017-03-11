@@ -129,7 +129,7 @@ public class OI implements IOI {
 			fireButton.whileHeld(new RunSilo(robot.silo, robot.getDashboard()));
 			Button depositGear = new JoystickButton(operator, 7);
 			depositGear.whenPressed(new DepositGear(robot.gearHandler));
-			Button cameraToggle = new JoystickButton(operator, 10);
+			Button cameraToggle = new JoystickButton(driver, 6);
 			cameraToggle.whenReleased(new InstantCommand() {
 				@Override
 				public void execute(){

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.auton.LeftGearLift;
+import org.usfirst.frc.team1719.robot.auton.PassLine;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -19,13 +20,13 @@ import org.usfirst.frc.team1719.robot.subsystems.PositionPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.ShooterPhysical;
 import org.usfirst.frc.team1719.robot.subsystems.SiloPhysical;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -57,6 +58,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	Display display = new Display();
 	MatchTimer timer;
 	Command autonomousCommand;
+	SendableChooser autoChooser;
 	int displayIter = 0;
 	Dashboard dashboard;
 	boolean isRedTeam;
@@ -114,6 +116,10 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber("Desired RevUpShooter speed (RPS): ", 45000);
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
+//		autoChooser = new SendableChooser();
+//		autoChooser.addDefault("Drive Forward", new PassLine(this, drive, tracker));
+//		autoChooser.addObject("Place Gear", new LeftGearLift(this, gearHandler, tracker, drive));
+//		SmartDashboard.putData("Autonomous Selecter", autoChooser);
 //		CameraServer.getInstance().startAutomaticCapture();
 		autonomousCommand = null;
 //		autonomousCommand = new TurnToHeading(90, tracker, drive, this);
