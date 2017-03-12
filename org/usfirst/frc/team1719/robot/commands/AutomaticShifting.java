@@ -43,9 +43,16 @@ public class AutomaticShifting extends Command{
 				avgBuffer += reading;
 			}
 			avgBuffer /= ampBuffer.size();
-			if(avgBuffer>5 && avgBuffer < 25){
+//			if(avgBuffer>5 && avgBuffer < 25){
+//				drive.shift(IDrive.Shift.HIGH);
+//			}else{
+//				drive.shift(IDrive.Shift.LOW);
+//			}
+			
+			if (avgBuffer > 25) {
 				drive.shift(IDrive.Shift.HIGH);
-			}else{
+			}
+			else if (avgBuffer < 20) {
 				drive.shift(IDrive.Shift.LOW);
 			}
 		}
