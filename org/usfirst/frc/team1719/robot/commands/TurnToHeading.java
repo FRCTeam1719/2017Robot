@@ -32,7 +32,7 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
     private final IRobot robot;
     private final IOI oi;
     private final Timer timeout;
-    private final double TIMEOUT = 5;
+    private final double TIMEOUT = 1;
     
     private PIDController pid;
     
@@ -57,9 +57,9 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        pid = new PIDController(SmartDashboard.getNumber("TurnToHeading K[P]", 0.01),
-                SmartDashboard.getNumber("TurnToHeading K[I]", 0.004),
-                SmartDashboard.getNumber("TurnToHeading K[D]", 0.1), this, this) {
+        pid = new PIDController(SmartDashboard.getNumber("TurnToHeading K[P]", 0.02),
+                SmartDashboard.getNumber("TurnToHeading K[I]", 0.000),
+                SmartDashboard.getNumber("TurnToHeading K[D]", 0.2), this, this) {
             /* Hack -- use RMSE for onTarget */
             @Override
             protected void calculate() {
@@ -80,14 +80,15 @@ public class TurnToHeading extends Command implements PIDSource, PIDOutput {
         pid.enable();
         timeout.reset();
         timeout.start();
+        drive.shift(true);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() { 
         if(true) {//oi.getResetPIDConstants()) {
-            pid.setPID(SmartDashboard.getNumber("TurnToHeading K[P]", 0.2),
-                    SmartDashboard.getNumber("TurnToHeading K[I]", 0.006),
-                    SmartDashboard.getNumber("TurnToHeading K[D]", 0.1));
+            pid.setPID( 0.02,
+                     0.0011,
+                     0.1);
         }
         if(!pid.isEnabled()) {
             pid.enable();

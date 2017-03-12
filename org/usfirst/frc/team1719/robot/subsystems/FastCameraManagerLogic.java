@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 public class FastCameraManagerLogic implements ICameraManager{
 
 	private UsbCamera gearCamera;
-	private UsbCamera climberCamera;
+	private UsbCamera gearWideAngleCamera;
 	private CvSink gearSink;
 	private CvSink climberSink;
 	private VideoSink server;
@@ -18,16 +18,16 @@ public class FastCameraManagerLogic implements ICameraManager{
 	
 	public FastCameraManagerLogic(){
 		gearCamera = CameraServer.getInstance().startAutomaticCapture(0);
-		climberCamera = CameraServer.getInstance().startAutomaticCapture(1);
+		gearWideAngleCamera = CameraServer.getInstance().startAutomaticCapture(1);
 		server = CameraServer.getInstance().getServer();
 		//Dummy sinks to keep cams open
 		gearSink = new CvSink("Gear");
 		gearSink.setSource(gearCamera);
 		gearSink.setEnabled(true);
 		climberSink = new CvSink("Climber");
-		climberSink.setSource(climberCamera);
+		climberSink.setSource(gearWideAngleCamera);
 		climberSink.setEnabled(true);
-		setCamera(ICameraManager.Camera.GEAR);
+		setCamera(ICameraManager.Camera.GEAR_WIDE);
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class FastCameraManagerLogic implements ICameraManager{
 	public void setCamera(Camera camera) {
 		switch(camera){
 		case GEAR:server.setSource(gearCamera);break;
-		case CLIMBER:server.setSource(climberCamera);break;
+		case GEAR_WIDE:server.setSource(gearWideAngleCamera);break;
 		}
 		current = camera;
 	}
@@ -52,8 +52,8 @@ public class FastCameraManagerLogic implements ICameraManager{
 	@Override
 	public void toggleCamera(){
 		switch(current){
-		case GEAR: setCamera(ICameraManager.Camera.CLIMBER);break;
-		case CLIMBER: setCamera(ICameraManager.Camera.GEAR);break;
+		case GEAR: setCamera(ICameraManager.Camera.GEAR_WIDE);break;
+		case GEAR_WIDE: setCamera(ICameraManager.Camera.GEAR);break;
 		}
 	}
 

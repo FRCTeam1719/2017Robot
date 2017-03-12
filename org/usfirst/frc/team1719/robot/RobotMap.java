@@ -47,7 +47,7 @@ public class RobotMap {
     public static final Servo tilt = new Servo(3);
     public static final SpeedController shooterController = new Spark(4);
     public static final SpeedController intakeMotor = new Spark(5);
-    public static final SpeedController climberController = new Spark(6);
+    public static final SpeedController climberController = new Spark(9);
     public static final SpeedController siloMotor = new Spark(7);
     
     /* I2C */
@@ -59,7 +59,7 @@ public class RobotMap {
     
     /* Pneumatics */
     public static final Solenoid shifter = new Solenoid(0);
-    public static final Solenoid gearActuator = new Solenoid(3);
+    public static final Solenoid gearActuator = new Solenoid(2);
     
     public static void init() {
         shooterController.setInverted(false);

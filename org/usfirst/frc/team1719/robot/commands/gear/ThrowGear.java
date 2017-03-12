@@ -14,6 +14,7 @@ public class ThrowGear extends InstantCommand{
 	
 	@Override
 	public void execute(){
+		System.out.println("Hey");
 		handler.open();
 	}
 

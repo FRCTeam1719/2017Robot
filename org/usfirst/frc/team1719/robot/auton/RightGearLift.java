@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class LeftGearLift extends CommandGroup{
+public class RightGearLift extends CommandGroup{
 	
-	public LeftGearLift(Robot robot, IGearHandler gearHandler, IPositionTracker tracker, IDrive drive){
+	public RightGearLift(Robot robot, IGearHandler gearHandler, IPositionTracker tracker, IDrive drive){
 		//addSequential(new MoveToPosition(0D, 160D, tracker, drive, robot, true));
 	    PositionPhysical track = (PositionPhysical) tracker;
 	    requires((Subsystem) drive);
@@ -43,7 +43,7 @@ public class LeftGearLift extends CommandGroup{
 	        
 	    });
 	    addSequential(new BreakHard(drive));
-		addSequential(new TurnToHeading(40D, tracker, drive, robot));
+		addSequential(new TurnToHeading(-40D, tracker, drive, robot));
 		addSequential(new BreakHard(drive));
 		addSequential(new ResetPositioning(tracker, drive));
 		addSequential(new Command() {

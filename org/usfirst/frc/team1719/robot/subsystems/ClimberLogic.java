@@ -28,11 +28,7 @@ public class ClimberLogic implements IClimber{
 
 	@Override
 	public void setSpeed(double speed) {
-		if(!limit1.get() && !limit2.get()){
 			motor.set(speed);		
-		}else{
-			motor.set(0);
-		}
 	}
 
 	@Override

@@ -4,7 +4,7 @@ public interface ICameraManager extends GenericSubsystem{
 
 	enum Camera {
 		GEAR,
-		CLIMBER;
+		GEAR_WIDE;
 	}
 	
 	void setCamera(Camera camera);

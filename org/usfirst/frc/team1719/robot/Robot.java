@@ -1,7 +1,9 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.auton.CenterGear;
 import org.usfirst.frc.team1719.robot.auton.LeftGearLift;
 import org.usfirst.frc.team1719.robot.auton.PassLine;
+import org.usfirst.frc.team1719.robot.auton.RightGearLift;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -58,7 +60,13 @@ public class Robot extends IterativeRobot implements IRobot {
 	Display display = new Display();
 	MatchTimer timer;
 	Command autonomousCommand;
-	SendableChooser autoChooser;
+	SendableChooser <autonModes> autoChooser;
+	enum autonModes {
+			LINE,
+			LEFT,
+			CENTER,
+			RIGHT;
+	}
 	int displayIter = 0;
 	Dashboard dashboard;
 	boolean isRedTeam;
@@ -116,11 +124,12 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber("Desired RevUpShooter speed (RPS): ", 45000);
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
-//		autoChooser = new SendableChooser();
-//		autoChooser.addDefault("Drive Forward", new PassLine(this, drive, tracker));
-//		autoChooser.addObject("Place Gear", new LeftGearLift(this, gearHandler, tracker, drive));
-//		SmartDashboard.putData("Autonomous Selecter", autoChooser);
-//		CameraServer.getInstance().startAutomaticCapture();
+		autoChooser = new SendableChooser<>();
+		autoChooser.addDefault("Drive Forward", autonModes.LINE);
+		autoChooser.addObject("Place Gear LEFT", autonModes.LEFT);
+		autoChooser.addObject("Place Gear Center", autonModes.CENTER);
+		autoChooser.addObject("Place Gear Right", autonModes.RIGHT);
+		SmartDashboard.putData("Autonomous Selecter", autoChooser);
 		autonomousCommand = null;
 //		autonomousCommand = new TurnToHeading(90, tracker, drive, this);
 	}
@@ -157,7 +166,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		}else{
 			isRedTeam = false;
 			autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
-		}
+		}//spughetti
 	}
 
 	
