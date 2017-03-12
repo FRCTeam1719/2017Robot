@@ -22,7 +22,9 @@ public class PassLine extends CommandGroup{
             @Override
             protected boolean isFinished() {
                 System.out.println("Y: " + tracker.getY());
-                boolean end = (Math.abs(tracker.getY()) > 120.0D);
+                boolean end = (Math.abs(tracker.getY()) > 125.0D);
+
+
                 System.out.println("isGeater: " + end);
                 return end;
             }

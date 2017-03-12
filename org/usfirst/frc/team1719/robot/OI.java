@@ -129,12 +129,19 @@ public class OI implements IOI {
 			fireButton.whileHeld(new RunSilo(robot.silo, robot.getDashboard()));
 			Button depositGear = new JoystickButton(operator, 7);
 			depositGear.whenPressed(new DepositGear(robot.gearHandler));
-			Button cameraToggle = new JoystickButton(driver, 6);
-			cameraToggle.whenReleased(new InstantCommand() {
+			Button driverCameraToggle = new JoystickButton(driver, 6);
+			driverCameraToggle.whenReleased(new InstantCommand() {
 				@Override
 				public void execute(){
 					robot.cameraManager.toggleCamera();
 					System.out.println("Toggled!");
+				}
+			});
+			Button opCameraToggle = new JoystickButton(operator, 11);
+			opCameraToggle.whenPressed(new InstantCommand() {
+				@Override
+				public void execute(){
+					robot.cameraManager.toggleCamera();
 				}
 			});
 			Button toggleFlap = new JoystickButton(driver, 1);

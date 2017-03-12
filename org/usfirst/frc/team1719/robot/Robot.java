@@ -1,9 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.auton.CenterGear;
-import org.usfirst.frc.team1719.robot.auton.LeftGearLift;
 import org.usfirst.frc.team1719.robot.auton.PassLine;
-import org.usfirst.frc.team1719.robot.auton.RightGearLift;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -165,7 +162,7 @@ public class Robot extends IterativeRobot implements IRobot {
 			autonomousCommand = null;
 		}else{
 			isRedTeam = false;
-			autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
+			autonomousCommand = new PassLine(this, drive, tracker);
 		}//spughetti
 	}
 
