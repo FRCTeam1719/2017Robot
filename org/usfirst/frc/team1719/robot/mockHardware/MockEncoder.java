@@ -95,4 +95,11 @@ public class MockEncoder implements IEncoder {
 		}
 	}
 
+
+	@Override
+	public void setSamplesToAverage(int sampleNum) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

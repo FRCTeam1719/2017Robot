@@ -23,7 +23,9 @@ public class DriveLogic implements IDrive {
     private final Accelerometer accelerometer;
     private final IGyro3D gyro;
     private double maxSpd = 1.0D;
-	private static double WHEEL_DIAMETER = 6;
+    private final double ENC_COEF = 0.9174311926605505;
+    
+	private static double WHEEL_DIAMETER = 4.1721D;
     
 
     /**
@@ -46,8 +48,10 @@ public class DriveLogic implements IDrive {
         accelerometer = acc;
         gyro = gyr;
         //TODO: HACK; DON'T KNOW WHERE 2 CAME FROM, ADDED IN 8939efea7ae245a8ed0798b278a0e05b0f230fb6
-        lEncoder.config(Math.PI * WHEEL_DIAMETER * 2);
-        rEncoder.config(Math.PI * WHEEL_DIAMETER * 2);
+        lEncoder.config(Math.PI * WHEEL_DIAMETER * 4 );
+        rEncoder.config(Math.PI * WHEEL_DIAMETER * 4 );
+        lEncoder.setReverseDirection(true);
+        rEncoder.setReverseDirection(false);
     }
     
     
@@ -145,5 +149,16 @@ public class DriveLogic implements IDrive {
 	@Override
 	public String toString(){
 		return "DriveLogic";
+	}
+	
+	@Override
+	public boolean isShifted(){
+		return shifter.get();
+	}
+
+
+	@Override
+	public void shift(boolean state) {
+		shifter.set(state);
 	}
 }

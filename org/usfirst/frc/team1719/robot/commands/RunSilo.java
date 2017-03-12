@@ -28,11 +28,12 @@ public class RunSilo extends Command {
 		if (dashboard.getBoolean(Constants.SHOOTER_RUNNING, false)) {
 			instantFail = false;
 		}
+		dashboard.putBoolean(Constants.SILO_RUNNING, true);
 	}
 
 	public void execute() {
 		if (!instantFail) {
-			silo.setSpeed(1.0D);
+			silo.setSpeed(0.75D);
 		}
 	}
 
@@ -42,7 +43,12 @@ public class RunSilo extends Command {
 	}
 
 	public void end() {
-		silo.disable();
+		silo.setSpeed(0D);
+		dashboard.putBoolean(Constants.SILO_RUNNING, false);
+	}
+	
+	public void interrupted(){
+		end();
 	}
 
 }

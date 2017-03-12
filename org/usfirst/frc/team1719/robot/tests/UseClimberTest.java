@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class UseClimberTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		lClimber = new ClimberLogic(controller,encoder);
+		lClimber = new ClimberLogic(controller,encoder, null, null);
 		timer = new MockMatchTimer();
 		climber = new UseClimber(lClimber, timer);
 	}

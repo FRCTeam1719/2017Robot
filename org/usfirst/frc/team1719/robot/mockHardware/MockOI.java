@@ -56,13 +56,11 @@ public class MockOI implements IOI {
 		this.rightY = newRightY;
 	}
 
-	@Override
 	public double getDeviceX() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public double getDeviceY() {
 		return 0;
 	}
@@ -80,6 +78,17 @@ public class MockOI implements IOI {
 		return 0;
 	}
 
+    @Override
+    public boolean getAbortAutomove() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean getResetPIDConstants() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 	@Override
 	public boolean getCancelScan() {
 		// TODO Auto-generated method stub

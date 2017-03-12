@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-import org.usfirst.frc.team1719.robot.commands.UseShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 import org.usfirst.frc.team1719.robot.interfaces.IExShooter;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -39,7 +38,7 @@ public class ShooterPhysical extends Subsystem implements IExShooter{
 	@Override
 	protected void initDefaultCommand() {
 		//No default command
-		setDefaultCommand(new UseShooter(this, robot));
+		//setDefaultCommand(new UseShooter(this, robot));
 	}
 
 

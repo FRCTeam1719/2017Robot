@@ -5,6 +5,7 @@ import org.usfirst.frc.team1719.robot.interfaces.IGyro3D;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 //TODO: FINISH IMPLEMENTATION
@@ -13,6 +14,10 @@ public class NAVX extends AHRS implements IGyro3D, Accelerometer {
     public NAVX(I2C.Port port) {
         super(port);
         
+    }
+    
+    public NAVX(SerialPort.Port port){
+        super(port);
     }
     
     @Override

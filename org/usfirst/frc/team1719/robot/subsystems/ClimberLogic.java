@@ -3,16 +3,22 @@ package org.usfirst.frc.team1719.robot.subsystems;
 import org.usfirst.frc.team1719.robot.interfaces.IClimber;
 import org.usfirst.frc.team1719.robot.interfaces.IEncoder;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class ClimberLogic implements IClimber{
 	
 	private SpeedController motor;
 	private IEncoder encoder;
+	private DigitalInput limit1;
+	private DigitalInput limit2;
 	
-	public ClimberLogic(SpeedController motor, IEncoder encoder) {
+
+	public ClimberLogic(SpeedController motor, IEncoder encoder, DigitalInput limit1, DigitalInput limit2) {
 		this.motor = motor;
 		this.encoder = encoder;
+		this.limit1 = limit1;
+		this.limit2 = limit2;
 	}
 
 	@Override
@@ -22,7 +28,11 @@ public class ClimberLogic implements IClimber{
 
 	@Override
 	public void setSpeed(double speed) {
-		motor.set(speed);		
+		if(!limit1.get() && !limit2.get()){
+			motor.set(speed);		
+		}else{
+			motor.set(0);
+		}
 	}
 
 	@Override

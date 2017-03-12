@@ -74,22 +74,7 @@ public class UseShooter extends Command implements PIDOutput {
 	
 	@Override
 	public void execute(){
-		double joystickvalue = Math.abs(oi.getDeviceY()) * oi.getDeviceY(); 
-		double desiredRate = joystickvalue * MAX_SPEED;
-
-		if (Math.abs(joystickvalue) < DEADZONE_TOLERANCE){
-			joystickvalue = 0;
-			desiredRate = 0;
-			velocityController.setSetpoint(0);
-			
-		}
-		else {
-			velocityController.enable();
-			velocityController.setSetpoint(desiredRate);
-		}
-
 		
-		exshooter.setSpeed(motorOutput);
 	}
 
 

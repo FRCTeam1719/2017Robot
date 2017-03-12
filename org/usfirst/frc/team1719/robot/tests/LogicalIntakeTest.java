@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -20,7 +20,7 @@ public class LogicalClimberTest {
 	public void setUp() throws Exception {
 		controller = new MockSpeedController();
 		encoder = new MockEncoder();
-		climber = new ClimberLogic(controller, encoder);
+		climber = new ClimberLogic(controller, encoder, null, null);
 	}
 
 	@Test

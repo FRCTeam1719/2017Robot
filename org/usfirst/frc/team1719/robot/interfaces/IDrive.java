@@ -17,9 +17,11 @@ public interface IDrive extends GenericSubsystem{
     public void moveArcade(double spd, double dir);
     public void moveTank(double l, double r);
     public void shift(Shift state);
+    public void shift(boolean state);
     public void setMaxSpeed(double spd);
     public IEncoder getEncoderL();
     public IEncoder getEncoderR();
     public Accelerometer getAccelerometer();
     public IGyro3D getGyro();
+    public boolean isShifted();
 }

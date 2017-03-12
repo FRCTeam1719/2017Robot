@@ -22,8 +22,8 @@ public class ShooterLogic implements IExShooter {
 		this.shooterMotor = shooterMotor;
 		this.encoder1 = encoder1;
 		
-		encoder1.setDistancePerPulse(1 / 1024);
-
+		encoder1.setDistancePerPulse((1D));
+		encoder1.setSamplesToAverage(8);
 	}
 	
 	
@@ -35,6 +35,7 @@ public class ShooterLogic implements IExShooter {
 	@Override
 	
 	public void setSpeed(double speed) {
+		System.out.println("Shooter spd: " + speed);
 		shooterMotor.set(speed);
 	}
 
