@@ -6,4 +6,9 @@ public interface IGearHandler extends GenericSubsystem{
 
 	void close();
 
+	void setFlap(boolean state);
+	
+	void toggleFlap();
+	
+	boolean getFlapState();
 }

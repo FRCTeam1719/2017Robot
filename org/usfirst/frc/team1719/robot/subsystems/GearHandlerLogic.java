@@ -5,25 +5,47 @@ import org.usfirst.frc.team1719.robot.interfaces.ISolenoid;
 
 public class GearHandlerLogic implements IGearHandler {
 
-	private ISolenoid solenoid;
+	private ISolenoid door;
+	private ISolenoid flap;
+	private boolean flapState;
 
-	public GearHandlerLogic(ISolenoid solenoid) {
-		this.solenoid = solenoid;
+	public GearHandlerLogic(ISolenoid door, ISolenoid flap) {
+		this.door = door;
+		this.flap = flap;
+		flapState = false;
 	}
 
 	@Override
 	public void open() {
-		solenoid.set(true);
+		door.set(true);
 	}
 
 	@Override
 	public void close() {
-		solenoid.set(false);
+		door.set(false);
 	}
 
 	@Override
 	public void disable() {
-		solenoid.set(false);
+		door.set(false);
+		door.set(false);
+	}
+
+	@Override
+	public void setFlap(boolean state) {
+		flapState = state;
+		flap.set(state);
+	}
+
+	@Override
+	public void toggleFlap() {
+		flapState = !flapState;
+		setFlap(flapState);
+	}
+	
+	@Override
+	public boolean getFlapState(){
+		return flapState;
 	}
 
 }

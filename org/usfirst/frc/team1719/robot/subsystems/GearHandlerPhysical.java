@@ -9,8 +9,8 @@ public class GearHandlerPhysical extends Subsystem implements IGearHandler {
 
 	private GearHandlerLogic logic;
 
-	public GearHandlerPhysical(ISolenoid solenoid) {
-		logic = new GearHandlerLogic(solenoid);
+	public GearHandlerPhysical(ISolenoid door, ISolenoid flap) {
+		logic = new GearHandlerLogic(door, flap);
 	}
 
 	@Override
@@ -33,4 +33,18 @@ public class GearHandlerPhysical extends Subsystem implements IGearHandler {
 		// No default command
 	}
 
+	@Override
+	public void setFlap(boolean state) {
+		logic.setFlap(state);
+	}
+
+	@Override
+	public void toggleFlap() {
+		logic.toggleFlap();
+	}
+
+	@Override
+	public boolean getFlapState(){
+		return logic.getFlapState();
+	}
 }

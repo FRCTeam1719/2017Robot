@@ -137,6 +137,13 @@ public class OI implements IOI {
 					System.out.println("Toggled!");
 				}
 			});
+			Button toggleFlap = new JoystickButton(driver, 1);
+			toggleFlap.whenPressed(new InstantCommand() {
+				@Override
+				public void execute(){
+					robot.gearHandler.toggleFlap();
+				}
+			});
 
 		} catch (NullPointerException e) {
 			System.out.println("Subsystem null in OI.init()");

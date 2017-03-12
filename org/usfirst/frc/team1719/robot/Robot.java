@@ -113,7 +113,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		dashboard.putNumber("LED", 0);
 		silo = new SiloPhysical(RobotMap.siloMotor, this);
 		// Gear handler
-		gearHandler = new GearHandlerPhysical(RobotMap.gearActuator);
+		gearHandler = new GearHandlerPhysical(RobotMap.gearActuator, RobotMap.gearFlap);
 		cameraManager = new CameraManagerPhysical(new FastCameraManagerLogic());
 
 		// Setup OI
@@ -180,6 +180,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putNumber("Robotheading", tracker.getHeading());
 		SmartDashboard.putBoolean("shifter", drive.isShifted());
 		SmartDashboard.putNumber("Robot Speed", Math.abs(RobotMap.navx.getVelocityY()));
+		SmartDashboard.putBoolean("Flap State", gearHandler.getFlapState());
 	}
 	
 	/**
@@ -229,6 +230,8 @@ public class Robot extends IterativeRobot implements IRobot {
 		}
 		pixyMount.setX(0.5);
 		pixyMount.setY(0.5);
+		//Open the gear flap
+		gearHandler.setFlap(true);
 
 	}
 
@@ -239,7 +242,6 @@ public class Robot extends IterativeRobot implements IRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		updateSimpleDevices();
-		System.out.println("Shooter: " + shooter.getEncoderRate());
 	}
 
 	/**

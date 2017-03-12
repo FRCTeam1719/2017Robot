@@ -59,6 +59,7 @@ public class RobotMap {
     
     /* Pneumatics */
     public static final Solenoid shifter = new Solenoid(0);
+    public static final Solenoid gearFlap = new Solenoid(1);
     public static final Solenoid gearActuator = new Solenoid(2);
     
     public static void init() {
