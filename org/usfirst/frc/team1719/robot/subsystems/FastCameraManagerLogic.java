@@ -19,7 +19,7 @@ public class FastCameraManagerLogic implements ICameraManager{
 	public FastCameraManagerLogic(){
 		gearCamera = CameraServer.getInstance().startAutomaticCapture(0);
 		climberCamera = CameraServer.getInstance().startAutomaticCapture(1);
-		server = CameraServer.getInstance().getVideo();
+		server = CameraServer.getInstance().getServer();
 		//Dummy sinks to keep cams open
 		gearSink = new CvSink("Gear");
 		gearSink.setSource(gearCamera);
