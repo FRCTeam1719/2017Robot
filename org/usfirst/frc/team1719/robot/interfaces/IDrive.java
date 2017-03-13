@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
  *
  */
 public interface IDrive extends GenericSubsystem{
-    public void moveArcade(double spd, double dir);
+    final double LOW_GEAR_SPEED = 15; //Ft per second, TODO this is made up, find real value
+	public void moveArcade(double spd, double dir);
     public void moveTank(double l, double r);
     public void shift(boolean fast);
     public void setMaxSpeed(double spd);
