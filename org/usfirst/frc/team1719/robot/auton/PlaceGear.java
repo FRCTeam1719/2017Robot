@@ -23,12 +23,15 @@ public class PlaceGear extends CommandGroup{
 	
 	public PlaceGear(SIDES side, boolean shouldPlace, IDrive drive, IPositionTracker tracker, IGearHandler gear, Robot robot){
 		Command toExecute;
+		String sideStr;
 		switch(side){
-		case LEFT: toExecute = new LeftGearLift(robot, gear, tracker, drive, shouldPlace);break;
-		case RIGHT: toExecute = new RightGearLift(robot, gear, tracker, drive, shouldPlace);break;
-		case CENTER: toExecute = new CenterGear(robot, drive, gear, tracker, shouldPlace);break;
-		default: toExecute = null;
+		case LEFT: toExecute = new LeftGearLift(robot, gear, tracker, drive, shouldPlace);sideStr="Left";break;
+		case RIGHT: toExecute = new RightGearLift(robot, gear, tracker, drive, shouldPlace);sideStr="Center";break;
+		case CENTER: toExecute = new CenterGear(robot, drive, gear, tracker, shouldPlace);sideStr="Right";break;
+		default: toExecute = null;sideStr="None? This is an error! Passed side was null! Not executing!";
 		}
+		//Log
+		System.out.println("Selected Auton was PlaceGear on the " + sideStr);
 		if(toExecute!=null){
 			addSequential(toExecute);
 		}

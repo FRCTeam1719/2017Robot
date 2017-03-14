@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class PassLine extends CommandGroup{
 	
 	public PassLine(IRobot robot, IDrive drive, IPositionTracker tracker){
+		System.out.println("Selected auton was: PassLine");
 	    addSequential(new MoveToTrackerReading(125.0D,0.5,drive,tracker));
 		addSequential(new BreakHard(drive));
 	}

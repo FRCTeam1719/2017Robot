@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.auton.PassLine;
+import org.usfirst.frc.team1719.robot.auton.PlaceGear;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -57,13 +59,19 @@ public class Robot extends IterativeRobot implements IRobot {
 	Display display = new Display();
 	MatchTimer timer;
 	Command autonomousCommand;
-	SendableChooser <autonModes> autoChooser;
+	SendableChooser <CommandGroup> autoChooser;
 	enum autonModes {
 			LINE,
 			LEFT,
 			CENTER,
-			RIGHT;
+			RIGHT,
+			SHOOT;
 	}
+	public enum TEAM{
+		RED,
+		BLUE
+	}
+	TEAM currentTeam;
 	int displayIter = 0;
 	Dashboard dashboard;
 	boolean isRedTeam;
@@ -122,10 +130,10 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putBoolean(Constants.SHOOTER_RUNNING, false);
 		SmartDashboard.putBoolean(Constants.SILO_RUNNING, false);
 		autoChooser = new SendableChooser<>();
-		autoChooser.addDefault("Drive Forward", autonModes.LINE);
-		autoChooser.addObject("Place Gear LEFT", autonModes.LEFT);
-		autoChooser.addObject("Place Gear Center", autonModes.CENTER);
-		autoChooser.addObject("Place Gear Right", autonModes.RIGHT);
+		autoChooser.addDefault("Drive Forward", new PassLine(this, drive, tracker));
+		autoChooser.addObject("Place Gear LEFT", new PlaceGear(PlaceGear.SIDES.LEFT, true, drive, tracker, gearHandler, this));
+		autoChooser.addObject("Place Gear Center", new PlaceGear(PlaceGear.SIDES.CENTER, true, drive, tracker, gearHandler, this));
+		autoChooser.addObject("Place Gear Right", new PlaceGear(PlaceGear.SIDES.CENTER, true, drive, tracker, gearHandler, this));
 		SmartDashboard.putData("Autonomous Selecter", autoChooser);
 		autonomousCommand = null;
 //		autonomousCommand = new TurnToHeading(90, tracker, drive, this);
@@ -160,9 +168,11 @@ public class Robot extends IterativeRobot implements IRobot {
 		if(RobotMap.teamSwitch.get()){
 			isRedTeam = true;
 			autonomousCommand = null;
+			currentTeam = TEAM.RED;
 		}else{
 			isRedTeam = false;
 			autonomousCommand = new PassLine(this, drive, tracker);
+			currentTeam = TEAM.BLUE;
 		}//spughetti
 	}
 
@@ -201,9 +211,11 @@ public class Robot extends IterativeRobot implements IRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 
+		autonomousCommand = autoChooser.getSelected();
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
+		if (autonomousCommand != null){
 			autonomousCommand.start();
+		}
 	}
 
 	/**
