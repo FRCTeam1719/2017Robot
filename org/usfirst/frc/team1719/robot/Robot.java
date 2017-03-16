@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.auton.LeftGearLift;
 import org.usfirst.frc.team1719.robot.auton.PassLine;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
@@ -153,7 +154,9 @@ public class Robot extends IterativeRobot implements IRobot {
 
 		if ((displayIter++) % 0x10 == 0) {
 			display.write(Double.toString(DriverStation.getInstance().getBatteryVoltage()));
-			System.out.println("LIDAR distance: " + RobotMap.lidar.getDistanceCM() + "cm");
+			//System.out.println("LIDAR distance: " + RobotMap.lidar.getDistanceCM() + "cm");
+			System.out.println("Left Enc: " + RobotMap.leftDriveEnc.getDistance() + " / Right Enc: " + RobotMap.rightDriveEnc.getDistance());
+			System.out.println("Position: (" + tracker.getX() + "," + tracker.getY() + "); heading " + tracker.getHeading());
 		}
 		
 		SmartDashboard.putNumber("Shooter speed ", shooter.getEncoderRate());
@@ -200,7 +203,7 @@ public class Robot extends IterativeRobot implements IRobot {
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
-
+	    autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();

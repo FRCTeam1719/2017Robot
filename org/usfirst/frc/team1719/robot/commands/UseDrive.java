@@ -140,8 +140,8 @@ public class UseDrive extends Command {
     	
     	setPIDConstantsFromDashboard();
     	
-        double leftJoystick = (-oi.getLeftY()) * Math.abs(oi.getLeftY());
-        double rightJoystick = (-oi.getRightY()) * Math.abs(oi.getRightY());
+        double leftJoystick = (-oi.getLeftY()) * (oi.getLeftY() * oi.getLeftY());
+        double rightJoystick = (-oi.getRightY()) * (oi.getRightY() * oi.getRightY());
         
         if (Math.abs(leftJoystick - rightJoystick) < SYNCH_TOLERANCE) {
         	double avg = (leftJoystick + rightJoystick) / 2;

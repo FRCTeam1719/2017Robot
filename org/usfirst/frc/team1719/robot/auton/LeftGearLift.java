@@ -2,14 +2,12 @@ package org.usfirst.frc.team1719.robot.auton;
 
 import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.commands.BreakHard;
-import org.usfirst.frc.team1719.robot.commands.MoveToPosition;
 import org.usfirst.frc.team1719.robot.commands.ResetPositioning;
 import org.usfirst.frc.team1719.robot.commands.TurnToHeading;
 import org.usfirst.frc.team1719.robot.commands.gear.DepositGear;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IGearHandler;
 import org.usfirst.frc.team1719.robot.interfaces.IPositionTracker;
-import org.usfirst.frc.team1719.robot.subsystems.PositionPhysical;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -18,10 +16,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class LeftGearLift extends CommandGroup{
 	
 	public LeftGearLift(Robot robot, IGearHandler gearHandler, IPositionTracker tracker, IDrive drive){
-		//addSequential(new MoveToPosition(0D, 160D, tracker, drive, robot, true));
-	    PositionPhysical track = (PositionPhysical) tracker;
+		//addSequential(new MoveToPosition(0D, 105D, tracker, drive, robot, true));
 	    requires((Subsystem) drive);
-	    addSequential(new Command() {
+	    addSequential(/*new DriveConstV(0.5, 0.5, robot, drive, new BooleanSupplier() {
+            
+            @Override
+            public boolean getAsBoolean() {
+                System.out.println("Y: " + tracker.getY());
+                boolean end = (Math.abs(tracker.getY()) > 110.0D);
+                System.out.println("isGeater: " + end);
+                return end;
+            }
+        })/*/new Command() {
 
 	        @Override
 	        protected void execute() {
@@ -31,7 +37,7 @@ public class LeftGearLift extends CommandGroup{
             @Override
             protected boolean isFinished() {
                 System.out.println("Y: " + tracker.getY());
-                boolean end = (Math.abs(tracker.getY()) > 168.0D);
+                boolean end = (Math.abs(tracker.getY()) > 85.0D);
                 System.out.println("isGeater: " + end);
                 return end;
             }
@@ -48,7 +54,7 @@ public class LeftGearLift extends CommandGroup{
 		addSequential(new ResetPositioning(tracker, drive));
 		addSequential(new Command() {
 
-		    
+		        private int timeout_count = 0;
 		        private double start;
 		        @Override
 		        protected void initialize(){
@@ -63,9 +69,9 @@ public class LeftGearLift extends CommandGroup{
 	            protected boolean isFinished() {
 	                System.out.println("Y: " + tracker.getY());
 	                double difference = tracker.getY() - start;
-	                boolean end = (Math.abs(difference) > 32.0D);
+	                boolean end = (Math.abs(difference) > 20.0D);
 	                System.out.println("isGeater: " + end);
-	                return end;
+	                return end || (timeout_count++ > 250);
 	            }
 	            
 	            @Override
@@ -120,7 +126,7 @@ public class LeftGearLift extends CommandGroup{
 			@Override
 			protected boolean isFinished(){
 				double difference = tracker.getY() - start;
-				boolean end = (Math.abs(difference) > 30.0D);
+				boolean end = (Math.abs(difference) > 15.0D);
 				return end;
 			}
 			@Override
