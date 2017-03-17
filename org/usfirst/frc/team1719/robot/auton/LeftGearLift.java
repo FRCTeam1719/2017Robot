@@ -37,7 +37,7 @@ public class LeftGearLift extends CommandGroup{
             @Override
             protected boolean isFinished() {
                 System.out.println("Y: " + tracker.getY());
-                boolean end = (Math.abs(tracker.getY()) > 85.0D);
+                boolean end = (Math.abs(tracker.getY()) > 87.0D);
                 System.out.println("isGeater: " + end);
                 return end;
             }
@@ -71,7 +71,7 @@ public class LeftGearLift extends CommandGroup{
 	                double difference = tracker.getY() - start;
 	                boolean end = (Math.abs(difference) > 20.0D);
 	                System.out.println("isGeater: " + end);
-	                return end || (timeout_count++ > 250);
+	                return end || (timeout_count++ > 100);
 	            }
 	            
 	            @Override
