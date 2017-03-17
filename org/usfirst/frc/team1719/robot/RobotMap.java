@@ -9,6 +9,7 @@ import org.usfirst.frc.team1719.robot.sensors.NAVX;
 import org.usfirst.frc.team1719.robot.sensors.VersaPlanetaryEmbeddedEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -60,6 +61,8 @@ public class RobotMap {
     public static final Solenoid shifter = new Solenoid(0);
     public static final Solenoid gearFlap = new Solenoid(1);
     public static final Solenoid gearActuator = new Solenoid(2);
+    
+    public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
     
     public static void init() {
         shooterController.setInverted(false);
