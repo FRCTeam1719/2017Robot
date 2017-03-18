@@ -10,6 +10,7 @@ import org.usfirst.frc.team1719.robot.commands.UseClimber;
 import org.usfirst.frc.team1719.robot.commands.gear.DepositGear;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
+import org.usfirst.frc.team1719.robot.sensors.JoystickTrigger;
 import org.usfirst.frc.team1719.robot.vision.SingleTarget;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -149,6 +150,14 @@ public class OI implements IOI {
 				@Override
 				public void execute(){
 					robot.gearHandler.toggleFlap();
+				}
+			});
+			//TODO set this to the right axis! (should be right trigger)
+			JoystickTrigger disableAutoShift = new JoystickTrigger(driver, 3);
+			disableAutoShift.whenActive(new InstantCommand(){
+				@Override
+				public void execute(){
+					Constants.IGNORE_AUTOSHIFT = !Constants.IGNORE_AUTOSHIFT;
 				}
 			});
 
