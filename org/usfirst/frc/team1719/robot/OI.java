@@ -157,6 +157,7 @@ public class OI implements IOI {
 			disableAutoShift.whenActive(new InstantCommand(){
 				@Override
 				public void execute(){
+					System.out.println("Fired!");
 					Constants.IGNORE_AUTOSHIFT = !Constants.IGNORE_AUTOSHIFT;
 				}
 			});

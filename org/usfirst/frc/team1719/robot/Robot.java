@@ -23,6 +23,7 @@ import org.usfirst.frc.team1719.robot.subsystems.SiloPhysical;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -130,6 +131,9 @@ public class Robot extends IterativeRobot implements IRobot {
 		SmartDashboard.putData("Autonomous Selecter", autoChooser);
 		autonomousCommand = null;
 //		autonomousCommand = new TurnToHeading(90, tracker, drive, this);
+		//Clear Faults
+		new PowerDistributionPanel().clearStickyFaults();
+		compressor.clearAllPCMStickyFaults();
 	}
 
 	/**
@@ -207,7 +211,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	    switch(autoChooser.getSelected()){
 	    case LEFT: autonomousCommand = new LeftGearLift(this,gearHandler,tracker,drive);break;
 	    case LINE: autonomousCommand = new PassLine(this, drive, tracker);break;
-	    default: autonomousCommand = new PassLine(this,drive,tracker);
+	    default: autonomousCommand = new PassLine(this,drive,tracker);break;
 	    }
 //		autonomousCommand = new TurnToHeading(40, tracker, drive, this);
 	    //Smartdashboard grab
