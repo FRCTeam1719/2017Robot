@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
+import org.usfirst.frc.team1719.robot.Constants;
+import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.interfaces.IDrive;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
 import org.usfirst.frc.team1719.robot.interfaces.IRobot;
@@ -8,6 +10,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,7 +37,12 @@ public class UseDrive extends Command {
     private final IRobot robot;
     private final IOI oi;
     private final IDrive drive;
+    private final Timer timer = new Timer();
     private boolean shifted = false;
+    private boolean highSpeed = false;
+    private boolean buttonPressed = false;
+    private double speedTimestamp;
+    private double buttonTimestamp;
     
     private double highMaxSpd = 250D;
     private double lowMaxSpd = 50D;
@@ -51,6 +59,7 @@ public class UseDrive extends Command {
     double right_kP = 0;
     double right_kF = 1 / maxSpeed;
     double right_kD = 0;
+    
     
     volatile double leftMotorOutput = 0;
     volatile double rightMotorOutput = 0;
@@ -179,8 +188,12 @@ public class UseDrive extends Command {
         
         drive.moveTank(leftMotorOutput, rightMotorOutput);
         
+        if(Constants.IGNORE_AUTOSHIFT){
         if(shifted != oi.getShifter()) {
             drive.shift(shifted = !shifted);
+        }
+        }else{
+        	shifterLogic();
         }
         if (shifted) {
         	maxSpeed = lowMaxSpd;
@@ -194,6 +207,40 @@ public class UseDrive extends Command {
         rightController.setInputRange(-(maxSpeed * MAX_SPEED_SCALING_FACTOR), maxSpeed * MAX_SPEED_SCALING_FACTOR);
         rightController.setPID(rightController.getP(), rightController.getI(), rightController.getD(), (1 / maxSpeed));
         
+    }
+    
+    
+    //Auto shifting logic contained here
+    public void shifterLogic(){
+    	double currentSpeed = Math.abs(RobotMap.navx.getVelocityY());
+    	boolean isHighSpeed = (currentSpeed > 4) && (currentSpeed >4);
+    	if(isHighSpeed != highSpeed){
+    		//We've changed speed state
+    		speedTimestamp = Timer.getFPGATimestamp();
+    		highSpeed = isHighSpeed;
+    	}
+    	boolean buttonPressedNow = oi.getShifter();
+    	if(buttonPressedNow != buttonPressed){
+    		//We've changed button state
+    		buttonTimestamp = Timer.getFPGATimestamp();
+    		buttonPressed = buttonPressedNow;
+    	}
+    	//toggle based on latest state
+    	if(speedTimestamp < buttonTimestamp){
+    		//Toggle on speed
+    		if(isHighSpeed){
+    			drive.shift(true);
+    		}else{
+    			drive.shift(false);
+    		}
+    	}else{
+    		//Toggle on button
+    		if(buttonPressed){
+    			drive.shift(true);
+    		}else{
+    			drive.shift(false);
+    		}
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

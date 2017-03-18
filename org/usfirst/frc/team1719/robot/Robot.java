@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.auton.LeftGearLift;
 import org.usfirst.frc.team1719.robot.auton.PassLine;
+import org.usfirst.frc.team1719.robot.commands.TurnToHeading;
 import org.usfirst.frc.team1719.robot.interfaces.GenericSubsystem;
 import org.usfirst.frc.team1719.robot.interfaces.IDashboard;
 import org.usfirst.frc.team1719.robot.interfaces.IOI;
@@ -204,6 +204,9 @@ public class Robot extends IterativeRobot implements IRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 	    autonomousCommand = new LeftGearLift(this, gearHandler, tracker, drive);
+//		autonomousCommand = new TurnToHeading(40, tracker, drive, this);
+	    //Smartdashboard grab
+	    
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
