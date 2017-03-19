@@ -31,7 +31,7 @@ public class LeftGearLift extends CommandGroup{
 
 	        @Override
 	        protected void execute() {
-	            drive.moveArcade(0.5, 0);
+	            drive.moveArcade(0.6, 0);
 	        }
 	        
             @Override
@@ -62,7 +62,7 @@ public class LeftGearLift extends CommandGroup{
 		        }
 	            @Override
 	            protected void execute() {
-	                drive.moveArcade(0.5, 0);
+	                drive.moveArcade(0.6, 0);
 	            }
 	            
 	            @Override

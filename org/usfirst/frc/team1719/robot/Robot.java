@@ -211,7 +211,7 @@ public class Robot extends IterativeRobot implements IRobot {
 	    switch(autoChooser.getSelected()){
 	    case LEFT: autonomousCommand = new LeftGearLift(this,gearHandler,tracker,drive);break;
 	    case LINE: autonomousCommand = new PassLine(this, drive, tracker);break;
-	    default: autonomousCommand = new PassLine(this,drive,tracker);break;
+	    default: autonomousCommand = new LeftGearLift(this,gearHandler,tracker,drive);break;
 	    }
 //		autonomousCommand = new TurnToHeading(40, tracker, drive, this);
 	    //Smartdashboard grab
