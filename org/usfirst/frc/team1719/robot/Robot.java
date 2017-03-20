@@ -243,8 +243,11 @@ public class Robot extends IterativeRobot implements IRobot {
 		}
 		pixyMount.setX(0.5);
 		pixyMount.setY(0.5);
+		//Shift
+		drive.shift(true);
 		//Open the gear flap
 		gearHandler.setFlap(true);
+		Constants.INTELE = true;
 
 	}
 

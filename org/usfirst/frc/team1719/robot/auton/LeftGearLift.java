@@ -32,6 +32,7 @@ public class LeftGearLift extends CommandGroup{
 	        @Override
 	        protected void execute() {
 	            drive.moveArcade(0.6, 0);
+	            System.out.println("LeftGear");
 	        }
 	        
             @Override
@@ -134,6 +135,37 @@ public class LeftGearLift extends CommandGroup{
 				drive.moveArcade(0, 0);
 			}
 		});
+		addSequential(new BreakHard(drive));
+		addSequential(new ResetPositioning(tracker,drive));
+		addSequential(new TurnToHeading(-35D, tracker, drive, robot));
+//		addSequential(new Command() {
+//			private double start;
+//			@Override
+//			protected void initialize(){
+//				start = tracker.getY();
+//			}
+//				
+//			@Override
+//			protected void execute(){
+//				drive.moveArcade(0.5, 0);
+//			}
+//			@Override
+//			protected boolean isFinished(){
+//				double diffference = tracker.getY() - start;
+//				boolean end = (Math.abs(diffference) > (30D)); 
+//				return end;
+//			}
+//			
+//			@Override
+//			protected void end(){
+//				drive.moveArcade(0, 0);
+//			}
+//			
+//			@Override
+//			protected void interrupted(){
+//				end();
+//			}
+//		});
 		addSequential(new BreakHard(drive));
 	}
 
